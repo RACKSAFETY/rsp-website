@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#2A2A2A"></rect>
+  
+  <g transform="rotate(-4 400 300)">
+    <rect x="200" y="120" width="400" height="360" fill="#3D3D3D" stroke="#1A1A1A" stroke-width="4"></rect>
+    <rect x="220" y="140" width="360" height="20" fill="#1A1A1A"></rect>
+    <g stroke="#F5C344" stroke-width="1.5" fill="none">
+      <line x1="240" y1="200" x2="560" y2="200"></line>
+      <line x1="240" y1="240" x2="560" y2="240"></line>
+      <line x1="240" y1="280" x2="480" y2="280"></line>
+      <rect x="240" y="320" width="120" height="80"></rect>
+      <rect x="400" y="320" width="160" height="80"></rect>
+    </g>
+  </g>
+  
+  <g transform="translate(620,80)">
+    <path d="M 0 50 Q 0 0 60 0 Q 120 0 120 50 L 130 60 L -10 60 Z" fill="#F5C344" stroke="#1A1A1A" stroke-width="4"></path>
+    <line x1="60" y1="0" x2="60" y2="40" stroke="#1A1A1A" stroke-width="3"></line>
+  </g>
+</svg>

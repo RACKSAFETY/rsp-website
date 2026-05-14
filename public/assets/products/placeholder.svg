@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#E8E8E8"></rect>
+
+  <!-- caution-stripe band -->
+  <defs>
+    <pattern id="caution" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="40" fill="#F5C344"></rect>
+      <rect x="20" width="20" height="40" fill="#1A1A1A"></rect>
+    </pattern>
+  </defs>
+  <rect x="60" y="70" width="280" height="120" fill="url(#caution)" opacity="0.35"></rect>
+  <rect x="60" y="70" width="280" height="120" fill="none" stroke="#1A1A1A" stroke-width="4"></rect>
+
+  <text x="200" y="138" font-family="Anton,sans-serif" font-size="34" fill="#1A1A1A" text-anchor="middle" letter-spacing="2">IMAGE</text>
+  <text x="200" y="166" font-family="JetBrains Mono,monospace" font-size="13" fill="#1A1A1A" text-anchor="middle" letter-spacing="3">TODO</text>
+
+  <rect x="0" y="260" width="400" height="40" fill="#1A1A1A"></rect>
+  <text x="200" y="285" font-family="JetBrains Mono,monospace" font-size="10" fill="#F5C344" text-anchor="middle" letter-spacing="3">PRODUCT IMAGE PENDING</text>
+</svg>

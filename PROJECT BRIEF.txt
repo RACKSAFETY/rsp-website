@@ -1,0 +1,40 @@
+# Project Brief: Rack Safety Products Redesign
+
+## 1. Project Overview
+A complete redesign of the Rack Safety Products digital presence, transitioning from a traditional industrial utility site to a high-impact, "Industrial Editorial" aesthetic. The design draws inspiration from data-heavy, high-contrast financial/lifestyle platforms (Leasehackr) to create a sense of urgency, authority, and "deal-driven" industrial safety consulting.
+
+## 2. Brand Identity & Visual Language
+The brand identity is built on a "Safety First" industrial theme, utilizing hazard-inspired patterns and bold typography to establish professional authority.
+
+*   **Design System Name:** Industrial Editorial
+*   **Core Palette:**
+    *   **Industrial Gold (#f5c344):** Used for primary accents, hazard stripes, and high-priority CTAs.
+    *   **Deep Charcoal (#222222):** The primary structural and background color, providing high contrast for gold elements.
+    *   **Clean White/Light Gray:** Used for body text and content containers to ensure legibility.
+*   **Typography:**
+    *   **Headlines:** Anton (All-caps) – Bold, condensed, and authoritative.
+    *   **Body/UI:** Sans-serif system fonts for maximum clarity in technical specifications.
+*   **Key Visual Motifs:**
+    *   **Hazard Stripes:** Gold and charcoal diagonal stripes used as dividers and hero accents.
+    *   **Contrast-Aware Drop Shadows:** Adaptive logic where dark text uses gold shadows and light text uses charcoal shadows for maximum contrast and legibility.
+    *   **Warehouse Imagery:** High-fidelity, industrial photography emphasizing scale and precision.
+
+## 3. Site Architecture
+The site is structured to move users from high-level safety education to specific product specifications and conversion.
+
+*   **Homepage:** High-impact hero section, featured solutions (Flue Guards, Rack Decking), and an industrial compliance calculator.
+*   **Product Catalog:** A filterable interface for technical safety components, featuring a comparison matrix for compliance and durability.
+*   **Safety Resources:** An editorial-style hub for safety standards, "Safety 101" guides, and case studies.
+*   **Contact/Quote:** A split-diagonal precision form designed to capture detailed warehouse specifications for custom quoting.
+
+## 4. Technical Constraints & Design Principles
+*   **Consistent Header/Footer:** A unified charcoal navigation bar with a high-contrast "GET QUOTE" action and bold brand logo.
+*   **Verbatim Branding:** All branding must strictly use "RACK SAFETY PRODUCTS."
+*   **Professionalism over "Deals":** While the *visual style* is inspired by deal sites, the *content* remains strictly professional safety consulting, avoiding consumer-grade marketing language.
+*   **Legibility First:** High-contrast ratios are mandatory across all hero sections and data tables.
+
+## 5. Established Screens
+*   **Home:** {{DATA:SCREEN:SCREEN_40}}
+*   **Catalog:** {{DATA:SCREEN:SCREEN_43}}
+*   **Resources:** {{DATA:SCREEN:SCREEN_34}}
+*   **Contact:** {{DATA:SCREEN:SCREEN_45}}

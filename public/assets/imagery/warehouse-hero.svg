@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A2A2A"></stop>
+      <stop offset="1" stop-color="#0F0F0F"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#g)"></rect>
+  
+  <polygon points="0,420 1200,420 1200,600 0,600" fill="#1A1A1A"></polygon>
+  <polygon points="450,420 750,420 900,600 300,600" fill="#0A0A0A"></polygon>
+  
+  <line x1="600" y1="420" x2="600" y2="600" stroke="#F5C344" stroke-width="2" stroke-dasharray="20 10"></line>
+  
+  <g>
+    <rect x="80" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <rect x="240" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <rect x="400" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <g fill="#F5C344">
+      <rect x="80" y="160" width="334" height="6"></rect>
+      <rect x="80" y="260" width="334" height="6"></rect>
+      <rect x="80" y="360" width="334" height="6"></rect>
+    </g>
+    <g fill="#A93800">
+      <rect x="100" y="120" width="120" height="36"></rect>
+      <rect x="260" y="120" width="120" height="36"></rect>
+      <rect x="100" y="220" width="120" height="36"></rect>
+      <rect x="260" y="220" width="120" height="36"></rect>
+      <rect x="100" y="320" width="120" height="36"></rect>
+      <rect x="260" y="320" width="120" height="36"></rect>
+    </g>
+  </g>
+  
+  <g>
+    <rect x="800" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <rect x="960" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <rect x="1120" y="80" width="14" height="360" fill="#1A1A1A"></rect>
+    <g fill="#F5C344">
+      <rect x="800" y="160" width="334" height="6"></rect>
+      <rect x="800" y="260" width="334" height="6"></rect>
+      <rect x="800" y="360" width="334" height="6"></rect>
+    </g>
+    <g fill="#A93800">
+      <rect x="820" y="120" width="120" height="36"></rect>
+      <rect x="980" y="120" width="120" height="36"></rect>
+      <rect x="820" y="220" width="120" height="36"></rect>
+      <rect x="980" y="220" width="120" height="36"></rect>
+      <rect x="820" y="320" width="120" height="36"></rect>
+      <rect x="980" y="320" width="120" height="36"></rect>
+    </g>
+  </g>
+  
+  <g fill="#F5C344" opacity="0.7">
+    <circle cx="300" cy="50" r="6"></circle>
+    <circle cx="600" cy="40" r="8"></circle>
+    <circle cx="900" cy="50" r="6"></circle>
+  </g>
+  
+  <polygon points="600,40 400,420 800,420" fill="#F5C344" opacity="0.04"></polygon>
+</svg>
