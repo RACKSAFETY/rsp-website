@@ -112,7 +112,7 @@ export default function ProductScreen({ onNav, productId }) {
           {/* LEFT — Image + thumbnails */}
           <div>
             <div style={{ position: 'relative', border: '2px solid #1A1A1A', background: '#FFFFFF', aspectRatio: '1', overflow: 'hidden' }}>
-              <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 48 }} />
+              <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: /\.(jpe?g|png|webp)$/i.test(p.img) ? 'cover' : 'contain', padding: /\.(jpe?g|png|webp)$/i.test(p.img) ? 0 : 48 }} />
               <div style={{ position: 'absolute', top: 16, left: 16 }}>
                 <Pill kind="yellow">{p.tag ? p.tag[1] : 'STANDARD'}</Pill>
               </div>
@@ -346,7 +346,7 @@ export default function ProductScreen({ onNav, productId }) {
                 onMouseLeave={(e) => (e.currentTarget.style.background = '#FFFFFF')}
               >
                 <div style={{ aspectRatio: '4/3', background: '#E8E8E8', overflow: 'hidden', borderBottom: '2px solid #1A1A1A' }}>
-                  <img src={r.img} alt={r.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 24 }} />
+                  <img src={r.img} alt={r.name} style={{ width: '100%', height: '100%', objectFit: /\.(jpe?g|png|webp)$/i.test(r.img) ? 'cover' : 'contain', padding: /\.(jpe?g|png|webp)$/i.test(r.img) ? 0 : 24 }} />
                 </div>
                 <div style={{ padding: 18 }}>
                   <DataLabel color="#D9530F" size={10}>{r.catLabel.toUpperCase()}</DataLabel>

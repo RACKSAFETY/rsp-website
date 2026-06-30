@@ -240,8 +240,8 @@ const ProductCard = ({ p, onNav }) => {
       )}
       <div style={{ aspectRatio: '1', background: highlight ? '#812900' : '#E8E8E8', overflow: 'hidden', borderBottom: '2px solid #1A1A1A', position: 'relative' }}>
         <img src={p.img} alt={p.name} style={{
-          width: '100%', height: '100%', objectFit: 'contain',
-          padding: 24,
+          width: '100%', height: '100%', objectFit: /\.(jpe?g|png|webp)$/i.test(p.img) ? 'cover' : 'contain',
+          padding: /\.(jpe?g|png|webp)$/i.test(p.img) ? 0 : 24,
           transition: 'transform 300ms, filter 300ms',
           transform: hover && !highlight ? 'scale(1.05)' : 'scale(1)',
           filter: highlight ? 'grayscale(1) brightness(0.4)' : (hover ? 'none' : 'grayscale(0.2)'),

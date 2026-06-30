@@ -139,7 +139,7 @@ export default function ContactScreen({ onNav, requestType }) {
                 </div>
               ))}
             </div>
-            <div id="wholesale" style={{ background: '#F5C344', color: '#1A1A1A', padding: 20, borderLeft: '4px solid #1A1A1A' }}>
+            <div style={{ background: '#F5C344', color: '#1A1A1A', padding: 20, borderLeft: '4px solid #1A1A1A' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(26,26,26,0.3)', paddingBottom: 10, marginBottom: 12 }}>
                 <DataLabel color="#1A1A1A">DISTRIBUTOR / OEM</DataLabel>
                 <Icon name="layers" size={20} style={{ color: '#1A1A1A' }} />
@@ -147,7 +147,7 @@ export default function ContactScreen({ onNav, requestType }) {
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, lineHeight: 1.55, color: '#1A1A1A', margin: '0 0 14px' }}>
                 Stocking programs, OEM components, and wholesale pricing for qualified distributors. Tell us about your accounts and target volume.
               </p>
-              <Btn variant="primary" size="sm" onClick={() => onNav('contact', 'wholesale')} style={{ width: '100%', justifyContent: 'center' }}>
+              <Btn variant="primary" size="sm" onClick={() => document.getElementById('wholesale')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} style={{ width: '100%', justifyContent: 'center' }}>
                 Start Wholesale Inquiry →
               </Btn>
             </div>

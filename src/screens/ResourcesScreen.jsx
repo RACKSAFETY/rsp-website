@@ -104,7 +104,7 @@ export default function ResourcesScreen({ onNav }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <Btn variant="primary" size="lg" onClick={() => onNav('contact', 'referrer')} style={{ justifyContent: 'center' }}>Start a Referral →</Btn>
-            <Btn variant="outline" size="lg" onClick={() => onNav('catalog', 'dividers')} style={{ justifyContent: 'center' }}>Browse Spec Library</Btn>
+            <Btn variant="outline" size="lg" onClick={() => onNav('catalog', 'flue')} style={{ justifyContent: 'center' }}>Browse Spec Library</Btn>
           </div>
         </div>
       </section>
@@ -160,7 +160,7 @@ export default function ResourcesScreen({ onNav }) {
                 <span><Icon name="calculate" size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />Flue Compliance Calculator</span>
                 <span>→</span>
               </a>
-              <a onClick={() => onNav('catalog', 'dividers')} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', background: 'rgba(245,195,68,0.08)', border: '1px solid rgba(245,195,68,0.3)', color: '#F5C344', cursor: 'pointer', textDecoration: 'none', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              <a onClick={() => onNav('catalog', 'flue')} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', background: 'rgba(245,195,68,0.08)', border: '1px solid rgba(245,195,68,0.3)', color: '#F5C344', cursor: 'pointer', textDecoration: 'none', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
                 <span><Icon name="layers" size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />Flue Keeper Catalog</span>
                 <span>→</span>
               </a>

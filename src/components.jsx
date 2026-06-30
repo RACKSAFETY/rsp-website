@@ -176,7 +176,7 @@ export const hwStyle = ({ fill = '#1A1A1A', shadow = '#D9530F' } = {}) => {
 export const TopNav = ({ active, onNav }) => {
   const items = [
     ['catalog', 'Catalog'],
-    ['catalog', 'Flue Products', 'dividers'],
+    ['catalog', 'Flue Products', 'flue'],
     ['catalog', 'Protection', 'protection'],
     ['services', 'Services'],
     ['resources', 'Resources'],
@@ -252,7 +252,7 @@ export const TopNav = ({ active, onNav }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 export const Footer = ({ onNav }) => {
   const cols = [
-    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'dividers'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
+    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'flue'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (
