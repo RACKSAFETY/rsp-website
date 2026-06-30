@@ -1,8 +1,10 @@
+'use client';
 import React, { useState } from 'react';
 import {
   Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader,
-} from '../components.jsx';
-import { PRODUCT_CATALOG } from '../data/productCatalog.js';
+} from '../components';
+import { PRODUCT_CATALOG } from '../data/productCatalog';
+import { useNav } from '../hooks/useNav';
 
 // Rich per-product detail. Only products with a key here get a hand-built detail
 // page; every other product in PRODUCT_CATALOG falls back to a default built from
@@ -75,7 +77,8 @@ const qtyBtn = {
   cursor: 'pointer', borderRadius: 0,
 };
 
-export default function ProductScreen({ onNav, productId }) {
+export default function ProductScreen({ productId }: { productId: string }) {
+  const onNav = useNav();
   const p = PRODUCT_CATALOG.find((x) => x.id === productId) || PRODUCT_CATALOG[0];
   const [qty, setQty] = useState(50);
   const [variant, setVariant] = useState(0);
@@ -125,8 +128,8 @@ export default function ProductScreen({ onNav, productId }) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
               {[p.img, '/assets/imagery/warehouse-hero.svg', '/assets/imagery/inspection-editorial.svg', p.img].map((src, i) => (
                 <div key={i} style={{ border: '2px solid #1A1A1A', aspectRatio: '1', overflow: 'hidden', background: '#FFFFFF', cursor: 'pointer', opacity: i === 0 ? 1 : 0.55, transition: 'opacity 200ms' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = i === 0 ? 1 : 0.55)}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = i === 0 ? '1' : '0.55')}
                 >
                   <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.4)' }} />
                 </div>

@@ -1,11 +1,27 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { SITE } from './data/productCatalog.js';
+import type { CSSProperties, ReactNode } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { SITE } from './data/productCatalog';
+import { targetToHref } from './lib/navMap';
+import { useNav } from './hooks/useNav';
+import type { NavTarget } from './types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Primitives
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const Btn = ({ children, variant = 'primary', size = 'md', onClick, type = 'button', style, disabled }) => {
+type BtnProps = {
+  children: ReactNode;
+  variant?: string;
+  size?: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  style?: CSSProperties;
+  disabled?: boolean;
+};
+export const Btn = ({ children, variant = 'primary', size = 'md', onClick, type = 'button', style, disabled }: BtnProps) => {
   const [hover, setHover] = useState(false);
   const base = {
     fontFamily: "'Inter',sans-serif",
@@ -51,7 +67,14 @@ export const Btn = ({ children, variant = 'primary', size = 'md', onClick, type 
   );
 };
 
-export const Mega = ({ children, variant = 'yellow', onClick, style, fontSize = 28 }) => {
+type MegaProps = {
+  children: ReactNode;
+  variant?: string;
+  onClick?: () => void;
+  style?: CSSProperties;
+  fontSize?: number;
+};
+export const Mega = ({ children, variant = 'yellow', onClick, style, fontSize = 28 }: MegaProps) => {
   const [hover, setHover] = useState(false);
   const palettes = {
     yellow: { base: { background: '#F5C344', color: '#1A1A1A' }, hover: { background: '#FF5E13', color: '#FFFFFF' } },
@@ -79,11 +102,22 @@ export const Mega = ({ children, variant = 'yellow', onClick, style, fontSize = 
   );
 };
 
-export const DataLabel = ({ children, color = '#4E4635', style, size = 12 }) => (
+type DataLabelProps = {
+  children: ReactNode;
+  color?: string;
+  style?: CSSProperties;
+  size?: number;
+};
+export const DataLabel = ({ children, color = '#4E4635', style, size = 12 }: DataLabelProps) => (
   <span style={{ fontFamily: "'JetBrains Mono',monospace", fontWeight: 600, fontSize: size, letterSpacing: '0.2em', textTransform: 'uppercase', color, ...style }}>{children}</span>
 );
 
-export const Pill = ({ children, kind = 'green', style }) => {
+type PillProps = {
+  children: ReactNode;
+  kind?: string;
+  style?: CSSProperties;
+};
+export const Pill = ({ children, kind = 'green', style }: PillProps) => {
   const m = {
     green:         { bg: '#2ECC71', fg: '#FFFFFF', border: '#2ECC71' },
     orange:        { bg: '#FF5E13', fg: '#FFFFFF', border: '#FF5E13' },
@@ -102,7 +136,13 @@ export const Pill = ({ children, kind = 'green', style }) => {
   );
 };
 
-export const CautionStripe = ({ height = 12, opacity = 1, period = 40, style }) => (
+type CautionStripeProps = {
+  height?: number;
+  opacity?: number;
+  period?: number;
+  style?: CSSProperties;
+};
+export const CautionStripe = ({ height = 12, opacity = 1, period = 40, style }: CautionStripeProps) => (
   <div style={{
     height,
     opacity,
@@ -143,7 +183,14 @@ const ICON_PATHS = {
   progress_activity:'<path d="M12 3a9 9 0 1 0 9 9"/>',
 };
 
-export const Icon = ({ name, size = 24, fill = 0, weight = 400, style }) => {
+type IconProps = {
+  name: string;
+  size?: number;
+  fill?: number;
+  weight?: number;
+  style?: CSSProperties;
+};
+export const Icon = ({ name, size = 24, fill = 0, weight = 400, style }: IconProps) => {
   const path = ICON_PATHS[name];
   if (!path) {
     return <span style={{ display: 'inline-block', width: size, height: size, ...style }} />;
@@ -173,7 +220,9 @@ export const hwStyle = ({ fill = '#1A1A1A', shadow = '#D9530F' } = {}) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // TopNav — sticky charcoal nav, gold accents
 // ─────────────────────────────────────────────────────────────────────────────
-export const TopNav = ({ active, onNav }) => {
+export const TopNav = () => {
+  const pathname = usePathname();
+  const nav = useNav();
   const items = [
     ['catalog', 'Catalog'],
     ['catalog', 'Flue Products', 'flue'],
@@ -202,8 +251,8 @@ export const TopNav = ({ active, onNav }) => {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         height: 72, padding: '0 32px',
       }}>
-        <a
-          onClick={() => onNav('home')}
+        <Link
+          href="/"
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
         >
           <img
@@ -211,14 +260,16 @@ export const TopNav = ({ active, onNav }) => {
             alt="Rack Safety Products"
             style={{ height: 40, display: 'block' }}
           />
-        </a>
+        </Link>
         <div style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
           {items.map(([target, l, payload], i) => {
-            const isActive = active === target;
+            const href = targetToHref(target as NavTarget, payload);
+            const base = href.split('?')[0];
+            const isActive = base === '/' ? pathname === '/' : pathname === base || pathname.startsWith(base + '/');
             return (
-              <a
+              <Link
                 key={i}
-                onClick={() => onNav(target, payload)}
+                href={href}
                 style={{
                   cursor: 'pointer', textDecoration: 'none',
                   color: isActive ? '#F5C344' : '#FFFFFF',
@@ -230,14 +281,14 @@ export const TopNav = ({ active, onNav }) => {
                   paddingBottom: 4, whiteSpace: 'nowrap',
                   transition: 'color 200ms, opacity 200ms, border-color 200ms',
                 }}
-                onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = '#F5C344'; e.currentTarget.style.opacity = 1; } }}
-                onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.opacity = 0.85; } }}
+                onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = '#F5C344'; e.currentTarget.style.opacity = '1'; } }}
+                onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.opacity = '0.85'; } }}
               >
                 {l}
-              </a>
+              </Link>
             );
           })}
-          <Btn variant="yellow" size="sm" onClick={() => onNav('contact')}>Get Quote</Btn>
+          <Btn variant="yellow" size="sm" onClick={() => nav('contact')}>Get Quote</Btn>
         </div>
       </div>
       <div style={{ height: scrolled ? 4 : 0, overflow: 'hidden', transition: 'height 200ms cubic-bezier(.4,0,.2,1)' }}>
@@ -250,7 +301,7 @@ export const TopNav = ({ active, onNav }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // Footer
 // ─────────────────────────────────────────────────────────────────────────────
-export const Footer = ({ onNav }) => {
+export const Footer = () => {
   const cols = [
     { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'flue'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
@@ -285,26 +336,30 @@ export const Footer = ({ onNav }) => {
               borderBottom: '1px solid rgba(245,195,68,0.25)', paddingBottom: 8, margin: '0 0 14px',
             }}>{c.h}</h5>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {c.items.map(([label, target, anchor], i) => (
-                <li key={i}>
-                  <a
-                    onClick={() => {
-                      if (!target) return;
-                      onNav && onNav(target, anchor);
-                    }}
-                    style={{
-                      cursor: target ? 'pointer' : 'default',
-                      fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 500,
-                      color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
-                      transition: 'color 200ms',
-                    }}
-                    onMouseEnter={(e) => target && (e.currentTarget.style.color = '#F5C344')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
+              {c.items.map(([label, target, anchor], i) => {
+                const linkStyle: React.CSSProperties = {
+                  cursor: target ? 'pointer' : 'default',
+                  fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 500,
+                  color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
+                  transition: 'color 200ms',
+                };
+                return (
+                  <li key={i}>
+                    {target ? (
+                      <Link
+                        href={targetToHref(target as NavTarget, anchor)}
+                        style={linkStyle}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = '#F5C344')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
+                      >
+                        {label}
+                      </Link>
+                    ) : (
+                      <span style={linkStyle}>{label}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
@@ -359,7 +414,14 @@ export const Footer = ({ onNav }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // FAQ accordion
 // ─────────────────────────────────────────────────────────────────────────────
-export const FAQItem = ({ q, a, theme = 'light', initialOpen = false, separator = 'thin' }) => {
+type FAQItemProps = {
+  q: ReactNode;
+  a: ReactNode;
+  theme?: string;
+  initialOpen?: boolean;
+  separator?: string;
+};
+export const FAQItem = ({ q, a, theme = 'light', initialOpen = false, separator = 'thin' }: FAQItemProps) => {
   const [open, setOpen] = useState(initialOpen);
   const T = {
     light:  { ruleColor: '#1A1A1A', qColor: '#1A1A1A', aColor: '#4E4635', iconColor: '#1A1A1A' },
@@ -396,7 +458,15 @@ export const FAQItem = ({ q, a, theme = 'light', initialOpen = false, separator 
 // ─────────────────────────────────────────────────────────────────────────────
 // Big screen-section header with rule + eyebrow
 // ─────────────────────────────────────────────────────────────────────────────
-export const SectionHeader = ({ title, eyebrow, right, rule = 'heavy', color = '#1A1A1A', fontSize = 56 }) => (
+type SectionHeaderProps = {
+  title: ReactNode;
+  eyebrow?: ReactNode;
+  right?: ReactNode;
+  rule?: string;
+  color?: string;
+  fontSize?: number;
+};
+export const SectionHeader = ({ title, eyebrow, right, rule = 'heavy', color = '#1A1A1A', fontSize = 56 }: SectionHeaderProps) => (
   <div style={{
     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 32,
     paddingBottom: 16, marginBottom: 40,

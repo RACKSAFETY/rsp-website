@@ -1,5 +1,6 @@
+'use client';
 import React, { useState, useMemo } from 'react';
-import { Icon, DataLabel, hwStyle } from '../components.jsx';
+import { Icon, DataLabel, hwStyle } from '../components';
 import {
   evaluateFlueSpace,
   COMMODITY_OPTIONS,
@@ -7,7 +8,8 @@ import {
   SPRINKLER_OPTIONS,
   STANDARD,
   EDITION,
-} from '../data/nfpa13FlueRules.js';
+} from '../data/nfpa13FlueRules';
+import { useNav } from '../hooks/useNav';
 
 // Slider bounds mirror BOUNDS in nfpa13FlueRules.js; the engine clamps anyway.
 const SLIDERS = {
@@ -70,7 +72,8 @@ const FlueResult = ({ label, value, required = true }) => (
   </div>
 );
 
-export default function ComplianceCalculator({ onNav }) {
+export default function ComplianceCalculator() {
+  const onNav = useNav();
   const [inputs, setInputs] = useState({
     commodityClass: 'class-3',
     rackType: 'double-row',

@@ -31,8 +31,9 @@
 // OPEN QUESTION: the live site links product detail out to theonlinecatalog.com.
 //   This rebuild keeps the site self-contained (own Catalog + Product screens).
 // ─────────────────────────────────────────────────────────────────────────────
+import type { Product, CategoryId, Service, SiteConfig } from '@/src/types';
 
-export const PRODUCT_CATALOG = [
+export const PRODUCT_CATALOG: Product[] = [
   // ═══ PALLET RACK DECKING ═══════════════════════════════════════════════════
   // ── Wire Decking ──
   {
@@ -915,7 +916,7 @@ export const PRODUCT_CATALOG = [
 ];
 
 // Category taxonomy — drives both the Catalog filters and the nav category links.
-export const CATEGORIES = [
+export const CATEGORIES: [CategoryId, string][] = [
   ['decking',     'Pallet Rack Decking'],
   ['protection',  'Pallet Rack Protection'],
   ['flue',        'Flue Products'],
@@ -928,12 +929,12 @@ export const CATEGORIES = [
 // Ordered sub-group labels per category. Categories absent here render flat.
 // A product in `decking` or `protection` carries an optional `subGroup` field
 // whose value must be one of the labels below.
-export const SUBGROUPS = {
+export const SUBGROUPS: Partial<Record<CategoryId, string[]>> = {
   decking:    ['Wire Decking', 'Solid Steel Decking', 'Pallet Supports'],
   protection: ['Column & Upright Protectors'],
 };
 
-export const COMPLIANCE_FILTERS = [
+export const COMPLIANCE_FILTERS: [string, string][] = [
   ['nfpa', 'NFPA 13 Compliant'],
   ['osha', 'OSHA Certified'],
   ['ansi', 'ANSI MH16.1'],
@@ -941,8 +942,8 @@ export const COMPLIANCE_FILTERS = [
 
 // Services — the six real service lines from the live site. Single source of
 // truth consumed by ServicesScreen and HomeScreen's ServicesSection.
-// Icons below all exist in components.jsx ICON_PATHS.
-export const SERVICES = [
+// Icons below all exist in components ICON_PATHS.
+export const SERVICES: Service[] = [
   {
     slug: 'tear-downs',
     icon: 'local_shipping',
@@ -989,7 +990,7 @@ export const SERVICES = [
 
 // Site-wide constants — contact info + hero stats.
 // TODO-VERIFY: confirm every value below with the business before launch.
-export const SITE = {
+export const SITE: SiteConfig = {
   company: 'Rack Safety Products, LLC',
   address: ['27141 Aliso Creek Road, Suite #200', 'Aliso Viejo, CA 92656'],
   phone: '(951) 395-0280',

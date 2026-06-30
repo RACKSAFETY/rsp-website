@@ -1,16 +1,21 @@
+'use client';
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, FAQItem, SectionHeader,
-} from '../components.jsx';
-import ComplianceCalculator from '../components/ComplianceCalculator.jsx';
-import { SERVICES, SITE } from '../data/productCatalog.js';
+} from '../components';
+import ComplianceCalculator from '../components/ComplianceCalculator';
+import { SERVICES, SITE } from '../data/productCatalog';
+import { useNav } from '../hooks/useNav';
 
 // Caution intensity is locked to "low" per design decision.
 const CAUTION = { opacity: 0.10, bandH: 6, period: 60 };
 
-export default function HomeScreen({ onNav, initialAnchor }) {
+export default function HomeScreen() {
+  const onNav = useNav();
+  const initialAnchor = useSearchParams().get('section');
   // Deep-link support: a nav payload (e.g. 'calculator') scrolls to that section
-  // once the screen has mounted. App.jsx scrolls to top first; this runs after.
+  // once the screen has mounted. The router scrolls to top first; this runs after.
   useEffect(() => {
     if (initialAnchor) {
       document.getElementById(initialAnchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -56,7 +61,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
       <ServicesSection onNav={onNav} />
 
       <div id="calculator" style={{ scrollMarginTop: 80 }}>
-        <ComplianceCalculator onNav={onNav} />
+        <ComplianceCalculator />
       </div>
 
       <WhyRSPPillars />
@@ -265,7 +270,7 @@ const BigBentoCard = ({ onNav }) => {
   );
 };
 
-const SmallBentoCard = ({ tag, tagColor, title, desc, icon, variant, onClick }) => {
+const SmallBentoCard = ({ tag, tagColor, title, desc, icon, variant = 'light', onClick }) => {
   const [hover, setHover] = useState(false);
   const isDark = variant === 'dark';
   const base = isDark

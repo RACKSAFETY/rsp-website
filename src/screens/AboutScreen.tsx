@@ -1,6 +1,8 @@
+'use client';
 import React from 'react';
-import { Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader } from '../components.jsx';
-import { SITE } from '../data/productCatalog.js';
+import { Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader } from '../components';
+import { SITE } from '../data/productCatalog';
+import { useNav } from '../hooks/useNav';
 
 // Caution intensity locked to "low": period 60.
 const CAUTION = { period: 60 };
@@ -14,7 +16,8 @@ const Placeholder = ({ label, children }) => (
   </div>
 );
 
-export default function AboutScreen({ onNav }) {
+export default function AboutScreen() {
+  const onNav = useNav();
   return (
     <div className="rsp-fade-up">
       {/* HERO — light, matches the rest of the site */}
