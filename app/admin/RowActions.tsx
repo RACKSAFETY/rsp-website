@@ -1,20 +1,12 @@
 'use client';
 
 import { useTransition } from 'react';
-import { QUOTE_STATUSES } from '@/src/lib/quoteStatus';
+import { QUOTE_STATUSES, STATUS_COLORS } from '@/src/lib/quoteStatus';
 import { setQuoteStatusAction, deleteQuoteAction } from './actions';
-
-const STATUS_COLOR: Record<string, string> = {
-  new: '#807662',
-  contacted: '#3D7DCA',
-  quoted: '#BD480C',
-  won: '#2ECC71',
-  lost: '#E74C3C',
-};
 
 export default function RowActions({ id, status }: { id: string; status: string }) {
   const [pending, startTransition] = useTransition();
-  const color = STATUS_COLOR[status] ?? '#807662';
+  const color = STATUS_COLORS[status] ?? '#807662';
 
   return (
     <div style={{ display: 'flex', gap: 8, alignItems: 'center', opacity: pending ? 0.5 : 1 }}>

@@ -119,14 +119,16 @@ export async function saveQuote(record: QuoteRecord): Promise<QuoteRecord> {
   return record;
 }
 
-// List recent quotes, newest first, for the admin view. Empty array if no DB
-// is configured.
-export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
+// List recent quotes, newest first, for the admin view. Optionally filter to a
+// single pipeline status. Empty array if no DB is configured.
+export async function listQuotes(status?: string | null, limit = 200): Promise<QuoteRecord[]> {
   if (!sql) return [];
   await ensureSchema();
+  const filter = status && QUOTE_STATUSES.includes(status as QuoteStatus) ? status : null;
   const rows = (await sql`
     SELECT id, received_at, name, company, email, rack_config, notes, request_type, source, status
     FROM quotes
+    WHERE (${filter}::text IS NULL OR status = ${filter})
     ORDER BY received_at DESC
     LIMIT ${limit}
   `) as Array<{
@@ -153,6 +155,22 @@ export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
     source: r.source ?? 'web',
     status: r.status ?? 'new',
   }));
+}
+
+// Count quotes grouped by status (plus an `all` total), for the filter bar.
+export async function quoteStatusCounts(): Promise<Record<string, number>> {
+  if (!sql) return { all: 0 };
+  await ensureSchema();
+  const rows = (await sql`
+    SELECT status, count(*)::int AS n FROM quotes GROUP BY status
+  `) as Array<{ status: string | null; n: number }>;
+  const counts: Record<string, number> = { all: 0 };
+  for (const r of rows) {
+    const s = r.status ?? 'new';
+    counts[s] = (counts[s] ?? 0) + r.n;
+    counts.all += r.n;
+  }
+  return counts;
 }
 
 // Update a quote's pipeline status (validated against QUOTE_STATUSES).

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { listQuotes } from '@/src/lib/quotes';
+import Link from 'next/link';
+import { listQuotes, quoteStatusCounts } from '@/src/lib/quotes';
+import { QUOTE_STATUSES, STATUS_COLORS } from '@/src/lib/quoteStatus';
 import RowActions from './RowActions';
 
 // Always render fresh (live lead data); never cache or prerender.
@@ -31,8 +33,16 @@ const TD: React.CSSProperties = {
   verticalAlign: 'top',
 };
 
-export default async function AdminPage() {
-  const quotes = await listQuotes();
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const { status } = await searchParams;
+  const active =
+    status && QUOTE_STATUSES.includes(status as (typeof QUOTE_STATUSES)[number]) ? status : null;
+  const [quotes, counts] = await Promise.all([listQuotes(active), quoteStatusCounts()]);
+  const filters = ['all', ...QUOTE_STATUSES] as const;
 
   return (
     <main style={{ minHeight: '100vh', background: '#F9F9F9', padding: '40px 24px' }}>
@@ -58,8 +68,38 @@ export default async function AdminPage() {
               color: '#BD480C',
             }}
           >
-            {quotes.length} total
+            {counts.all ?? 0} total
           </span>
+        </div>
+
+        {/* Status filter bar — click a chip to filter the list */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
+          {filters.map((f) => {
+            const isActive = (f === 'all' && !active) || f === active;
+            const color = f === 'all' ? '#1A1A1A' : STATUS_COLORS[f] ?? '#807662';
+            const n = f === 'all' ? counts.all ?? 0 : counts[f] ?? 0;
+            return (
+              <Link
+                key={f}
+                href={f === 'all' ? '/admin' : `/admin?status=${f}`}
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  padding: '6px 12px',
+                  border: `2px solid ${color}`,
+                  background: isActive ? color : '#FFFFFF',
+                  color: isActive ? '#FFFFFF' : color,
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {f} · {n}
+              </Link>
+            );
+          })}
         </div>
 
         {quotes.length === 0 ? (
@@ -73,8 +113,9 @@ export default async function AdminPage() {
               color: '#807662',
             }}
           >
-            No quote requests yet. (If you just connected the database, submit a test on the
-            contact form — it'll appear here.)
+            {active
+              ? `No quotes with status “${active}”.`
+              : "No quote requests yet. (If you just connected the database, submit a test on the contact form — it'll appear here.)"}
           </div>
         ) : (
           <div style={{ overflowX: 'auto', background: '#FFFFFF', border: '2px solid #1A1A1A' }}>
