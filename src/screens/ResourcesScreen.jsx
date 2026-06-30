@@ -9,7 +9,7 @@ const CAUTION_BG_OPACITY = 0.08 / 0.18;
 export default function ResourcesScreen({ onNav }) {
   return (
     <div className="rsp-fade-up">
-      <section style={{ background: '#1A1A1A', padding: '72px 32px 0', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: '#F9F9F9', padding: '72px 32px 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute', inset: 0,
           background: 'repeating-linear-gradient(45deg, rgba(241,192,65,0.18) 0 30px, transparent 30px 60px)',
@@ -17,16 +17,16 @@ export default function ResourcesScreen({ onNav }) {
         }}></div>
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 48, alignItems: 'center', position: 'relative', paddingBottom: 64 }}>
           <div>
-            <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 16 }}>EDITORIAL · UPDATED WEEKLY</DataLabel>
-            <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(64px, 7.5vw, 112px)', lineHeight: 0.9, textTransform: 'uppercase', margin: 0, ...hwStyle({ fill: '#F5C344', shadow: '#A93800' }) }}>
+            <DataLabel color="#1A1A1A" style={{ display: 'block', marginBottom: 16 }}>EDITORIAL · UPDATED WEEKLY</DataLabel>
+            <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(64px, 7.5vw, 112px)', lineHeight: 0.9, textTransform: 'uppercase', margin: 0, ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
               Safety<br/>Resources
             </h1>
-            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: '#F5C344', maxWidth: 480, marginTop: 24 }}>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 480, marginTop: 24 }}>
               The industry's most comprehensive database for warehouse compliance, rack maintenance, and operator safety standards.
             </p>
             <div style={{ display: 'flex', gap: 14, marginTop: 32 }}>
               <Btn variant="yellow" size="lg">Start 101 Guide</Btn>
-              <Btn variant="outline-light" size="lg">Reliability Index</Btn>
+              <Btn variant="outline" size="lg">Reliability Index</Btn>
             </div>
           </div>
           <div style={{ border: '12px solid #F5C344', aspectRatio: '4/3', overflow: 'hidden', position: 'relative' }}>
@@ -34,12 +34,13 @@ export default function ResourcesScreen({ onNav }) {
             <div style={{ position: 'absolute', top: 0, right: 0, background: '#1A1A1A', color: '#F5C344', padding: '6px 12px', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700, letterSpacing: '0.2em' }}>FIELD PHOTO · IL</div>
           </div>
         </div>
+        <CautionStripe height={6} period={60} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
       </section>
 
       <section style={{ padding: '96px 32px', background: '#F9F9F9' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 48 }}>
           <div>
-            <SectionHeader title="From the Field" right={<DataLabel color="#A93800">UPDATED OCT 2026</DataLabel>} />
+            <SectionHeader title="From the Field" right={<DataLabel color="#D9530F">UPDATED OCT 2026</DataLabel>} />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 40 }}>
               {[
                 ['OSHA GUIDE', 'APRIL 12, 2026', 'Why "Rack Guarding" Is No Longer Optional', 'New 2026 regulations mandate physical barriers for all high-traffic aisle end-frames. Here\'s how to retrofit.', 'flue-guard.svg', 'yellow'],
@@ -76,7 +77,7 @@ export default function ResourcesScreen({ onNav }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[['check_circle', 'Core Compliance Checklist'], ['warning', 'Damage Assessment Guide'], ['description', 'Annual Audit Templates'], ['fact_check', 'Audit Sign-Off Forms']].map(([ic, t]) => (
                   <a key={t} style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#1A1A1A', textDecoration: 'none', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', cursor: 'pointer', padding: '6px 0', borderBottom: '1px solid #E2E2E2', transition: 'color 200ms' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#A93800')}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#D9530F')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '#1A1A1A')}
                   >
                     <Icon name={ic} size={20} /><span>{t}</span><Icon name="arrow_forward" size={16} style={{ marginLeft: 'auto', opacity: 0.5 }} />
@@ -94,7 +95,7 @@ export default function ResourcesScreen({ onNav }) {
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 48, alignItems: 'center', position: 'relative' }}>
           <div>
             <DataLabel color="#1A1A1A" style={{ display: 'block', marginBottom: 14 }}>FOR FIRE MARSHALS &amp; SAFETY CONSULTANTS</DataLabel>
-            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(40px, 4.4vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 14px', ...hwStyle({ fill: '#1A1A1A', shadow: '#A93800' }) }}>
+            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(40px, 4.4vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 14px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
               Refer Your Clients Here
             </h2>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 560, margin: 0 }}>
@@ -112,7 +113,7 @@ export default function ResourcesScreen({ onNav }) {
         <CautionStripe height={4} period={24} opacity={0.7} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
         <CautionStripe height={4} period={24} opacity={0.7} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
-          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 84, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#F5C344', shadow: '#A93800' }) }}>
+          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 84, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#F5C344', shadow: '#D9530F' }) }}>
             What is rack safety?
           </h2>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: '#C8C6C5', maxWidth: 640, margin: '0 auto 36px' }}>
@@ -127,8 +128,8 @@ export default function ResourcesScreen({ onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.06) 0 2px, transparent 2px 18px)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
-            <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 14 }}>FOR FIRE MARSHALS &amp; SAFETY CONSULTANTS</DataLabel>
-            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#A93800' }) }}>
+            <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 14 }}>FOR FIRE MARSHALS &amp; SAFETY CONSULTANTS</DataLabel>
+            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
               Refer with confidence.
             </h2>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#1A1A1A', margin: '0 0 16px', maxWidth: 540 }}>
@@ -142,14 +143,14 @@ export default function ResourcesScreen({ onNav }) {
                 'Co-branded inspection sign-offs available on request',
               ].map((l) => (
                 <li key={l} style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Inter',sans-serif", fontSize: 14, fontWeight: 500 }}>
-                  <Icon name="check" size={16} weight={600} style={{ color: '#A93800' }} />
+                  <Icon name="check" size={16} weight={600} style={{ color: '#D9530F' }} />
                   <span>{l}</span>
                 </li>
               ))}
             </ul>
             <Btn variant="primary" size="lg" onClick={() => onNav('contact', 'referrer')}>Open a Referrer Account →</Btn>
           </div>
-          <div style={{ background: '#1A1A1A', color: '#FFFFFF', padding: 28, borderTop: '4px solid #A93800' }}>
+          <div style={{ background: '#1A1A1A', color: '#FFFFFF', padding: 28, borderTop: '4px solid #D9530F' }}>
             <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 12 }}>SPEC LIBRARY · NO LOGIN</DataLabel>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.55, color: '#C8C6C5', margin: '0 0 18px' }}>
               Sending a client to us? Point them at the calculator and the resource hub — both designed to be referenced in audits, not gated behind sales walls.
@@ -222,7 +223,7 @@ const ArticleStrip = ({ cat, h, img, last }) => {
       </div>
       <div>
         <Pill kind="orange-dark">{cat}</Pill>
-        <h4 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 22, lineHeight: 0.95, textTransform: 'uppercase', margin: '8px 0 0', color: hover ? '#A93800' : '#1A1A1A', transition: 'color 200ms' }}>{h}</h4>
+        <h4 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 22, lineHeight: 0.95, textTransform: 'uppercase', margin: '8px 0 0', color: hover ? '#D9530F' : '#1A1A1A', transition: 'color 200ms' }}>{h}</h4>
       </div>
     </article>
   );

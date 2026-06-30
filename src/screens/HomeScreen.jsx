@@ -33,7 +33,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <SmallBentoCard
                 tag="BEST VALUE"
-                tagColor="#A93800"
+                tagColor="#D9530F"
                 title="Rack Decking"
                 desc="Wire mesh and solid steel decking solutions for all load types."
                 icon="grid_view"
@@ -67,7 +67,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 56 }}>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 1, textTransform: 'uppercase', margin: 0 }}>From the Field</h2>
             <div style={{ flex: 1, height: 4, background: '#1A1A1A' }}></div>
-            <DataLabel color="#A93800">UPDATED OCT 2026</DataLabel>
+            <DataLabel color="#D9530F">UPDATED OCT 2026</DataLabel>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 48 }}>
             <article
@@ -84,7 +84,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
                   <Pill kind="red">SAFETY ALERT</Pill>
                 </div>
               </div>
-              <DataLabel color="#A93800" style={{ marginBottom: 10, display: 'block' }}>SAFETY AUDIT · MARCH 24, 2026</DataLabel>
+              <DataLabel color="#D9530F" style={{ marginBottom: 10, display: 'block' }}>SAFETY AUDIT · MARCH 24, 2026</DataLabel>
               <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 32, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 12px' }}>The Hidden Cost of Rack Mismanagement</h3>
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.6, color: '#4E4635', margin: 0 }}>
                 Why "good enough" safety is actually costing your distribution center thousands in annual insurance premiums.
@@ -109,7 +109,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
                   </div>
                   <div>
                     <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 6 }}>
-                      <DataLabel color="#A93800" size={10}>{cat}</DataLabel>
+                      <DataLabel color="#D9530F" size={10}>{cat}</DataLabel>
                       <DataLabel color="rgba(26,26,26,0.5)" size={10}>{dt}</DataLabel>
                     </div>
                     <h4 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 26, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 8px' }}>{h}</h4>
@@ -126,7 +126,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
       <section style={{ background: '#F5C344', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.05) 0 2px, transparent 2px 16px)', pointerEvents: 'none' }}></div>
         <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative' }}>
-          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', textAlign: 'center', margin: '0 0 56px', ...hwStyle({ fill: '#1A1A1A', shadow: '#A93800' }) }}>
+          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', textAlign: 'center', margin: '0 0 56px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
             Frequently Asked Questions
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 56px' }}>
@@ -160,7 +160,7 @@ export default function HomeScreen({ onNav, initialAnchor }) {
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 24 }}>NEXT STEP</DataLabel>
-          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>
+          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>
             Ready to upgrade your warehouse?
           </h2>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: '#C8C6C5', maxWidth: 640, margin: '0 auto 48px' }}>
@@ -178,42 +178,40 @@ export default function HomeScreen({ onNav, initialAnchor }) {
 
 // Pushed: full-bleed caution-tape band behind a massive Anton wall-of-text.
 const HeroCaution = ({ onNav }) => (
-  <section style={{ position: 'relative', overflow: 'hidden', background: '#1A1A1A' }}>
+  <section style={{ position: 'relative', overflow: 'hidden', background: '#F9F9F9' }}>
     <div style={{
       position: 'absolute', inset: 0,
-      background: `repeating-linear-gradient(45deg, #F1C041 0 ${CAUTION.period / 2}px, #1A1A1A ${CAUTION.period / 2}px ${CAUTION.period}px)`,
-      opacity: CAUTION.opacity,
+      background: `repeating-linear-gradient(45deg, #F1C041 0 ${CAUTION.period / 2}px, #F9F9F9 ${CAUTION.period / 2}px ${CAUTION.period}px)`,
+      opacity: 0.20,
     }} />
-    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26,26,26,0.78) 0%, rgba(26,26,26,0.92) 100%)' }} />
-    <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
     <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
     <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '120px 32px 96px' }}>
       <div style={{ display: 'flex', gap: 32, alignItems: 'center', flexWrap: 'wrap' }}>
         <Pill kind="yellow" style={{ fontSize: 11 }}>RACK &amp; FIRE PROTECTION SPECIALISTS</Pill>
-        <DataLabel color="#F5C344" size={10}>OSHA · NFPA 13 · ANSI MH16.1</DataLabel>
+        <DataLabel color="#1A1A1A" size={10}>OSHA · NFPA 13 · ANSI MH16.1</DataLabel>
       </div>
       <h1 style={{
         fontFamily: "'Anton',sans-serif", fontWeight: 400,
         fontSize: 'clamp(72px, 11vw, 168px)', lineHeight: 0.86, letterSpacing: '0.005em',
         textTransform: 'uppercase', margin: '32px 0 32px',
       }}>
-        <span style={{ display: 'block', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>Rack &amp; Fire</span>
-        <span style={{ display: 'block', ...hwStyle({ fill: '#F5C344', shadow: '#1A1A1A' }) }}>Protection</span>
-        <span style={{ display: 'block', ...hwStyle({ fill: '#F5C344', shadow: '#A93800' }) }}>Specialists</span>
+        <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Rack &amp; Fire</span>
+        <span style={{ display: 'block', ...hwStyle({ fill: '#D9530F', shadow: '#1A1A1A' }) }}>Protection</span>
+        <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>Specialists</span>
       </h1>
       <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, alignItems: 'flex-end' }}>
         <div>
           <p style={{
             fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6,
-            color: '#FFFFFF', maxWidth: 580, margin: 0,
+            color: '#1A1A1A', maxWidth: 580, margin: 0,
             borderLeft: '3px solid #F5C344', paddingLeft: 18,
           }}>
             Engineered flue keepers, structural rack protection, and NFPA 13 spec support — from a team that's spent decades in the field. We help safety managers ship compliant warehouses, faster.
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
             <Mega variant="yellow" onClick={() => onNav('catalog')}>View Catalog</Mega>
-            <Mega variant="outline-dark" onClick={() => onNav('resources')} style={{ borderColor: '#F5C344', color: '#F5C344' }}>Safety Guides</Mega>
+            <Mega variant="outline-dark" onClick={() => onNav('resources')} style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>Safety Guides</Mega>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#F5C344', border: '2px solid #F5C344' }}>
@@ -244,7 +242,7 @@ const BigBentoCard = ({ onNav }) => {
       <div style={{ position: 'absolute', top: 16, right: 16, background: '#F5C344', color: '#1A1A1A', padding: '4px 12px', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', zIndex: 2 }}>SAFETY PICK</div>
       <div style={{ width: '52%', padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
-          <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 44, lineHeight: 0.95, textTransform: 'uppercase', color: '#FFFFFF', textShadow: '4px 4px 0 #A93800', margin: '0 0 16px' }}>Flue Guard™ Systems</h3>
+          <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 44, lineHeight: 0.95, textTransform: 'uppercase', color: '#FFFFFF', textShadow: '4px 4px 0 #D9530F', margin: '0 0 16px' }}>Flue Guard™ Systems</h3>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.55, color: '#C8C6C5', margin: 0, maxWidth: 360 }}>
             Maintain critical fire safety spacing in your rack systems. Prevents pallets from encroaching on essential flue space.
           </p>
@@ -274,7 +272,7 @@ const SmallBentoCard = ({ tag, tagColor, title, desc, icon, variant, onClick }) 
     ? { background: '#5F5E5E', color: '#FFFFFF' }
     : { background: '#FFFFFF', color: '#1A1A1A' };
   const hov = isDark
-    ? { background: '#A93800', color: '#FFFFFF' }
+    ? { background: '#BD480C', color: '#FFFFFF' }
     : { background: '#F5C344', color: '#1A1A1A' };
   return (
     <div
@@ -340,13 +338,13 @@ const ServiceTile = ({ slug, icon, title, desc, cta, onNav }) => {
         minHeight: 280,
       }}
     >
-      <Icon name={icon} size={32} fill={hover ? 1 : 0} style={{ color: hover ? '#F5C344' : '#A93800' }} />
+      <Icon name={icon} size={32} fill={hover ? 1 : 0} style={{ color: hover ? '#F5C344' : '#D9530F' }} />
       <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 30, lineHeight: 0.95, textTransform: 'uppercase', margin: 0, color: 'inherit' }}>{title}</h3>
       <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.55, margin: 0, color: 'inherit', opacity: hover ? 0.9 : 0.78, flex: 1 }}>{desc}</p>
       <div style={{
         marginTop: 4, paddingTop: 12, borderTop: `1px solid ${hover ? 'rgba(245,195,68,0.4)' : 'rgba(26,26,26,0.15)'}`,
         fontFamily: "'Inter',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: hover ? '#F5C344' : '#A93800',
+        color: hover ? '#F5C344' : '#D9530F',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <span>{cta}</span>
@@ -398,7 +396,7 @@ const WhyRSPPillars = () => (
             display: 'flex', flexDirection: 'column', gap: 12,
             minHeight: 260,
           }}>
-            <DataLabel color="#A93800" size={11}>{p.n}</DataLabel>
+            <DataLabel color="#D9530F" size={11}>{p.n}</DataLabel>
             <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 28, lineHeight: 0.95, textTransform: 'uppercase', margin: 0 }}>{p.title}</h3>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.6, color: '#4E4635', margin: 0 }}>{p.desc}</p>
           </div>

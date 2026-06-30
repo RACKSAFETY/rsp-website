@@ -67,7 +67,7 @@ export default function CatalogScreen({ onNav, initialFilter }) {
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 40 }}>
           {/* Sidebar filters */}
           <aside style={{ position: 'sticky', top: 92, alignSelf: 'flex-start' }}>
-            <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, color: '#A93800', fontSize: 32, textTransform: 'uppercase', borderBottom: '2px solid #1A1A1A', paddingBottom: 12, margin: '0 0 22px' }}>Filters</h3>
+            <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, color: '#D9530F', fontSize: 32, textTransform: 'uppercase', borderBottom: '2px solid #1A1A1A', paddingBottom: 12, margin: '0 0 22px' }}>Filters</h3>
 
             <DataLabel style={{ display: 'block', marginBottom: 12 }}>Product Category</DataLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
@@ -82,7 +82,7 @@ export default function CatalogScreen({ onNav, initialFilter }) {
                 <FilterRadio key={id} label={l} checked={comp === id} onChange={() => setComp(comp === id ? null : id)} />
               ))}
               {comp && (
-                <button onClick={() => setComp(null)} style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#A93800', background: 'transparent', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>× Clear compliance</button>
+                <button onClick={() => setComp(null)} style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#D9530F', background: 'transparent', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>× Clear compliance</button>
               )}
             </div>
 
@@ -105,10 +105,10 @@ export default function CatalogScreen({ onNav, initialFilter }) {
 
           <div>
             <div style={{ marginBottom: 24 }}>
-              <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 12 }}>{cats.size === 0 ? 'ALL CATEGORIES' : Array.from(cats).map((c) => CATEGORIES.find(([id]) => id === c)?.[1]).join(' · ')}</DataLabel>
+              <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 12 }}>{cats.size === 0 ? 'ALL CATEGORIES' : Array.from(cats).map((c) => CATEGORIES.find(([id]) => id === c)?.[1]).join(' · ')}</DataLabel>
               <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(64px, 7.2vw, 96px)', lineHeight: 0.9, textTransform: 'uppercase', margin: 0 }}>
                 <span style={{ display: 'inline-block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Industrial</span><br/>
-                <span style={{ display: 'inline-block', ...hwStyle({ fill: '#A93800', shadow: '#F5C344' }) }}>Safety Solutions</span>
+                <span style={{ display: 'inline-block', ...hwStyle({ fill: '#D9530F', shadow: '#F5C344' }) }}>Safety Solutions</span>
               </h1>
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#4E4635', maxWidth: 580, margin: '20px 0 0' }}>
                 Engineering the industry's most reliable rack protection, flue guards, and safety barriers for high-capacity warehouse environments.
@@ -126,7 +126,7 @@ export default function CatalogScreen({ onNav, initialFilter }) {
                 ['support_agent', 'Spec Support 7am–7pm PT'], // TODO-VERIFY: support hours
               ].map(([ic, l]) => (
                 <span key={l} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Icon name={ic} size={20} fill={1} style={{ color: '#A93800' }} />
+                  <Icon name={ic} size={20} fill={1} style={{ color: '#D9530F' }} />
                   <DataLabel>{l}</DataLabel>
                 </span>
               ))}
@@ -159,14 +159,14 @@ export default function CatalogScreen({ onNav, initialFilter }) {
             <div style={{ marginBottom: 32 }}>
               <SectionHeader
                 title="Comparison Matrix"
-                right={<DataLabel color="#A93800">UPDATED TODO</DataLabel> /* TODO-VERIFY: matrix last-updated date */}
+                right={<DataLabel color="#D9530F">UPDATED TODO</DataLabel> /* TODO-VERIFY: matrix last-updated date */}
               />
               <div style={{ overflow: 'auto', border: '2px solid #1A1A1A' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', background: '#FFFFFF', minWidth: 720 }}>
                   <thead>
                     <tr>
                       {['Product Line', 'Compliance', 'Durability', 'Install Time', 'Lead Time'].map((h) => (
-                        <th key={h} style={{ background: '#A93800', color: '#FFFFFF', textAlign: 'left', padding: '14px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 15, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{h}</th>
+                        <th key={h} style={{ background: '#BD480C', color: '#FFFFFF', textAlign: 'left', padding: '14px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 15, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -223,7 +223,7 @@ const ProductCard = ({ p, onNav }) => {
       className="rsp-card-hover"
       style={{
         border: '2px solid #1A1A1A',
-        background: highlight ? '#A93800' : (hover ? '#FFFAEC' : '#FFFFFF'),
+        background: highlight ? '#BD480C' : (hover ? '#FFFAEC' : '#FFFFFF'),
         color: highlight ? '#FFFFFF' : '#1A1A1A',
         display: 'flex', flexDirection: 'column', position: 'relative', cursor: 'pointer',
       }}
@@ -263,7 +263,7 @@ const ProductCard = ({ p, onNav }) => {
           <DataLabel color={highlight ? '#FFDF9A' : '#807662'} size={10} style={{ display: 'block', marginBottom: 4 }}>{p.sku}</DataLabel>
           <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 26, lineHeight: 0.95, textTransform: 'uppercase', margin: 0, color: highlight ? '#F5C344' : '#1A1A1A' }}>{p.name}</h3>
           {p.mfg && (
-            <DataLabel color={highlight ? '#FFDF9A' : '#A93800'} size={10} style={{ display: 'block', marginTop: 4 }}>MFG · {p.mfg}</DataLabel>
+            <DataLabel color={highlight ? '#FFDF9A' : '#D9530F'} size={10} style={{ display: 'block', marginTop: 4 }}>MFG · {p.mfg}</DataLabel>
           )}
         </div>
         <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.55, margin: 0, color: highlight ? '#FFDF9A' : '#4E4635', flex: 1 }}>{p.desc}</p>
@@ -279,7 +279,7 @@ const ProductCard = ({ p, onNav }) => {
           onClick={(e) => { e.stopPropagation(); onNav('product', p.id); }}
           style={{
             marginTop: 12, padding: '14px 0',
-            background: highlight ? '#F5C344' : (hover ? '#1A1A1A' : '#A93800'),
+            background: highlight ? '#F5C344' : (hover ? '#1A1A1A' : '#BD480C'),
             color: highlight ? '#1A1A1A' : '#FFFFFF',
             border: 0, borderRadius: 0,
             fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: 13, letterSpacing: '0.18em',

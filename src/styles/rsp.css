@@ -17,9 +17,10 @@
   --rsp-charcoal-soft:    #2A2A2A;
   --rsp-ink:              #1a1c1c;
 
-  --rsp-orange:           #A93800;
+  --rsp-orange:           #BD480C;
   --rsp-orange-bright:    #FF5E13;
   --rsp-orange-deep:      #812900;
+  --rsp-pumpkin:          #D9530F;
   --rsp-amber:            #ff5e13;
 
   --rsp-white:            #FFFFFF;
@@ -59,7 +60,7 @@
   --border-light:         #DDDDDD;
   --border-outline:       var(--rsp-outline-variant);
 
-  --link:                 var(--rsp-orange);
+  --link:                 var(--rsp-pumpkin);
   --link-hover:           var(--rsp-orange-bright);
 
   /* Typography */
@@ -123,10 +124,10 @@
   --border-hard:          2px solid var(--rsp-charcoal);
   --border-heavy:         4px solid var(--rsp-charcoal);
   --border-yellow:        2px solid var(--rsp-yellow);
-  --border-orange:        2px solid var(--rsp-orange);
+  --border-orange:        2px solid var(--rsp-pumpkin);
 
   --shadow-text-charcoal: 4px 4px 0 var(--rsp-charcoal), 6px 6px 0 var(--rsp-charcoal);
-  --shadow-text-orange:   4px 4px 0 var(--rsp-orange), 6px 6px 0 var(--rsp-orange);
+  --shadow-text-orange:   4px 4px 0 var(--rsp-pumpkin), 6px 6px 0 var(--rsp-pumpkin);
   --shadow-text-sm:       2px 2px 0 var(--rsp-charcoal);
 
   --caution-stripe:       repeating-linear-gradient(45deg, var(--rsp-gold) 0 20px, var(--rsp-charcoal) 20px 40px);
@@ -218,7 +219,7 @@ hr {
 
 /* Headline shadow utility */
 .rsp-shadow-charcoal { text-shadow: 4px 4px 0 var(--rsp-charcoal), 6px 6px 0 var(--rsp-charcoal); }
-.rsp-shadow-orange { text-shadow: 4px 4px 0 var(--rsp-orange), 6px 6px 0 var(--rsp-orange); }
+.rsp-shadow-orange { text-shadow: 4px 4px 0 var(--rsp-pumpkin), 6px 6px 0 var(--rsp-pumpkin); }
 .rsp-shadow-yellow { text-shadow: 4px 4px 0 var(--rsp-yellow), 6px 6px 0 var(--rsp-yellow); }
 
 /* FAQ accordion */

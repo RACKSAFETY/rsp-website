@@ -29,9 +29,9 @@ export const Btn = ({ children, variant = 'primary', size = 'md', onClick, type 
     lg: { fontSize: 14, padding: '18px 36px' },
   };
   const palettes = {
-    primary:         { base: { background: '#1A1A1A', color: '#FFFFFF' },                                  hover: { background: '#A93800', color: '#FFFFFF' } },
+    primary:         { base: { background: '#1A1A1A', color: '#FFFFFF' },                                  hover: { background: '#BD480C', color: '#FFFFFF' } },
     yellow:          { base: { background: '#F5C344', color: '#1A1A1A' },                                  hover: { background: '#FF5E13', color: '#FFFFFF' } },
-    orange:          { base: { background: '#FF5E13', color: '#FFFFFF' },                                  hover: { background: '#A93800', color: '#FFFFFF' } },
+    orange:          { base: { background: '#FF5E13', color: '#FFFFFF' },                                  hover: { background: '#BD480C', color: '#FFFFFF' } },
     outline:         { base: { background: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A' }, hover: { background: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A' } },
     'outline-light': { base: { background: 'transparent', color: '#F5C344', border: '2px solid #F5C344' }, hover: { background: '#F5C344', color: '#1A1A1A', border: '2px solid #F5C344' } },
     ghost:           { base: { background: 'transparent', color: '#1A1A1A' },                              hover: { background: 'rgba(0,0,0,0.06)', color: '#1A1A1A' } },
@@ -55,8 +55,8 @@ export const Mega = ({ children, variant = 'yellow', onClick, style, fontSize = 
   const [hover, setHover] = useState(false);
   const palettes = {
     yellow: { base: { background: '#F5C344', color: '#1A1A1A' }, hover: { background: '#FF5E13', color: '#FFFFFF' } },
-    orange: { base: { background: '#FF5E13', color: '#FFFFFF' }, hover: { background: '#A93800', color: '#FFFFFF' } },
-    dark:   { base: { background: '#1A1A1A', color: '#FFFFFF' }, hover: { background: '#A93800', color: '#FFFFFF' } },
+    orange: { base: { background: '#FF5E13', color: '#FFFFFF' }, hover: { background: '#BD480C', color: '#FFFFFF' } },
+    dark:   { base: { background: '#1A1A1A', color: '#FFFFFF' }, hover: { background: '#BD480C', color: '#FFFFFF' } },
     'outline-dark': { base: { background: 'transparent', color: '#1A1A1A', border: '3px solid #1A1A1A' }, hover: { background: '#1A1A1A', color: '#F5C344', border: '3px solid #1A1A1A' } },
   };
   const p = palettes[variant] || palettes.yellow;
@@ -87,7 +87,7 @@ export const Pill = ({ children, kind = 'green', style }) => {
   const m = {
     green:         { bg: '#2ECC71', fg: '#FFFFFF', border: '#2ECC71' },
     orange:        { bg: '#FF5E13', fg: '#FFFFFF', border: '#FF5E13' },
-    'orange-dark': { bg: '#A93800', fg: '#FFFFFF', border: '#A93800' },
+    'orange-dark': { bg: '#BD480C', fg: '#FFFFFF', border: '#BD480C' },
     yellow:        { bg: '#F5C344', fg: '#1A1A1A', border: '#1A1A1A' },
     dark:          { bg: '#1A1A1A', fg: '#F5C344', border: '#1A1A1A' },
     red:           { bg: '#E74C3C', fg: '#FFFFFF', border: '#E74C3C' },
@@ -164,7 +164,7 @@ export const Icon = ({ name, size = 24, fill = 0, weight = 400, style }) => {
 // Headline weight is locked to "heavy" per the design decision (caution / low / heavy).
 // Stacks 12 1px-incremented shadow layers so the offset reads as a continuous extruded slab
 // rather than a stepped staircase.
-export const hwStyle = ({ fill = '#1A1A1A', shadow = '#A93800' } = {}) => {
+export const hwStyle = ({ fill = '#1A1A1A', shadow = '#D9530F' } = {}) => {
   const layers = [];
   for (let i = 1; i <= 12; i++) layers.push(`${i}px ${i}px 0 ${shadow}`);
   return { color: fill, WebkitTextStroke: '0', textShadow: layers.join(', ') };
@@ -176,7 +176,7 @@ export const hwStyle = ({ fill = '#1A1A1A', shadow = '#A93800' } = {}) => {
 export const TopNav = ({ active, onNav }) => {
   const items = [
     ['catalog', 'Catalog'],
-    ['catalog', 'Dividers', 'dividers'],
+    ['catalog', 'Flue Products', 'dividers'],
     ['catalog', 'Protection', 'protection'],
     ['services', 'Services'],
     ['resources', 'Resources'],
@@ -252,7 +252,7 @@ export const TopNav = ({ active, onNav }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 export const Footer = ({ onNav }) => {
   const cols = [
-    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Dividers', 'catalog', 'dividers'], ['Services', 'services'], ['Resources', 'resources']] },
+    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'dividers'], ['Services', 'services'], ['Resources', 'resources']] },
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (
@@ -403,7 +403,7 @@ export const SectionHeader = ({ title, eyebrow, right, rule = 'heavy', color = '
     borderBottom: rule === 'heavy' ? '4px solid #1A1A1A' : rule === 'yellow' ? '2px solid #F5C344' : '2px solid #1A1A1A',
   }}>
     <div>
-      {eyebrow && <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 8 }}>{eyebrow}</DataLabel>}
+      {eyebrow && <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 8 }}>{eyebrow}</DataLabel>}
       <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize, lineHeight: 1, textTransform: 'uppercase', margin: 0, color }}>{title}</h2>
     </div>
     {right}

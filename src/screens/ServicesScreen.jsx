@@ -11,14 +11,12 @@ export default function ServicesScreen({ onNav }) {
   return (
     <div className="rsp-fade-up">
       {/* HERO — charcoal caution band */}
-      <section style={{ position: 'relative', overflow: 'hidden', background: '#1A1A1A' }}>
+      <section style={{ position: 'relative', overflow: 'hidden', background: '#F9F9F9' }}>
         <div style={{
           position: 'absolute', inset: 0,
-          background: `repeating-linear-gradient(45deg, #F1C041 0 ${CAUTION.period / 2}px, #1A1A1A ${CAUTION.period / 2}px ${CAUTION.period}px)`,
-          opacity: CAUTION.opacity,
+          background: `repeating-linear-gradient(45deg, #F1C041 0 ${CAUTION.period / 2}px, #F9F9F9 ${CAUTION.period / 2}px ${CAUTION.period}px)`,
+          opacity: 0.20,
         }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26,26,26,0.78) 0%, rgba(26,26,26,0.92) 100%)' }} />
-        <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
         <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
         <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '96px 32px 88px' }}>
@@ -28,12 +26,12 @@ export default function ServicesScreen({ onNav }) {
             fontSize: 'clamp(64px, 9vw, 140px)', lineHeight: 0.86,
             textTransform: 'uppercase', margin: 0,
           }}>
-            <span style={{ display: 'block', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>Warehouse</span>
-            <span style={{ display: 'block', ...hwStyle({ fill: '#F5C344', shadow: '#1A1A1A' }) }}>Safety Services</span>
+            <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Warehouse</span>
+            <span style={{ display: 'block', ...hwStyle({ fill: '#D9530F', shadow: '#1A1A1A' }) }}>Safety Services</span>
           </h1>
           <p style={{
             fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6,
-            color: '#FFFFFF', maxWidth: 580, margin: '32px 0 0',
+            color: '#1A1A1A', maxWidth: 580, margin: '32px 0 0',
             borderLeft: '3px solid #F5C344', paddingLeft: 18,
           }}>
             Beyond the box: tear downs, audits, installation, repairs, re-engineering, and used-rack
@@ -41,7 +39,7 @@ export default function ServicesScreen({ onNav }) {
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
             <Mega variant="yellow" onClick={() => onNav('contact')}>Request a Service</Mega>
-            <Mega variant="outline-dark" onClick={() => onNav('catalog')} style={{ borderColor: '#F5C344', color: '#F5C344' }}>View Catalog</Mega>
+            <Mega variant="outline-dark" onClick={() => onNav('catalog')} style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>View Catalog</Mega>
           </div>
         </div>
       </section>
@@ -66,7 +64,7 @@ export default function ServicesScreen({ onNav }) {
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
           <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 24 }}>NEXT STEP</DataLabel>
-          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>
+          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>
             Have a project in mind?
           </h2>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: '#C8C6C5', maxWidth: 640, margin: '0 auto 48px' }}>
@@ -100,13 +98,13 @@ const ServiceCard = ({ slug, icon, title, desc, cta, onNav }) => {
         minHeight: 280,
       }}
     >
-      <Icon name={icon} size={32} fill={hover ? 1 : 0} style={{ color: hover ? '#F5C344' : '#A93800' }} />
+      <Icon name={icon} size={32} fill={hover ? 1 : 0} style={{ color: hover ? '#F5C344' : '#D9530F' }} />
       <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 28, lineHeight: 0.95, textTransform: 'uppercase', margin: 0, color: 'inherit' }}>{title}</h3>
       <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.55, margin: 0, color: 'inherit', opacity: hover ? 0.9 : 0.78, flex: 1 }}>{desc}</p>
       <div style={{
         marginTop: 4, paddingTop: 12, borderTop: `1px solid ${hover ? 'rgba(245,195,68,0.4)' : 'rgba(26,26,26,0.15)'}`,
         fontFamily: "'Inter',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: hover ? '#F5C344' : '#A93800',
+        color: hover ? '#F5C344' : '#D9530F',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <span>{cta}</span>

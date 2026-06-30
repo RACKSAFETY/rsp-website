@@ -146,7 +146,7 @@ export default function ComplianceCalculator({ onNav }) {
               fontWeight: 700, fontSize: 13, letterSpacing: '0.18em', textTransform: 'uppercase',
               cursor: 'pointer', transition: 'background 200ms',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#A93800')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#BD480C')}
             onMouseLeave={(e) => (e.currentTarget.style.background = '#FF5E13')}
           >
             Get matched specs →
@@ -155,8 +155,8 @@ export default function ComplianceCalculator({ onNav }) {
 
         {/* Marketing column + live detail */}
         <div>
-          <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 16 }}>SCREENING TOOL · {STANDARD} ({EDITION} ED.)</DataLabel>
-          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 72, lineHeight: 0.92, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>
+          <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 16 }}>SCREENING TOOL · {STANDARD} ({EDITION} ED.)</DataLabel>
+          <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 72, lineHeight: 0.92, textTransform: 'uppercase', margin: '0 0 24px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>
             Flue Space<br/>Screening
           </h2>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)', marginBottom: 16 }}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Btn, DataLabel, Pill, Icon, hwStyle } from '../components.jsx';
+import { Btn, DataLabel, Pill, Icon, hwStyle, CautionStripe } from '../components.jsx';
 import { SITE } from '../data/productCatalog.js';
 
 // Caution intensity locked to "low": opacity 0.10, period 60.
@@ -81,26 +81,27 @@ export default function ContactScreen({ onNav, requestType }) {
 
   return (
     <div className="rsp-fade-up">
-      <section style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: '#F9F9F9', color: '#1A1A1A', padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0,
           background: `repeating-linear-gradient(45deg, rgba(245,195,68,0.12) 0 ${CAUTION.period / 2}px, transparent ${CAUTION.period / 2}px ${CAUTION.period}px)`,
           opacity: CAUTION.opacity * 5,
         }}></div>
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '38%', background: '#F5C344', clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}></div>
+        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '38%', background: '#1A1A1A', clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}></div>
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
           <Pill kind="yellow" style={{ fontSize: 11, marginBottom: 24 }}>REQUEST SPECIFICATION</Pill>
-          <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(72px, 9vw, 140px)', lineHeight: 0.85, textTransform: 'uppercase', margin: 0, color: '#FFFFFF' }}>
+          <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(72px, 9vw, 140px)', lineHeight: 0.85, textTransform: 'uppercase', margin: 0, color: '#1A1A1A' }}>
             Get a<br/>
-            <span style={{ color: '#F5C344' }}>Precision Quote</span>
+            <span style={{ color: '#D9530F' }}>Precision Quote</span>
           </h1>
-          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#FFFFFF', maxWidth: 480, marginTop: 32, borderLeft: '3px solid #F5C344', paddingLeft: 16 }}>
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 480, marginTop: 32, borderLeft: '3px solid #F5C344', paddingLeft: 16 }}>
             Industrial-grade protection shouldn't be a guessing game. Our engineering team provides exact specifications for your warehouse layout within 24 hours.
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 32 }}>
             <Btn variant="yellow" size="lg" onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Start My Quote</Btn>
-            <Btn variant="outline-light" size="lg" onClick={() => onNav('catalog')}>View Samples</Btn>
+            <Btn variant="outline" size="lg" onClick={() => onNav('catalog')}>View Samples</Btn>
           </div>
         </div>
+        <CautionStripe height={6} period={60} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
       </section>
 
       <section id="quote-form" style={{ padding: '64px 32px', background: '#F9F9F9' }}>
@@ -125,15 +126,15 @@ export default function ContactScreen({ onNav, requestType }) {
                 </div>
               ))}
             </div>
-            <div style={{ background: '#E8E8E8', padding: 20, borderLeft: '4px solid #A93800' }}>
+            <div style={{ background: '#E8E8E8', padding: 20, borderLeft: '4px solid #D9530F' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #807662', paddingBottom: 10, marginBottom: 14 }}>
-                <DataLabel color="#A93800">STANDARD COMPLIANCE</DataLabel>
+                <DataLabel color="#D9530F">STANDARD COMPLIANCE</DataLabel>
                 <span style={{ background: '#1A1A1A', color: '#F5C344', padding: '4px 10px', fontFamily: "'JetBrains Mono',monospace", fontSize: 10, fontWeight: 700, letterSpacing: '0.14em' }}>ANSI MH16.1</span>
               </div>
               {/* TODO-VERIFY: confirm these trust claims (response time, warranty terms) with the business. */}
               {[['verified', 'Structural Integrity First'], ['warning', '24-Hour Engineering Response'], ['shield', 'Lifetime Component Warranty']].map(([ic, t]) => (
                 <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}>
-                  <Icon name={ic} size={18} style={{ color: '#A93800' }} />
+                  <Icon name={ic} size={18} style={{ color: '#D9530F' }} />
                   <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 13 }}>{t}</span>
                 </div>
               ))}
@@ -211,7 +212,7 @@ export default function ContactScreen({ onNav, requestType }) {
               <label style={{ gridColumn: '1/-1', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <DataLabel color="#1A1A1A">Estimated Linear Footage</DataLabel>
-                  <DataLabel color="#A93800" size={13} style={{ fontWeight: 700 }}>{form.footage >= 10000 ? '10,000+' : form.footage.toLocaleString()} FT</DataLabel>
+                  <DataLabel color="#D9530F" size={13} style={{ fontWeight: 700 }}>{form.footage >= 10000 ? '10,000+' : form.footage.toLocaleString()} FT</DataLabel>
                 </div>
                 <input type="range" min="100" max="10000" step="100" value={form.footage} onChange={(e) => set('footage', parseInt(e.target.value))} style={{ width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -234,7 +235,7 @@ export default function ContactScreen({ onNav, requestType }) {
                     fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 24, letterSpacing: '0.04em', textTransform: 'uppercase',
                     padding: '16px 32px', border: 0, borderRadius: 0,
                     cursor: submitting ? 'wait' : 'pointer',
-                    background: submitting ? '#A93800' : '#F5C344',
+                    background: submitting ? '#BD480C' : '#F5C344',
                     color: submitting ? '#FFFFFF' : '#1A1A1A',
                     display: 'inline-flex', alignItems: 'center', gap: 12,
                     transition: 'background 200ms, color 200ms',
@@ -281,10 +282,10 @@ export default function ContactScreen({ onNav, requestType }) {
                 <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, color: '#FFDF9A', margin: 0 }}>Precision engineered to maintain NFPA fire safety clearances.</p>
               </div>
             </div>
-            <SpecifyTile onClick={() => onNav('product', 'flared-channel-wire-decking')} bg="#E8E8E8" color="#1A1A1A" iconColor="#A93800" titleColor="#A93800" icon="layers" title="Wire Decking" desc="U-Channel structural support for maximum capacity." />
+            <SpecifyTile onClick={() => onNav('product', 'flared-channel-wire-decking')} bg="#E8E8E8" color="#1A1A1A" iconColor="#D9530F" titleColor="#D9530F" icon="layers" title="Wire Decking" desc="U-Channel structural support for maximum capacity." />
             <SpecifyTile onClick={() => onNav('product', 'column-guards')} bg="#F5C344" color="#1A1A1A" iconColor="#1A1A1A" titleColor="#1A1A1A" icon="warning" iconFill={1} title="Column Guards" desc="Prevent upright collapse from forklift impacts." />
             <div onClick={() => onNav('contact', 'catalog-pdf')} style={{ gridColumn: '2/-1', background: '#1A1A1A', border: '2px solid #1A1A1A', padding: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'background 200ms' }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#A93800')}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#BD480C')}
               onMouseLeave={(e) => (e.currentTarget.style.background = '#1A1A1A')}
             >
               <div>
@@ -302,8 +303,8 @@ export default function ContactScreen({ onNav, requestType }) {
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.06) 0 2px, transparent 2px 18px)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
-            <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 14 }}>FOR DISTRIBUTORS &amp; OEM PARTNERS</DataLabel>
-            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#A93800' }) }}>
+            <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 14 }}>FOR DISTRIBUTORS &amp; OEM PARTNERS</DataLabel>
+            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
               Sell our gear under your roof.
             </h2>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#1A1A1A', margin: '0 0 18px', maxWidth: 580 }}>
@@ -317,13 +318,13 @@ export default function ContactScreen({ onNav, requestType }) {
                 'Engineering support on quoted jobs',
               ].map((l) => (
                 <li key={l} style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Inter',sans-serif", fontSize: 14, fontWeight: 500 }}>
-                  <Icon name="check" size={16} weight={600} style={{ color: '#A93800' }} />
+                  <Icon name="check" size={16} weight={600} style={{ color: '#D9530F' }} />
                   <span>{l}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div style={{ background: '#1A1A1A', color: '#FFFFFF', padding: 32, borderTop: '4px solid #A93800' }}>
+          <div style={{ background: '#1A1A1A', color: '#FFFFFF', padding: 32, borderTop: '4px solid #D9530F' }}>
             <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 12 }}>OPEN A PARTNER ACCOUNT</DataLabel>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.5, color: '#C8C6C5', margin: '0 0 20px' }}>
               Tell us a bit about your business and we'll route you to the right partner manager within one business day.

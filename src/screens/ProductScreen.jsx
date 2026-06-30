@@ -97,7 +97,7 @@ export default function ProductScreen({ onNav, productId }) {
             <span>/</span>
             <a onClick={() => onNav('catalog')} style={{ cursor: 'pointer', color: '#807662', textDecoration: 'none' }}>CATALOG</a>
             <span>/</span>
-            <span style={{ color: '#A93800' }}>{p.catLabel.toUpperCase()}</span>
+            <span style={{ color: '#D9530F' }}>{p.catLabel.toUpperCase()}</span>
             <span>/</span>
             <span style={{ color: '#1A1A1A' }}>{p.sku}</span>
           </div>
@@ -136,8 +136,8 @@ export default function ProductScreen({ onNav, productId }) {
             {detailData.includes.length > 0 && (
               <div style={{ marginTop: 32, border: '2px solid #1A1A1A', padding: 24, background: '#FFFFFF' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #DDDDDD', paddingBottom: 10, marginBottom: 14 }}>
-                  <DataLabel color="#A93800">WHAT'S IN THE BOX</DataLabel>
-                  <Icon name="inventory_2" size={20} style={{ color: '#A93800' }} />
+                  <DataLabel color="#D9530F">WHAT'S IN THE BOX</DataLabel>
+                  <Icon name="inventory_2" size={20} style={{ color: '#D9530F' }} />
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {detailData.includes.map((item, i) => (
@@ -153,11 +153,11 @@ export default function ProductScreen({ onNav, productId }) {
 
           {/* RIGHT — Details + quote builder */}
           <div>
-            <DataLabel color="#A93800" style={{ display: 'block', marginBottom: 12 }}>{p.catLabel.toUpperCase()}{p.mfg ? ` · MFG ${p.mfg.toUpperCase()}` : ' · SAFETY PICK'}</DataLabel>
+            <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 12 }}>{p.catLabel.toUpperCase()}{p.mfg ? ` · MFG ${p.mfg.toUpperCase()}` : ' · SAFETY PICK'}</DataLabel>
             <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(48px, 6vw, 80px)', lineHeight: 0.88, textTransform: 'uppercase', margin: '0 0 16px', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>
               {p.name}
             </h1>
-            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.55, color: '#1A1A1A', margin: '0 0 24px', borderLeft: '3px solid #A93800', paddingLeft: 14, maxWidth: 540 }}>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.55, color: '#1A1A1A', margin: '0 0 24px', borderLeft: '3px solid #D9530F', paddingLeft: 14, maxWidth: 540 }}>
               {detailData.hero}
             </p>
 
@@ -231,8 +231,8 @@ export default function ProductScreen({ onNav, productId }) {
             {detailData.docs && detailData.docs.length > 0 && (
               <div style={{ marginTop: 32, border: '2px solid #1A1A1A', padding: 24, background: '#FFFFFF' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #DDDDDD', paddingBottom: 10, marginBottom: 14 }}>
-                  <DataLabel color="#A93800">DOCUMENTS</DataLabel>
-                  <Icon name="description" size={20} style={{ color: '#A93800' }} />
+                  <DataLabel color="#D9530F">DOCUMENTS</DataLabel>
+                  <Icon name="description" size={20} style={{ color: '#D9530F' }} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {detailData.docs.map((doc) => (
@@ -279,7 +279,7 @@ export default function ProductScreen({ onNav, productId }) {
                   display: 'flex', flexDirection: 'column', gap: 12,
                   minHeight: 220,
                 }}>
-                  <DataLabel color="#A93800" size={11}>{String(i + 1).padStart(2, '0')}</DataLabel>
+                  <DataLabel color="#D9530F" size={11}>{String(i + 1).padStart(2, '0')}</DataLabel>
                   <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 26, lineHeight: 0.95, textTransform: 'uppercase', margin: 0 }}>{b.title}</h3>
                   <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.6, color: '#4E4635', margin: 0 }}>{b.desc}</p>
                 </div>
@@ -318,7 +318,7 @@ export default function ProductScreen({ onNav, productId }) {
                 <thead>
                   <tr>
                     {['Criterion', p.name, 'Competition'].map((h, i) => (
-                      <th key={i} style={{ background: i === 1 ? '#1A1A1A' : '#A93800', color: i === 1 ? '#F5C344' : '#FFFFFF', textAlign: 'left', padding: '14px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 15, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{h}</th>
+                      <th key={i} style={{ background: i === 1 ? '#1A1A1A' : '#BD480C', color: i === 1 ? '#F5C344' : '#FFFFFF', textAlign: 'left', padding: '14px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 15, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -326,7 +326,7 @@ export default function ProductScreen({ onNav, productId }) {
                   {detailData.comparison.map((row, i) => (
                     <tr key={i} style={{ background: i % 2 ? '#F3F3F3' : '#FFFFFF', borderTop: '1px solid #DDDDDD' }}>
                       <td style={{ padding: '14px 16px', fontFamily: "'Inter',sans-serif", fontWeight: 700, fontSize: 15 }}>{row[0]}</td>
-                      <td style={{ padding: '14px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 600, color: '#A93800' }}>{row[1]}</td>
+                      <td style={{ padding: '14px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 600, color: '#D9530F' }}>{row[1]}</td>
                       <td style={{ padding: '14px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 600, color: '#807662' }}>{row[2]}</td>
                     </tr>
                   ))}
@@ -349,7 +349,7 @@ export default function ProductScreen({ onNav, productId }) {
                   <img src={r.img} alt={r.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 24 }} />
                 </div>
                 <div style={{ padding: 18 }}>
-                  <DataLabel color="#A93800" size={10}>{r.catLabel.toUpperCase()}</DataLabel>
+                  <DataLabel color="#D9530F" size={10}>{r.catLabel.toUpperCase()}</DataLabel>
                   <h4 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 24, lineHeight: 1, textTransform: 'uppercase', margin: '6px 0 4px' }}>{r.name}</h4>
                   <DataLabel color="#807662" size={10}>{r.sku}</DataLabel>
                 </div>
@@ -364,7 +364,7 @@ export default function ProductScreen({ onNav, productId }) {
         <div style={{ maxWidth: 1080, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
             <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 16 }}>NOT SURE WHAT FITS?</DataLabel>
-            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#FFFFFF', shadow: '#A93800' }) }}>
+            <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>
               Let our engineers spec it.
             </h2>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#C8C6C5', margin: 0, maxWidth: 540 }}>
