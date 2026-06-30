@@ -990,7 +990,7 @@ export const SITE = {
   address: ['27141 Aliso Creek Road, Suite #200', 'Aliso Viejo, CA 92656'],
   phone: '(951) 395-0280',
   email: 'info@racksafetyproducts.com',
-  hours: 'Mon–Fri 7am–7pm PT · Sat 8am–noon', // TODO-VERIFY: confirm business hours
+  hours: 'Mon–Fri 7am–7pm PT', // TODO-VERIFY: confirm business hours
   timezone: 'PT',
   // Hero stat tiles. 'TODO' renders as a visible placeholder until verified.
   stats: [

@@ -10,7 +10,7 @@ const CAUTION = { opacity: 0.10, period: 60 };
 function requestLabelFor(requestType) {
   if (!requestType) return null;
   if (requestType.startsWith('spec-')) {
-    return `Request: Spec sheet for ${requestType.replace('spec-', '')}`;
+    return `Request: Quote for ${requestType.replace('spec-', '')}`;
   }
   // Flue calculator result — payload is 'flue-calc:' + encoded JSON summary.
   if (requestType.startsWith('flue-calc:')) {
@@ -47,7 +47,7 @@ export default function ContactScreen({ onNav, requestType }) {
   const prefillLabel = requestLabelFor(requestType);
   const [form, setForm] = useState({
     name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack',
-    footage: 5000, notes: prefillLabel ? `${prefillLabel}\n\n` : '',
+    notes: prefillLabel ? `${prefillLabel}\n\n` : '',
   });
   const [touched, setTouched] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -151,9 +151,6 @@ export default function ContactScreen({ onNav, requestType }) {
                 Start Wholesale Inquiry →
               </Btn>
             </div>
-            <div style={{ aspectRatio: '4/3', border: '2px solid #1A1A1A', overflow: 'hidden', background: '#2A2A2A' }}>
-              <img src="/assets/imagery/warehouse-hero.svg" alt="Warehouse interior with installed safety racking" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
           </aside>
 
           <div>
@@ -171,13 +168,13 @@ export default function ContactScreen({ onNav, requestType }) {
               <div style={{ background: '#2ECC71', color: '#FFFFFF', width: 80, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
                 <Icon name="check" size={48} weight={700} />
               </div>
-              <DataLabel color="#2ECC71" style={{ marginBottom: 12, display: 'block' }}>SPEC SHEET LOGGED · #RSP-{Math.floor(Math.random() * 90000 + 10000)}</DataLabel>
-              <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 48, textTransform: 'uppercase', margin: '0 0 12px', ...hwStyle({ fill: '#1A1A1A', shadow: '#2ECC71' }) }}>Spec sheet received</h2>
+              <DataLabel color="#2ECC71" style={{ marginBottom: 12, display: 'block' }}>QUOTE REQUEST LOGGED · #RSP-{Math.floor(Math.random() * 90000 + 10000)}</DataLabel>
+              <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 48, textTransform: 'uppercase', margin: '0 0 12px', ...hwStyle({ fill: '#1A1A1A', shadow: '#2ECC71' }) }}>Quote request received</h2>
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, color: '#4E4635', maxWidth: 480, lineHeight: 1.6 }}>
                 Our engineering team will review your request and respond within <strong>24 hours</strong>. A confirmation has been sent to <strong style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14 }}>{form.email}</strong>.
               </p>
               <div style={{ marginTop: 32, display: 'flex', gap: 12 }}>
-                <Btn variant="primary" onClick={() => { setSubmitted(false); setForm({ name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack', footage: 5000, notes: '' }); setTouched({}); }}>Submit another</Btn>
+                <Btn variant="primary" onClick={() => { setSubmitted(false); setForm({ name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack', notes: '' }); setTouched({}); }}>Submit another</Btn>
                 <Btn variant="outline" onClick={() => onNav('home')}>← Back to home</Btn>
               </div>
             </div>
@@ -209,19 +206,6 @@ export default function ContactScreen({ onNav, requestType }) {
                 </select>
               </label>
 
-              <label style={{ gridColumn: '1/-1', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <DataLabel color="#1A1A1A">Estimated Linear Footage</DataLabel>
-                  <DataLabel color="#D9530F" size={13} style={{ fontWeight: 700 }}>{form.footage >= 10000 ? '10,000+' : form.footage.toLocaleString()} FT</DataLabel>
-                </div>
-                <input type="range" min="100" max="10000" step="100" value={form.footage} onChange={(e) => set('footage', parseInt(e.target.value))} style={{ width: '100%' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <DataLabel color="#807662" size={11}>100 FT</DataLabel>
-                  <DataLabel color="#807662" size={11}>5,000 FT</DataLabel>
-                  <DataLabel color="#807662" size={11}>10,000+ FT</DataLabel>
-                </div>
-              </label>
-
               <label style={{ gridColumn: '1/-1', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <DataLabel color="#1A1A1A">Project Specifications &amp; Notes</DataLabel>
                 <textarea rows="5" value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="Describe your warehouse layout, flue space requirements, and any existing safety violations that need correction..." style={{ padding: 14, border: '2px solid #1A1A1A', borderRadius: 0, fontFamily: "'Inter',sans-serif", fontSize: 15, outline: 'none', resize: 'vertical', minHeight: 120 }}></textarea>
@@ -243,12 +227,12 @@ export default function ContactScreen({ onNav, requestType }) {
                   onMouseEnter={(e) => { if (!submitting) { e.currentTarget.style.background = '#FF5E13'; e.currentTarget.style.color = '#FFFFFF'; } }}
                   onMouseLeave={(e) => { if (!submitting) { e.currentTarget.style.background = '#F5C344'; e.currentTarget.style.color = '#1A1A1A'; } }}
                 >
-                  {submitting ? <>Submitting… <Icon name="progress_activity" size={22} /></> : <>Submit Spec Sheet <Icon name="arrow_forward" size={22} /></>}
+                  {submitting ? <>Submitting… <Icon name="progress_activity" size={22} /></> : <>Request Quote <Icon name="arrow_forward" size={22} /></>}
                 </button>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 220 }}>
                   <Icon name="shield" size={20} fill={1} style={{ color: '#2ECC71' }} />
                   <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: '#4E4635', lineHeight: 1.4 }}>
-                    Data encrypted for industrial security standards. We never share specifications with third parties.
+                    We'll only use your details to prepare your quote — never shared with third parties.
                   </span>
                 </div>
               </div>

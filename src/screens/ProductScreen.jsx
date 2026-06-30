@@ -372,7 +372,7 @@ export default function ProductScreen({ onNav, productId }) {
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Mega variant="orange" onClick={() => onNav('contact')}>Submit Spec Sheet →</Mega>
+            <Mega variant="orange" onClick={() => onNav('contact')}>Request a Quote →</Mega>
             <Mega variant="outline-dark" onClick={() => onNav('resources')} style={{ borderColor: '#F5C344', color: '#F5C344' }}>Read NFPA 13 Guide</Mega>
           </div>
         </div>

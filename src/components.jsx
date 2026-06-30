@@ -180,7 +180,7 @@ export const TopNav = ({ active, onNav }) => {
     ['catalog', 'Protection', 'protection'],
     ['services', 'Services'],
     ['resources', 'Resources'],
-    ['contact', 'Contact'],
+    ['about', 'About'],
   ];
   // Caution stripe under the nav only appears once scrolled — at the top it would
   // collide with the hero's own hazard band.
@@ -252,7 +252,7 @@ export const TopNav = ({ active, onNav }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 export const Footer = ({ onNav }) => {
   const cols = [
-    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'dividers'], ['Services', 'services'], ['Resources', 'resources']] },
+    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'dividers'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (

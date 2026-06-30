@@ -136,8 +136,8 @@ export default function HomeScreen({ onNav, initialAnchor }) {
               theme="yellow" separator="heavy" initialOpen={true}
             />
             <FAQItem
-              q="When can I request a spec sheet?"
-              a="Spec sheets are returned within 24 hours of submission, Monday through Friday. Rush requests for active safety violations are turned around in 4 hours."
+              q="When will I get my quote?"
+              a="Quotes are returned within 24 hours of submission, Monday through Friday. Rush requests for active safety violations are turned around in 4 hours."
               theme="yellow" separator="heavy"
             />
             <FAQItem
@@ -251,7 +251,7 @@ const BigBentoCard = ({ onNav }) => {
             <div><DataLabel color="rgba(245,195,68,0.6)" size={9}>OFFSETS</DataLabel><div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, fontWeight: 700, color: '#F5C344', marginTop: 4 }}>3″ – 12″</div></div>
           </div>
         </div>
-        <Btn variant="orange" style={{ alignSelf: 'flex-start', marginTop: 24 }}>Request Spec Sheet →</Btn>
+        <Btn variant="orange" style={{ alignSelf: 'flex-start', marginTop: 24 }}>Request a Quote →</Btn>
       </div>
       <div style={{ width: '48%', overflow: 'hidden', background: '#2A2A2A', position: 'relative' }}>
         <img src="/assets/products/flue-guard.svg" alt="Flue guard component" style={{

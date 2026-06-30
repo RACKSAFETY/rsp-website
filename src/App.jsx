@@ -6,6 +6,7 @@ import ProductScreen from './screens/ProductScreen.jsx';
 import ServicesScreen from './screens/ServicesScreen.jsx';
 import ResourcesScreen from './screens/ResourcesScreen.jsx';
 import ContactScreen from './screens/ContactScreen.jsx';
+import AboutScreen from './screens/AboutScreen.jsx';
 
 const labels = {
   home: '01 Home',
@@ -14,6 +15,7 @@ const labels = {
   resources: '04 Resources',
   contact: '05 Contact',
   services: '06 Services',
+  about: '07 About',
 };
 
 export default function App() {
@@ -36,6 +38,7 @@ export default function App() {
         {screen === 'services'  && <ServicesScreen  onNav={onNav} />}
         {screen === 'resources' && <ResourcesScreen onNav={onNav} />}
         {screen === 'contact'   && <ContactScreen   onNav={onNav} requestType={payload} />}
+        {screen === 'about'     && <AboutScreen     onNav={onNav} />}
       </main>
       <Footer onNav={onNav} />
     </div>
