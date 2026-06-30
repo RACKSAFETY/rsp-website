@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { listQuotes } from '@/src/lib/quotes';
+import RowActions from './RowActions';
 
 // Always render fresh (live lead data); never cache or prerender.
 export const dynamic = 'force-dynamic';
@@ -87,6 +88,7 @@ export default async function AdminPage() {
                   <th style={TH}>Rack Config</th>
                   <th style={TH}>Type</th>
                   <th style={TH}>Notes</th>
+                  <th style={TH}>Manage</th>
                 </tr>
               </thead>
               <tbody>
@@ -105,6 +107,9 @@ export default async function AdminPage() {
                     <td style={TD}>{q.rackConfig || '—'}</td>
                     <td style={{ ...TD, whiteSpace: 'nowrap' }}>{q.requestType || '—'}</td>
                     <td style={{ ...TD, minWidth: 240, whiteSpace: 'pre-wrap' }}>{q.notes || '—'}</td>
+                    <td style={{ ...TD, whiteSpace: 'nowrap' }}>
+                      <RowActions id={q.id} status={q.status ?? 'new'} />
+                    </td>
                   </tr>
                 ))}
               </tbody>

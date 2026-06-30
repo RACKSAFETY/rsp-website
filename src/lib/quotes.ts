@@ -1,5 +1,6 @@
 import type { QuoteRecord } from '@/src/types';
 import { neon } from '@neondatabase/serverless';
+import { QUOTE_STATUSES, type QuoteStatus } from '@/src/lib/quoteStatus';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Quote persistence + notification.
@@ -39,9 +40,12 @@ async function ensureSchema(): Promise<void> {
       rack_config   text,
       notes         text,
       request_type  text,
-      source        text
+      source        text,
+      status        text NOT NULL DEFAULT 'new'
     )
   `;
+  // Backfill the status column on tables created before it was added.
+  await sql`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'new'`;
   schemaReady = true;
 }
 
@@ -121,7 +125,7 @@ export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
   if (!sql) return [];
   await ensureSchema();
   const rows = (await sql`
-    SELECT id, received_at, name, company, email, rack_config, notes, request_type, source
+    SELECT id, received_at, name, company, email, rack_config, notes, request_type, source, status
     FROM quotes
     ORDER BY received_at DESC
     LIMIT ${limit}
@@ -135,6 +139,7 @@ export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
     notes: string | null;
     request_type: string | null;
     source: string | null;
+    status: string | null;
   }>;
   return rows.map((r) => ({
     id: r.id,
@@ -146,5 +151,21 @@ export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
     notes: r.notes ?? '',
     requestType: r.request_type,
     source: r.source ?? 'web',
+    status: r.status ?? 'new',
   }));
+}
+
+// Update a quote's pipeline status (validated against QUOTE_STATUSES).
+export async function updateQuoteStatus(id: string, status: string): Promise<void> {
+  if (!sql) return;
+  if (!QUOTE_STATUSES.includes(status as QuoteStatus)) return;
+  await ensureSchema();
+  await sql`UPDATE quotes SET status = ${status} WHERE id = ${id}`;
+}
+
+// Permanently delete a quote.
+export async function deleteQuote(id: string): Promise<void> {
+  if (!sql) return;
+  await ensureSchema();
+  await sql`DELETE FROM quotes WHERE id = ${id}`;
 }

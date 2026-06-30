@@ -73,4 +73,5 @@ export interface QuoteRequest {
 export interface QuoteRecord extends QuoteRequest {
   id: string;
   receivedAt: string;
+  status?: string; // lead pipeline status; see lib/quoteStatus.ts
 }
