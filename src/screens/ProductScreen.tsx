@@ -82,11 +82,32 @@ export default function ProductScreen({ productId }: { productId: string }) {
   const p = PRODUCT_CATALOG.find((x) => x.id === productId) || PRODUCT_CATALOG[0];
   const [qty, setQty] = useState(50);
   const [variant, setVariant] = useState(0);
+  const [filters, setFilters] = useState<{ depth: number | null; width: number | null; capacity: number | null }>({
+    depth: null,
+    width: null,
+    capacity: null,
+  });
 
   const detailData = DETAIL_DATA[p.id] || {
     // Fallback for scaffolded products — no invented certs (TODO until authored).
     hero: p.desc, variants: ['Standard'], specs: p.specs, certs: [], includes: [],
   };
+
+  // Size/part variants (e.g. wire-deck sizes) with click-to-filter on depth/width/capacity.
+  const parts = p.parts ?? [];
+  const hasParts = parts.length > 0;
+  const uniq = (key: 'depth' | 'width' | 'capacity') =>
+    [...new Set(parts.map((x) => x[key]).filter((v): v is number => typeof v === 'number'))].sort((a, b) => a - b);
+  const depths = uniq('depth');
+  const widths = uniq('width');
+  const capacities = uniq('capacity');
+  const filteredParts = parts.filter(
+    (x) =>
+      (filters.depth == null || x.depth === filters.depth) &&
+      (filters.width == null || x.width === filters.width) &&
+      (filters.capacity == null || x.capacity === filters.capacity),
+  );
+  const hasActiveFilter = filters.depth != null || filters.width != null || filters.capacity != null;
 
   const totalEstimate = qty * PLACEHOLDER_UNIT_PRICE;
   const related = PRODUCT_CATALOG.filter((x) => x.id !== p.id).slice(0, 3);
@@ -173,28 +194,64 @@ export default function ProductScreen({ productId }: { productId: string }) {
               ))}
             </div>
 
-            <div style={{ marginBottom: 24 }}>
-              <DataLabel style={{ display: 'block', marginBottom: 8 }}>SELECT VARIANT</DataLabel>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {detailData.variants.map((v, i) => (
-                  <button
-                    key={v}
-                    onClick={() => setVariant(i)}
-                    style={{
-                      padding: '10px 16px',
-                      background: variant === i ? '#1A1A1A' : '#FFFFFF',
-                      color: variant === i ? '#F5C344' : '#1A1A1A',
-                      border: '2px solid #1A1A1A', borderRadius: 0, cursor: 'pointer',
-                      fontFamily: "'JetBrains Mono',monospace", fontSize: 12, fontWeight: 700,
-                      letterSpacing: '0.14em', textTransform: 'uppercase',
-                      transition: 'background 200ms, color 200ms',
-                    }}
-                  >
-                    {v}
-                  </button>
+            {hasParts ? (
+              <div style={{ marginBottom: 24 }}>
+                <DataLabel style={{ display: 'block', marginBottom: 10 }}>Filter Sizes</DataLabel>
+                {[
+                  { label: 'Depth', key: 'depth' as const, vals: depths, fmt: (v: number) => `${v}″ D` },
+                  { label: 'Width', key: 'width' as const, vals: widths, fmt: (v: number) => `${v}″ W` },
+                  { label: 'Capacity', key: 'capacity' as const, vals: capacities, fmt: (v: number) => `${v.toLocaleString()} lb` },
+                ].map((g) => (
+                  <div key={g.key} style={{ marginBottom: 10 }}>
+                    <DataLabel color="#807662" size={10} style={{ display: 'block', marginBottom: 6 }}>{g.label}</DataLabel>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {g.vals.map((v) => {
+                        const isOn = filters[g.key] === v;
+                        return (
+                          <button
+                            key={v}
+                            onClick={() => setFilters((f) => ({ ...f, [g.key]: isOn ? null : v }))}
+                            style={{
+                              padding: '8px 14px',
+                              background: isOn ? '#1A1A1A' : '#FFFFFF',
+                              color: isOn ? '#F5C344' : '#1A1A1A',
+                              border: '2px solid #1A1A1A', borderRadius: 0, cursor: 'pointer',
+                              fontFamily: "'JetBrains Mono',monospace", fontSize: 12, fontWeight: 700,
+                              letterSpacing: '0.08em',
+                            }}
+                          >
+                            {g.fmt(v)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
+            ) : (
+              <div style={{ marginBottom: 24 }}>
+                <DataLabel style={{ display: 'block', marginBottom: 8 }}>SELECT VARIANT</DataLabel>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {detailData.variants.map((v, i) => (
+                    <button
+                      key={v}
+                      onClick={() => setVariant(i)}
+                      style={{
+                        padding: '10px 16px',
+                        background: variant === i ? '#1A1A1A' : '#FFFFFF',
+                        color: variant === i ? '#F5C344' : '#1A1A1A',
+                        border: '2px solid #1A1A1A', borderRadius: 0, cursor: 'pointer',
+                        fontFamily: "'JetBrains Mono',monospace", fontSize: 12, fontWeight: 700,
+                        letterSpacing: '0.14em', textTransform: 'uppercase',
+                        transition: 'background 200ms, color 200ms',
+                      }}
+                    >
+                      {v}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div style={{ border: '2px solid #1A1A1A', background: '#FFFFFF', padding: 0 }}>
               <div style={{ background: '#1A1A1A', color: '#F5C344', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -311,6 +368,55 @@ export default function ProductScreen({ productId }: { productId: string }) {
             ))}
           </div>
         </div>
+
+        {/* Available sizes / parts — only for products that carry a parts list */}
+        {hasParts && (
+          <div style={{ maxWidth: 1280, margin: '48px auto 0' }}>
+            <SectionHeader
+              title="Available Sizes & Parts"
+              eyebrow={`SHOWING ${filteredParts.length} OF ${parts.length}`}
+              right={
+                hasActiveFilter ? (
+                  <button
+                    onClick={() => setFilters({ depth: null, width: null, capacity: null })}
+                    style={{
+                      background: 'transparent', border: 0, cursor: 'pointer',
+                      fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700,
+                      letterSpacing: '0.16em', textTransform: 'uppercase', color: '#BD480C',
+                    }}
+                  >
+                    × Clear filters
+                  </button>
+                ) : undefined
+              }
+            />
+            <div style={{ overflow: 'auto', border: '2px solid #1A1A1A' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', background: '#FFFFFF', minWidth: 560 }}>
+                <thead>
+                  <tr>
+                    {['Part #', 'Depth', 'Width', 'Capacity (UDL)', 'Price'].map((h) => (
+                      <th key={h} style={{ background: '#1A1A1A', color: '#F5C344', textAlign: 'left', padding: '12px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 14, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredParts.map((part, i) => (
+                    <tr key={`${part.depth}x${part.width}`} style={{ background: i % 2 ? '#F3F3F3' : '#FFFFFF', borderTop: '1px solid #DDDDDD' }}>
+                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 700, color: part.sku ? '#1A1A1A' : '#807662' }}>{part.sku ?? 'TODO'}</td>
+                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.depth}″</td>
+                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.width}″</td>
+                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.capacity ? `${part.capacity.toLocaleString()} lb` : '—'}</td>
+                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: '#807662' }}>{part.price ? `$${part.price.toLocaleString()}` : 'Quote'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: '#807662', marginTop: 10 }}>
+              Sizes shown are industry-standard; capacities are typical UDL figures. Exact ratings, part numbers, and pricing are confirmed with your engineered quote.
+            </p>
+          </div>
+        )}
 
         {/* Flue Guard vs Competition — only rendered for products with a comparison table */}
         {detailData.comparison && (

@@ -22,6 +22,16 @@ export type NavTarget =
   | 'contact'
   | 'about';
 
+// A specific orderable size/SKU of a product (e.g. a wire-deck size). This is
+// where per-size part numbers and pricing live — the foundation for quoting.
+export interface ProductPart {
+  sku?: string; // part number (TODO until provided by the business)
+  depth?: number; // inches
+  width?: number; // inches
+  capacity?: number; // lbs, UDL (industry-typical — TODO-VERIFY exact ratings)
+  price?: number; // $/unit (TODO)
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -38,6 +48,7 @@ export interface Product {
   pricePer: string;
   leadTime: string;
   cta: string;
+  parts?: ProductPart[]; // size/part variants (e.g. wire-deck sizes)
 }
 
 export interface Service {

@@ -31,7 +31,18 @@
 // OPEN QUESTION: the live site links product detail out to theonlinecatalog.com.
 //   This rebuild keeps the site self-contained (own Catalog + Product screens).
 // ─────────────────────────────────────────────────────────────────────────────
-import type { Product, CategoryId, Service, SiteConfig } from '@/src/types';
+import type { Product, ProductPart, CategoryId, Service, SiteConfig } from '@/src/types';
+
+// Industry-standard pallet-rack wire-deck sizes (Depth × Width, inches), shared
+// by all wire-deck styles. Capacities are typical UDL figures — TODO-VERIFY exact
+// ratings; per-size part numbers and prices are TODO (they vary by channel style).
+const WIRE_DECK_PARTS: ProductPart[] = [36, 42, 48].flatMap((depth) =>
+  [46, 52, 58].map((width) => ({
+    depth,
+    width,
+    capacity: width === 46 ? 2500 : width === 52 ? 2750 : 3000,
+  })),
+);
 
 export const PRODUCT_CATALOG: Product[] = [
   // ═══ PALLET RACK DECKING ═══════════════════════════════════════════════════
@@ -42,6 +53,7 @@ export const PRODUCT_CATALOG: Product[] = [
     cat: 'decking',
     catLabel: 'Pallet Rack Decking',
     subGroup: 'Wire Decking',
+    parts: WIRE_DECK_PARTS,
     mfg: 'WWMH',
     tag: null,
     img: '/assets/products/photos/flared-channel-wire-decking.webp',
@@ -59,6 +71,7 @@ export const PRODUCT_CATALOG: Product[] = [
     cat: 'decking',
     catLabel: 'Pallet Rack Decking',
     subGroup: 'Wire Decking',
+    parts: WIRE_DECK_PARTS,
     mfg: 'WWMH',
     tag: null,
     img: '/assets/products/photos/step-channel-wire-mesh-decking.webp',
@@ -76,6 +89,7 @@ export const PRODUCT_CATALOG: Product[] = [
     cat: 'decking',
     catLabel: 'Pallet Rack Decking',
     subGroup: 'Wire Decking',
+    parts: WIRE_DECK_PARTS,
     mfg: 'WWMH',
     tag: null,
     img: '/assets/products/photos/inverted-flared-channel-wire-decking.webp',
@@ -93,6 +107,7 @@ export const PRODUCT_CATALOG: Product[] = [
     cat: 'decking',
     catLabel: 'Pallet Rack Decking',
     subGroup: 'Wire Decking',
+    parts: WIRE_DECK_PARTS,
     mfg: 'WWMH',
     tag: null,
     img: '/assets/products/photos/inverted-step-channel-wire-decking.webp',
@@ -110,6 +125,7 @@ export const PRODUCT_CATALOG: Product[] = [
     cat: 'decking',
     catLabel: 'Pallet Rack Decking',
     subGroup: 'Wire Decking',
+    parts: WIRE_DECK_PARTS,
     mfg: 'WWMH',
     tag: null,
     img: '/assets/products/photos/bulk-rack-wire-decking.webp',
