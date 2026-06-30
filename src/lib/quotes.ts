@@ -114,3 +114,37 @@ export async function saveQuote(record: QuoteRecord): Promise<QuoteRecord> {
 
   return record;
 }
+
+// List recent quotes, newest first, for the admin view. Empty array if no DB
+// is configured.
+export async function listQuotes(limit = 200): Promise<QuoteRecord[]> {
+  if (!sql) return [];
+  await ensureSchema();
+  const rows = (await sql`
+    SELECT id, received_at, name, company, email, rack_config, notes, request_type, source
+    FROM quotes
+    ORDER BY received_at DESC
+    LIMIT ${limit}
+  `) as Array<{
+    id: string;
+    received_at: string;
+    name: string;
+    company: string;
+    email: string;
+    rack_config: string | null;
+    notes: string | null;
+    request_type: string | null;
+    source: string | null;
+  }>;
+  return rows.map((r) => ({
+    id: r.id,
+    receivedAt: r.received_at,
+    name: r.name,
+    company: r.company,
+    email: r.email,
+    rackConfig: r.rack_config ?? '',
+    notes: r.notes ?? '',
+    requestType: r.request_type,
+    source: r.source ?? 'web',
+  }));
+}
