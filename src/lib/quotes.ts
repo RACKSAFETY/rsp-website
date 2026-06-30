@@ -1,13 +1,116 @@
 import type { QuoteRecord } from '@/src/types';
+import { neon } from '@neondatabase/serverless';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Quote persistence stub. Today it just logs the inquiry on the server. This is
-// the single place to wire real persistence later — a database (Vercel Postgres /
-// Neon), an email notification, and/or a CRM forward — without touching the API
-// route or the contact form.
+// Quote persistence + notification.
+//
+// Everything here is GATED on environment variables, so this file is safe to
+// deploy as-is: with nothing configured it just logs the inquiry on the server
+// (the old stub behavior). The moment you add the env vars below, it activates —
+// no code change needed beyond setting the vars (and a redeploy).
+//
+//   Postgres (Vercel Marketplace → Neon):
+//     DATABASE_URL   (or POSTGRES_URL) — injected automatically when you create
+//                    the database in the Vercel dashboard and link it to the project.
+//
+//   Email notification (optional, via Resend — https://resend.com):
+//     RESEND_API_KEY     — your Resend API key
+//     QUOTE_NOTIFY_EMAIL — inbox that should receive new-lead emails
+//     QUOTE_FROM_EMAIL   — a Resend-verified sender address (e.g. quotes@yourdomain.com)
+//
+// saveQuote never throws: a DB or email hiccup must not fail the visitor's
+// submission. Failures are logged; the record is always returned.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const DB_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
+const sql = DB_URL ? neon(DB_URL) : null;
+
+let schemaReady = false;
+
+async function ensureSchema(): Promise<void> {
+  if (!sql || schemaReady) return;
+  await sql`
+    CREATE TABLE IF NOT EXISTS quotes (
+      id            text PRIMARY KEY,
+      received_at   timestamptz NOT NULL,
+      name          text NOT NULL,
+      company       text NOT NULL,
+      email         text NOT NULL,
+      rack_config   text,
+      notes         text,
+      request_type  text,
+      source        text
+    )
+  `;
+  schemaReady = true;
+}
+
+// Insert the record. Returns true if stored, false if no DB is configured.
+async function persist(record: QuoteRecord): Promise<boolean> {
+  if (!sql) return false;
+  await ensureSchema();
+  await sql`
+    INSERT INTO quotes
+      (id, received_at, name, company, email, rack_config, notes, request_type, source)
+    VALUES
+      (${record.id}, ${record.receivedAt}, ${record.name}, ${record.company},
+       ${record.email}, ${record.rackConfig}, ${record.notes},
+       ${record.requestType ?? null}, ${record.source ?? 'web'})
+    ON CONFLICT (id) DO NOTHING
+  `;
+  return true;
+}
+
+// Email a notification via Resend's REST API (no SDK dependency). Returns true
+// if sent, false if email isn't configured.
+async function notify(record: QuoteRecord): Promise<boolean> {
+  const key = process.env.RESEND_API_KEY;
+  const to = process.env.QUOTE_NOTIFY_EMAIL;
+  const from = process.env.QUOTE_FROM_EMAIL;
+  if (!key || !to || !from) return false;
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to,
+      reply_to: record.email,
+      subject: `New quote request — ${record.company} (${record.id})`,
+      text: [
+        `Quote request ${record.id}`,
+        `Received: ${record.receivedAt}`,
+        '',
+        `Name:    ${record.name}`,
+        `Company: ${record.company}`,
+        `Email:   ${record.email}`,
+        `Rack:    ${record.rackConfig || '—'}`,
+        `Type:    ${record.requestType || '—'}`,
+        `Source:  ${record.source || 'web'}`,
+        '',
+        'Notes:',
+        record.notes || '(none)',
+      ].join('\n'),
+    }),
+  });
+  if (!res.ok) throw new Error(`Resend responded ${res.status}`);
+  return true;
+}
+
 export async function saveQuote(record: QuoteRecord): Promise<QuoteRecord> {
-  // TODO: persist `record` (DB insert), then notify/forward (email, CRM).
-  console.log('[quote] received', record);
+  const [dbResult, mailResult] = await Promise.allSettled([persist(record), notify(record)]);
+
+  const stored = dbResult.status === 'fulfilled' && dbResult.value === true;
+  const mailed = mailResult.status === 'fulfilled' && mailResult.value === true;
+
+  if (dbResult.status === 'rejected') console.error('[quote] DB insert failed', dbResult.reason);
+  if (mailResult.status === 'rejected') console.error('[quote] email failed', mailResult.reason);
+
+  // If neither destination is configured (or both failed), at least keep a
+  // server log so the lead is recoverable from function logs.
+  if (!stored && !mailed) {
+    console.log('[quote] received (not persisted — DB/email not configured)', record);
+  }
+
   return record;
 }
