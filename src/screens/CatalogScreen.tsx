@@ -1,10 +1,15 @@
+'use client';
 import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader,
-} from '../components.jsx';
-import { PRODUCT_CATALOG, CATEGORIES, COMPLIANCE_FILTERS, SUBGROUPS } from '../data/productCatalog.js';
+} from '../components';
+import { PRODUCT_CATALOG, CATEGORIES, COMPLIANCE_FILTERS, SUBGROUPS } from '../data/productCatalog';
+import { useNav } from '../hooks/useNav';
 
-export default function CatalogScreen({ onNav, initialFilter }) {
+export default function CatalogScreen() {
+  const onNav = useNav();
+  const initialFilter = useSearchParams().get('category');
   // Empty `cats` = show all. Clicking a category turns that filter on;
   // unchecking everything returns to "all". Standard e-commerce filter behavior.
   const [cats, setCats] = useState(new Set(initialFilter ? [initialFilter] : []));

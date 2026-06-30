@@ -1,12 +1,15 @@
+'use client';
 import React, { useState } from 'react';
 import {
   Btn, DataLabel, Pill, CautionStripe, Icon, hwStyle, FAQItem, SectionHeader,
-} from '../components.jsx';
+} from '../components';
+import { useNav } from '../hooks/useNav';
 
 // Caution intensity locked to "low" — bg opacity 0.08 / 0.18 ≈ 0.44.
 const CAUTION_BG_OPACITY = 0.08 / 0.18;
 
-export default function ResourcesScreen({ onNav }) {
+export default function ResourcesScreen() {
+  const onNav = useNav();
   return (
     <div className="rsp-fade-up">
       <section style={{ background: '#F9F9F9', padding: '72px 32px 0', position: 'relative', overflow: 'hidden' }}>

@@ -1,6 +1,9 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { Btn, DataLabel, Pill, Icon, hwStyle, CautionStripe } from '../components.jsx';
-import { SITE } from '../data/productCatalog.js';
+import { useSearchParams } from 'next/navigation';
+import { Btn, DataLabel, Pill, Icon, hwStyle, CautionStripe } from '../components';
+import { SITE } from '../data/productCatalog';
+import { useNav, FLUE_CALC_KEY } from '../hooks/useNav';
 
 // Caution intensity locked to "low": opacity 0.10, period 60.
 const CAUTION = { opacity: 0.10, period: 60 };
@@ -43,15 +46,34 @@ function requestLabelFor(requestType) {
   }[requestType] || null;
 }
 
-export default function ContactScreen({ onNav, requestType }) {
+export default function ContactScreen() {
+  const onNav = useNav();
+  const searchParams = useSearchParams();
+  // requestType comes from ?request=… ; the larger flue-calc summary is handed off
+  // via sessionStorage (set by useNav) and consumed once here. Read in a useState
+  // initializer so it's client-only and never causes a hydration mismatch.
+  const [requestType] = useState<string | null>(() => {
+    const fromQuery = searchParams.get('request');
+    if (fromQuery) return fromQuery;
+    if (typeof window !== 'undefined') {
+      const stashed = sessionStorage.getItem(FLUE_CALC_KEY);
+      if (stashed) {
+        sessionStorage.removeItem(FLUE_CALC_KEY);
+        return stashed;
+      }
+    }
+    return null;
+  });
   const prefillLabel = requestLabelFor(requestType);
   const [form, setForm] = useState({
     name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack',
     notes: prefillLabel ? `${prefillLabel}\n\n` : '',
   });
-  const [touched, setTouched] = useState({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [quoteId, setQuoteId] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
   // Wholesale link scrolls to the distributor aside; everything else scrolls to the form.
   useEffect(() => {
@@ -71,12 +93,30 @@ export default function ContactScreen({ onNav, requestType }) {
   const set = (k, v) => setForm({ ...form, [k]: v });
   const blur = (k) => setTouched({ ...touched, [k]: true });
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setTouched({ name: true, company: true, email: true });
     if (!isValid) return;
+    setSubmitError('');
     setSubmitting(true);
-    setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 700);
+    try {
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, requestType, source: 'web' }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        setQuoteId(data.id);
+        setSubmitted(true);
+      } else {
+        setSubmitError(data.error || 'Something went wrong submitting your request. Please try again or call us.');
+      }
+    } catch {
+      setSubmitError('Network error — please try again, or call us directly.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -168,13 +208,13 @@ export default function ContactScreen({ onNav, requestType }) {
               <div style={{ background: '#2ECC71', color: '#FFFFFF', width: 80, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24 }}>
                 <Icon name="check" size={48} weight={700} />
               </div>
-              <DataLabel color="#2ECC71" style={{ marginBottom: 12, display: 'block' }}>QUOTE REQUEST LOGGED · #RSP-{Math.floor(Math.random() * 90000 + 10000)}</DataLabel>
+              <DataLabel color="#2ECC71" style={{ marginBottom: 12, display: 'block' }}>QUOTE REQUEST LOGGED · #{quoteId}</DataLabel>
               <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 48, textTransform: 'uppercase', margin: '0 0 12px', ...hwStyle({ fill: '#1A1A1A', shadow: '#2ECC71' }) }}>Quote request received</h2>
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, color: '#4E4635', maxWidth: 480, lineHeight: 1.6 }}>
                 Our engineering team will review your request and respond within <strong>24 hours</strong>. A confirmation has been sent to <strong style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14 }}>{form.email}</strong>.
               </p>
               <div style={{ marginTop: 32, display: 'flex', gap: 12 }}>
-                <Btn variant="primary" onClick={() => { setSubmitted(false); setForm({ name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack', notes: '' }); setTouched({}); }}>Submit another</Btn>
+                <Btn variant="primary" onClick={() => { setSubmitted(false); setQuoteId(''); setSubmitError(''); setForm({ name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack', notes: '' }); setTouched({}); }}>Submit another</Btn>
                 <Btn variant="outline" onClick={() => onNav('home')}>← Back to home</Btn>
               </div>
             </div>
@@ -208,7 +248,7 @@ export default function ContactScreen({ onNav, requestType }) {
 
               <label style={{ gridColumn: '1/-1', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <DataLabel color="#1A1A1A">Project Specifications &amp; Notes</DataLabel>
-                <textarea rows="5" value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="Describe your warehouse layout, flue space requirements, and any existing safety violations that need correction..." style={{ padding: 14, border: '2px solid #1A1A1A', borderRadius: 0, fontFamily: "'Inter',sans-serif", fontSize: 15, outline: 'none', resize: 'vertical', minHeight: 120 }}></textarea>
+                <textarea rows={5} value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="Describe your warehouse layout, flue space requirements, and any existing safety violations that need correction..." style={{ padding: 14, border: '2px solid #1A1A1A', borderRadius: 0, fontFamily: "'Inter',sans-serif", fontSize: 15, outline: 'none', resize: 'vertical', minHeight: 120 }}></textarea>
               </label>
 
               <div style={{ gridColumn: '1/-1', display: 'flex', alignItems: 'center', gap: 24, paddingTop: 16, borderTop: '1px solid #DDDDDD', flexWrap: 'wrap' }}>
@@ -241,6 +281,14 @@ export default function ContactScreen({ onNav, requestType }) {
                   <Icon name="error" size={20} fill={1} style={{ color: '#E74C3C' }} />
                   <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: '#1A1A1A' }}>
                     Please fix the highlighted fields before submitting.
+                  </span>
+                </div>
+              )}
+              {submitError && (
+                <div style={{ gridColumn: '1/-1', background: '#FFF4F2', border: '2px solid #E74C3C', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <Icon name="error" size={20} fill={1} style={{ color: '#E74C3C' }} />
+                  <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: '#1A1A1A' }}>
+                    {submitError}
                   </span>
                 </div>
               )}

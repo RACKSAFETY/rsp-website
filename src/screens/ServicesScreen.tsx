@@ -1,13 +1,16 @@
+'use client';
 import React, { useState } from 'react';
 import {
   Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader,
-} from '../components.jsx';
-import { SERVICES } from '../data/productCatalog.js';
+} from '../components';
+import { SERVICES } from '../data/productCatalog';
+import { useNav } from '../hooks/useNav';
 
 // Caution intensity locked to "low" per design decision.
 const CAUTION = { opacity: 0.10, bandH: 6, period: 60 };
 
-export default function ServicesScreen({ onNav }) {
+export default function ServicesScreen() {
+  const onNav = useNav();
   return (
     <div className="rsp-fade-up">
       {/* HERO — charcoal caution band */}
