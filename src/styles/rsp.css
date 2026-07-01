@@ -234,6 +234,10 @@ hr {
 @keyframes rsp-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .rsp-fade-up { animation: rsp-fade-up 400ms cubic-bezier(.4,0,.2,1) both; }
 
+/* Horizontal slider — hide the scrollbar; scrolling is driven by arrow buttons / swipe */
+.rsp-hscroll { scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+.rsp-hscroll::-webkit-scrollbar { display: none; height: 0; }
+
 /* Range input — yellow thumb */
 input[type=range] { accent-color: var(--rsp-yellow); }
 

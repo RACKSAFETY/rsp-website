@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, FAQItem, SectionHeader,
@@ -307,23 +307,40 @@ const SmallBentoCard = ({ tag, tagColor, title, desc, icon, variant = 'light', o
 // The six real service lines live in src/data/productCatalog.js (SERVICES);
 // tiles route to the prefilled contact form, the section link to the Services hub.
 // ─────────────────────────────────────────────────────────────────────────────
-const ServicesSection = ({ onNav }) => (
-  <section style={{ padding: '120px 32px', background: '#F3F3F3', borderTop: '2px solid #1A1A1A', borderBottom: '2px solid #1A1A1A' }}>
-    <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-      <SectionHeader
-        eyebrow="SERVICES · PRODUCT-FIRST, ENGINEERING-LED"
-        title="Beyond the Box"
-        right={<a onClick={() => onNav('services')} style={{ cursor: 'pointer', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1A1A1A', textDecorationThickness: 2 }}>All Services →</a>}
-      />
-      <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 720, margin: '0 0 40px' }}>
-        We're a product company first — but on every meaningful project, our customers want the people who specified the gear to also help land it. From tear downs to re-engineering, our service lines cover the full life of your rack system.
-      </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
-        {SERVICES.map((s) => <ServiceTile key={s.slug} {...s} onNav={onNav} />)}
+const ServicesSection = ({ onNav }) => {
+  // Single-row horizontal slider so the six service tiles never wrap into an
+  // uneven second row. Native swipe on touch; arrow buttons drive it on desktop.
+  const scroller = useRef<HTMLDivElement>(null);
+  const nudge = (dir) => scroller.current && scroller.current.scrollBy({ left: dir * 340, behavior: 'smooth' });
+  const arrowStyle = {
+    width: 46, height: 46, border: '2px solid #1A1A1A', background: '#FFFFFF', color: '#1A1A1A',
+    cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace", fontSize: 18, fontWeight: 700,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 0,
+    transition: 'background 200ms, color 200ms',
+  };
+  const hov = (e, on) => { e.currentTarget.style.background = on ? '#1A1A1A' : '#FFFFFF'; e.currentTarget.style.color = on ? '#F5C344' : '#1A1A1A'; };
+  return (
+    <section style={{ padding: '120px 32px', background: '#F3F3F3', borderTop: '2px solid #1A1A1A', borderBottom: '2px solid #1A1A1A' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <SectionHeader
+          eyebrow="SERVICES · PRODUCT-FIRST, ENGINEERING-LED"
+          title="Beyond the Box"
+          right={<a onClick={() => onNav('services')} style={{ cursor: 'pointer', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1A1A1A', textDecorationThickness: 2 }}>All Services →</a>}
+        />
+        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 720, margin: '0 0 40px' }}>
+          We're a product company first — but on every meaningful project, our customers want the people who specified the gear to also help land it. From tear downs to re-engineering, our service lines cover the full life of your rack system.
+        </p>
+        <div ref={scroller} className="rsp-hscroll" style={{ display: 'flex', gap: 20, overflowX: 'auto', scrollSnapType: 'x mandatory', paddingBottom: 4 }}>
+          {SERVICES.map((s) => <ServiceTile key={s.slug} {...s} onNav={onNav} />)}
+        </div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+          <button aria-label="Previous services" style={arrowStyle} onMouseEnter={(e) => hov(e, true)} onMouseLeave={(e) => hov(e, false)} onClick={() => nudge(-1)}>←</button>
+          <button aria-label="Next services" style={arrowStyle} onMouseEnter={(e) => hov(e, true)} onMouseLeave={(e) => hov(e, false)} onClick={() => nudge(1)}>→</button>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const ServiceTile = ({ slug, icon, title, desc, cta, onNav }) => {
   const [hover, setHover] = useState(false);
@@ -341,6 +358,7 @@ const ServiceTile = ({ slug, icon, title, desc, cta, onNav }) => {
         display: 'flex', flexDirection: 'column', gap: 14,
         cursor: 'pointer',
         minHeight: 280,
+        flex: '0 0 300px', scrollSnapAlign: 'start',
       }}
     >
       <Icon name={icon} size={32} fill={hover ? 1 : 0} style={{ color: hover ? '#F5C344' : '#D9530F' }} />
