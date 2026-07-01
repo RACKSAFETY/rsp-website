@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { PRODUCT_CATALOG } from '@/src/data/productCatalog';
 import ProductScreen from '@/src/screens/ProductScreen';
+import { productJsonLd, breadcrumbJsonLd } from '@/src/lib/seo';
 
 // Pre-render a static page for every product in the catalog.
 export function generateStaticParams() {
@@ -33,7 +34,13 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const exists = PRODUCT_CATALOG.some((x) => x.id === id);
-  if (!exists) notFound();
-  return <ProductScreen productId={id} />;
+  const p = PRODUCT_CATALOG.find((x) => x.id === id);
+  if (!p) notFound();
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(p)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(p)) }} />
+      <ProductScreen productId={id} />
+    </>
+  );
 }

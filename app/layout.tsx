@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import '@/src/styles/rsp.css';
 import { TopNav, Footer } from '@/src/components';
+import { organizationJsonLd } from '@/src/lib/seo';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.racksafetyproducts.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Rack Safety Products — Pallet Rack Safety, Flue Products & Warehouse Protection',
+    default: 'Rack Safety Products | Pallet Rack Flue, Decking & Protection',
     template: '%s — Rack Safety Products',
   },
   description:
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }} />
         <div style={{ background: '#F9F9F9', minHeight: '100vh' }}>
           <TopNav />
           <main>{children}</main>

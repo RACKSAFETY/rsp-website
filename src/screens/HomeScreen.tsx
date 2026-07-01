@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, FAQItem, SectionHeader,
@@ -11,19 +11,22 @@ import { useNav } from '../hooks/useNav';
 // Caution intensity is locked to "low" per design decision.
 const CAUTION = { opacity: 0.10, bandH: 6, period: 60 };
 
+// Reads the ?section deep-link param and scrolls to it. Isolated in its own Suspense
+// boundary so useSearchParams doesn't force the whole homepage to client-render (SSR).
+function SectionScroller() {
+  const section = useSearchParams().get('section');
+  useEffect(() => {
+    if (section) document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [section]);
+  return null;
+}
+
 export default function HomeScreen() {
   const onNav = useNav();
-  const initialAnchor = useSearchParams().get('section');
-  // Deep-link support: a nav payload (e.g. 'calculator') scrolls to that section
-  // once the screen has mounted. The router scrolls to top first; this runs after.
-  useEffect(() => {
-    if (initialAnchor) {
-      document.getElementById(initialAnchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [initialAnchor]);
 
   return (
     <div className="rsp-fade-up">
+      <Suspense fallback={null}><SectionScroller /></Suspense>
       <HeroCaution onNav={onNav} />
 
       {/* FEATURED SOLUTIONS — Bento */}
