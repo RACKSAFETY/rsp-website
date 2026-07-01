@@ -4,6 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { SITE, CATEGORY_META } from '@/src/data/productCatalog';
 import type { Product, CategoryId } from '@/src/types';
+import type { Faq } from '@/src/data/faqs';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.racksafetyproducts.com';
 
@@ -121,4 +122,18 @@ export function categoryBreadcrumbJsonLd(id: CategoryId) {
     { name: 'Catalog', url: `${SITE_URL}/catalog` },
     { name: meta.h1 },
   ]);
+}
+
+// Resources page: FAQPage. Only mark up answers that appear verbatim on the page
+// and are factually accurate — the source array lives in src/data/faqs.ts.
+export function faqJsonLd(faqs: Faq[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
 }
