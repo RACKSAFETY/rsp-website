@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import {
   DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader,
 } from '../components';
-import { PRODUCT_CATALOG, CATEGORIES, COMPLIANCE_FILTERS, SUBGROUPS } from '../data/productCatalog';
+import { PRODUCT_CATALOG, CATEGORIES, COMPLIANCE_FILTERS, SUBGROUPS, CATEGORY_META } from '../data/productCatalog';
 import { useNav } from '../hooks/useNav';
 
 export default function CatalogScreen() {
@@ -130,6 +130,23 @@ export default function CatalogScreen() {
               </p>
             </div>
 
+            <div style={{ marginBottom: 32 }}>
+              <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 10 }}>Shop by Category</DataLabel>
+              <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+                {CATEGORIES.map(([id, label]) => (
+                  <a
+                    key={`catlink-${id}`}
+                    onClick={() => onNav('category', CATEGORY_META[id].slug)}
+                    style={{ cursor: 'pointer', border: '2px solid #1A1A1A', background: '#FFFFFF', padding: '11px 13px', textDecoration: 'none', color: '#1A1A1A', fontFamily: "'Inter',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, transition: 'background 200ms' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = '#F5C344')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = '#FFFFFF')}
+                  >
+                    <span>{label}</span><span>→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
             <div style={{
               borderTop: '2px solid #1A1A1A', borderBottom: '2px solid #1A1A1A',
               padding: '16px 0', display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap',
@@ -230,7 +247,7 @@ const FilterRadio = ({ label, checked, onChange }) => (
   </label>
 );
 
-const ProductCard = ({ p, onNav }) => {
+export const ProductCard = ({ p, onNav }) => {
   const [hover, setHover] = useState(false);
   const highlight = p.highlight;
   return (

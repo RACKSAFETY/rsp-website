@@ -19,6 +19,9 @@ export function targetToHref(target: NavTarget, payload?: string | null): string
     case 'catalog':
       // payload is a CATEGORIES id (e.g. 'flue')
       return payload ? `/catalog?category=${encodeURIComponent(payload)}` : '/catalog';
+    case 'category':
+      // payload is a CATEGORY_META slug (e.g. 'flue-products') → dedicated landing page
+      return payload ? `/catalog/${payload}` : '/catalog';
     case 'product':
       return productPath(payload || DEFAULT_PRODUCT);
     case 'services':

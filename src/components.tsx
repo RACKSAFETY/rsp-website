@@ -225,8 +225,8 @@ export const TopNav = () => {
   const nav = useNav();
   const items = [
     ['catalog', 'Catalog'],
-    ['catalog', 'Flue Products', 'flue'],
-    ['catalog', 'Protection', 'protection'],
+    ['category', 'Flue Products', 'flue-products'],
+    ['category', 'Protection', 'pallet-rack-protection'],
     ['services', 'Services'],
     ['resources', 'Resources'],
     ['about', 'About'],
@@ -330,7 +330,7 @@ export const TopNav = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 export const Footer = () => {
   const cols = [
-    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'catalog', 'flue'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
+    { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'category', 'flue-products'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (

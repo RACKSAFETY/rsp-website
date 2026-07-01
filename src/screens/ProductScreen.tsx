@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   Btn, Mega, DataLabel, Pill, CautionStripe, Icon, hwStyle, SectionHeader,
 } from '../components';
-import { PRODUCT_CATALOG } from '../data/productCatalog';
+import { PRODUCT_CATALOG, CATEGORY_META } from '../data/productCatalog';
 import { useNav } from '../hooks/useNav';
 
 // Rich per-product detail. Only products with a key here get a hand-built detail
@@ -126,7 +126,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
             <span>/</span>
             <a onClick={() => onNav('catalog')} style={{ cursor: 'pointer', color: '#807662', textDecoration: 'none' }}>CATALOG</a>
             <span>/</span>
-            <span style={{ color: '#D9530F' }}>{p.catLabel.toUpperCase()}</span>
+            <a onClick={() => onNav('category', CATEGORY_META[p.cat]?.slug)} style={{ cursor: 'pointer', color: '#D9530F', textDecoration: 'none' }}>{p.catLabel.toUpperCase()}</a>
             {skuLabel && (
               <>
                 <span>/</span>

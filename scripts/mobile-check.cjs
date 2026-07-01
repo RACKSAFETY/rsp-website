@@ -9,7 +9,7 @@
 const { chromium } = require('playwright');
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
-const PAGES = ['/', '/catalog', '/products/column-guards', '/contact', '/services', '/about', '/resources'];
+const PAGES = ['/', '/catalog', '/catalog/flue-products', '/products/column-guards', '/contact', '/services', '/about', '/resources'];
 const WIDTHS = [390, 768];
 const TOLERANCE_PX = 8; // sub-pixel border/rounding noise is not a real overflow
 

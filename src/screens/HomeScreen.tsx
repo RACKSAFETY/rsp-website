@@ -264,7 +264,7 @@ const BigBentoCard = ({ onNav }) => {
         <Btn variant="orange" style={{ alignSelf: 'flex-start', marginTop: 24 }}>Request a Quote →</Btn>
       </div>
       <div className="rsp-bento-half rsp-bento-img" style={{ width: '48%', overflow: 'hidden', background: '#2A2A2A', position: 'relative' }}>
-        <img src="/assets/products/flue-guard.svg" alt="Flue guard component" style={{
+        <img src="/assets/products/photos/flue-guard.jpg" alt="Flue Guard pallet rack flue space divider installed on a rack" style={{
           width: '100%', height: '100%', objectFit: 'cover',
           transition: 'transform 500ms cubic-bezier(.4,0,.2,1), filter 500ms',
           transform: hover ? 'scale(1.04)' : 'scale(1)',

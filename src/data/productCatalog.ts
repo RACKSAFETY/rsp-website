@@ -959,6 +959,57 @@ export const SUBGROUPS: Partial<Record<CategoryId, string[]>> = {
   protection: ['Column & Upright Protectors'],
 };
 
+// SEO category landing pages — one dedicated /catalog/<slug> page per category.
+// h1/intro are unique per category (avoid thin/duplicate content); the page title
+// uses the layout's "%s — Rack Safety Products" template, so h1 doubles as the title.
+export const CATEGORY_META: Record<CategoryId, { slug: string; h1: string; intro: string; metaDescription: string }> = {
+  decking: {
+    slug: 'pallet-rack-decking',
+    h1: 'Pallet Rack Decking',
+    intro: 'Wire mesh and solid steel decking that drops onto your rack beams with no hardware, replacing wood and particleboard with steel that is stronger, safer, and fire-code compliant. From flared- and step-channel wire decks to single-piece punched steel and pallet support bars, each style lets sprinkler water and light pass through the rack.',
+    metaDescription: 'Welded wire and solid steel pallet rack decking, plus pallet support bars — drop-in, no-hardware install that meets NFPA 13 fire and sprinkler codes.',
+  },
+  protection: {
+    slug: 'pallet-rack-protection',
+    h1: 'Pallet Rack Protection',
+    intro: 'The base of a rack upright takes the most forklift and outrigger abuse, and a bent column is a collapse risk. Column guards, V-nose and universal post protectors, corner guards, and end-of-aisle protectors absorb and deflect impacts in steel and impact-rebounding HDPE — mounted to the floor or bolted straight to the frame.',
+    metaDescription: 'Column guards, post and upright protectors, and end-of-aisle guards that shield rack frames from forklift impact — steel and HDPE, floor- or bolt-mounted.',
+  },
+  flue: {
+    slug: 'flue-products',
+    h1: 'Pallet Rack Flue Products',
+    intro: 'Open flue space is what lets warehouse sprinklers reach a fire deep in the rack — and pallets pushed into that space defeat the system. Flue Guard and Flue Keeper maintain the transverse and longitudinal flue spacing NFPA 13 requires, stopping pallet push-through while doubling as pallet safety stops.',
+    metaDescription: 'Flue Guard and Flue Keeper pallet rack flue space dividers that keep transverse and longitudinal flue space open for NFPA 13 sprinkler performance.',
+  },
+  dividers: {
+    slug: 'pallet-rack-dividers',
+    h1: 'Pallet Rack Dividers',
+    intro: 'Wire mesh dividers turn an open deck into organized, separated bays — split a deck down the center for two-aisle picking, add a removable backstop, or seat vertical dividers for narrow and irregular loads. Every style adds to new or existing wire decking, with custom sizes available.',
+    metaDescription: 'Wire mesh pallet rack dividers — hanging, snap-in, backstop, M-, V-, and single-arm styles — that organize decks and enable two-aisle picking.',
+  },
+  fall: {
+    slug: 'pallet-rack-fall-protection',
+    h1: 'Pallet Rack Fall Protection',
+    intro: 'Product that falls out the back of a rack or between rows is an OSHA falling-object hazard. Rack guard netting, heavy polyester safety straps, and welded-wire back panels catch loads before they reach aisles and pedestrians, mounting to standard teardrop and slotted uprights.',
+    metaDescription: 'Rack safety netting, polyester safety straps, and welded-wire mesh backing that stop product from falling into aisles — OSHA falling-object protection.',
+  },
+  'repair-kits': {
+    slug: 'pallet-rack-repair-kits',
+    h1: 'Pallet Rack Repair Kits',
+    intro: 'A damaged upright does not have to mean tearing down and replacing a bay. Engineered repair kits — single- and double-leg, structural closed-tube, and Damotech DAMO PRO — bolt on with no welding, often without unloading the rack, and restore the frame to its original rated capacity.',
+    metaDescription: 'Engineered bolt-on pallet rack repair kits — single-leg, double-leg, structural, and Damotech — that restore damaged uprights without welding.',
+  },
+  warehouse: {
+    slug: 'warehouse-protection',
+    h1: 'Warehouse Protection',
+    intro: 'Beyond the rack, the same forklifts threaten machinery, walkways, dock doors, and people. Bolted steel guard rail, safety-yellow bollards, guide and pedestrian rails, wire security cages and partitions, and building-column protectors harden the whole facility against impact.',
+    metaDescription: 'Steel guard rail, bollards, guide and pedestrian rail, wire security cages and partitions, and column protectors for the whole warehouse.',
+  },
+};
+
+export const categoryBySlug = (slug: string): CategoryId | undefined =>
+  (Object.keys(CATEGORY_META) as CategoryId[]).find((k) => CATEGORY_META[k].slug === slug);
+
 export const COMPLIANCE_FILTERS: [string, string][] = [
   ['nfpa', 'NFPA 13 Compliant'],
   ['osha', 'OSHA Certified'],

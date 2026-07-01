@@ -2,8 +2,8 @@
 // Structured data (schema.org JSON-LD) builders. Rendered server-side into the
 // page HTML so Google/Bing and AI crawlers get explicit entity + product data.
 // ─────────────────────────────────────────────────────────────────────────────
-import { SITE } from '@/src/data/productCatalog';
-import type { Product } from '@/src/types';
+import { SITE, CATEGORY_META } from '@/src/data/productCatalog';
+import type { Product, CategoryId } from '@/src/types';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.racksafetyproducts.com';
 
@@ -66,15 +66,59 @@ export function productJsonLd(p: Product) {
   };
 }
 
-// Product page breadcrumb: Home › Catalog › Product (no category pages yet).
-export function breadcrumbJsonLd(p: Product) {
+function breadcrumbFromTrail(trail: { name: string; url?: string }[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Catalog', item: `${SITE_URL}/catalog` },
-      { '@type': 'ListItem', position: 3, name: p.name },
-    ],
+    itemListElement: trail.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.name,
+      ...(t.url ? { item: t.url } : {}),
+    })),
   };
+}
+
+// Product page breadcrumb: Home › Catalog › Category › Product.
+export function breadcrumbJsonLd(p: Product) {
+  const meta = CATEGORY_META[p.cat as CategoryId];
+  const trail: { name: string; url?: string }[] = [
+    { name: 'Home', url: SITE_URL },
+    { name: 'Catalog', url: `${SITE_URL}/catalog` },
+  ];
+  if (meta) trail.push({ name: meta.h1, url: `${SITE_URL}/catalog/${meta.slug}` });
+  trail.push({ name: p.name });
+  return breadcrumbFromTrail(trail);
+}
+
+// Category landing page: CollectionPage + an ItemList of its products.
+export function categoryJsonLd(id: CategoryId, products: Product[]) {
+  const meta = CATEGORY_META[id];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: meta.h1,
+    description: meta.metaDescription,
+    url: `${SITE_URL}/catalog/${meta.slug}`,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: products.length,
+      itemListElement: products.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${SITE_URL}/products/${p.id}`,
+        name: p.name,
+      })),
+    },
+  };
+}
+
+export function categoryBreadcrumbJsonLd(id: CategoryId) {
+  const meta = CATEGORY_META[id];
+  return breadcrumbFromTrail([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Catalog', url: `${SITE_URL}/catalog` },
+    { name: meta.h1 },
+  ]);
 }

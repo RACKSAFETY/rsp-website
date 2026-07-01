@@ -16,6 +16,7 @@ export type CategoryId =
 export type NavTarget =
   | 'home'
   | 'catalog'
+  | 'category'
   | 'product'
   | 'services'
   | 'resources'
