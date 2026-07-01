@@ -28,6 +28,8 @@ export interface ProductPart {
   sku?: string; // part number (TODO until provided by the business)
   depth?: number; // inches
   width?: number; // inches
+  height?: number; // inches — e.g. protector / column-guard / repair-kit height
+  length?: number; // inches — e.g. rail / end-of-aisle / strap length
   capacity?: number; // lbs, UDL (industry-typical — TODO-VERIFY exact ratings)
   price?: number; // $/unit (TODO)
 }

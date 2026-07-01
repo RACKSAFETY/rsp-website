@@ -25,7 +25,7 @@ export default function CatalogScreen() {
 
   const filtered = PRODUCT_CATALOG.filter((p) => {
     if (cats.size > 0 && !cats.has(p.cat)) return false;
-    if (comp && !p.compliance.includes(comp)) return false;
+    if (comp && !p.compliance.some((c) => c.toLowerCase().includes(comp))) return false;
     return true;
   });
 

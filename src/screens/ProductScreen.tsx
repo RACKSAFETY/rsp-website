@@ -77,15 +77,26 @@ const qtyBtn = {
   cursor: 'pointer', borderRadius: 0,
 };
 
+// Every size dimension a ProductPart can carry. The "Available Sizes" table + filter
+// buttons render only the dimensions a given product's parts actually use — so height-
+// based products (column guards, repair kits) and length-based ones (rails, end-of-aisle,
+// straps) get the same filterable treatment as wire-deck depth × width × capacity.
+type DimKey = 'depth' | 'width' | 'height' | 'length' | 'capacity';
+const DIMENSIONS: { key: DimKey; label: string; head: string; btn: (v: number) => string; cell: (v: number) => string }[] = [
+  { key: 'depth',    label: 'Depth',    head: 'Depth',          btn: (v) => `${v}″ D`, cell: (v) => `${v}″` },
+  { key: 'width',    label: 'Width',    head: 'Width',          btn: (v) => `${v}″ W`, cell: (v) => `${v}″` },
+  { key: 'height',   label: 'Height',   head: 'Height',         btn: (v) => `${v}″ H`, cell: (v) => `${v}″` },
+  { key: 'length',   label: 'Length',   head: 'Length',         btn: (v) => `${v}″ L`, cell: (v) => `${v}″` },
+  { key: 'capacity', label: 'Capacity', head: 'Capacity (UDL)', btn: (v) => `${v.toLocaleString()} lb`, cell: (v) => `${v.toLocaleString()} lb` },
+];
+
 export default function ProductScreen({ productId }: { productId: string }) {
   const onNav = useNav();
   const p = PRODUCT_CATALOG.find((x) => x.id === productId) || PRODUCT_CATALOG[0];
   const [qty, setQty] = useState(50);
   const [variant, setVariant] = useState(0);
-  const [filters, setFilters] = useState<{ depth: number | null; width: number | null; capacity: number | null }>({
-    depth: null,
-    width: null,
-    capacity: null,
+  const [filters, setFilters] = useState<Record<DimKey, number | null>>({
+    depth: null, width: null, height: null, length: null, capacity: null,
   });
 
   const detailData = DETAIL_DATA[p.id] || {
@@ -93,21 +104,17 @@ export default function ProductScreen({ productId }: { productId: string }) {
     hero: p.desc, variants: ['Standard'], specs: p.specs, certs: [], includes: [],
   };
 
-  // Size/part variants (e.g. wire-deck sizes) with click-to-filter on depth/width/capacity.
+  // Size/part variants with click-to-filter on any dimension the parts actually use.
   const parts = p.parts ?? [];
   const hasParts = parts.length > 0;
-  const uniq = (key: 'depth' | 'width' | 'capacity') =>
+  const uniq = (key: DimKey) =>
     [...new Set(parts.map((x) => x[key]).filter((v): v is number => typeof v === 'number'))].sort((a, b) => a - b);
-  const depths = uniq('depth');
-  const widths = uniq('width');
-  const capacities = uniq('capacity');
-  const filteredParts = parts.filter(
-    (x) =>
-      (filters.depth == null || x.depth === filters.depth) &&
-      (filters.width == null || x.width === filters.width) &&
-      (filters.capacity == null || x.capacity === filters.capacity),
+  // Only the dimensions that vary across this product's parts get a filter + table column.
+  const activeDims = DIMENSIONS.filter((d) => uniq(d.key).length > 0);
+  const filteredParts = parts.filter((x) =>
+    activeDims.every((d) => filters[d.key] == null || x[d.key] === filters[d.key]),
   );
-  const hasActiveFilter = filters.depth != null || filters.width != null || filters.capacity != null;
+  const hasActiveFilter = activeDims.some((d) => filters[d.key] != null);
 
   const totalEstimate = qty * PLACEHOLDER_UNIT_PRICE;
   const related = PRODUCT_CATALOG.filter((x) => x.id !== p.id).slice(0, 3);
@@ -197,15 +204,11 @@ export default function ProductScreen({ productId }: { productId: string }) {
             {hasParts ? (
               <div style={{ marginBottom: 24 }}>
                 <DataLabel style={{ display: 'block', marginBottom: 10 }}>Filter Sizes</DataLabel>
-                {[
-                  { label: 'Depth', key: 'depth' as const, vals: depths, fmt: (v: number) => `${v}″ D` },
-                  { label: 'Width', key: 'width' as const, vals: widths, fmt: (v: number) => `${v}″ W` },
-                  { label: 'Capacity', key: 'capacity' as const, vals: capacities, fmt: (v: number) => `${v.toLocaleString()} lb` },
-                ].map((g) => (
+                {activeDims.map((g) => (
                   <div key={g.key} style={{ marginBottom: 10 }}>
                     <DataLabel color="#807662" size={10} style={{ display: 'block', marginBottom: 6 }}>{g.label}</DataLabel>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                      {g.vals.map((v) => {
+                      {uniq(g.key).map((v) => {
                         const isOn = filters[g.key] === v;
                         return (
                           <button
@@ -220,7 +223,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
                               letterSpacing: '0.08em',
                             }}
                           >
-                            {g.fmt(v)}
+                            {g.btn(v)}
                           </button>
                         );
                       })}
@@ -378,7 +381,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
               right={
                 hasActiveFilter ? (
                   <button
-                    onClick={() => setFilters({ depth: null, width: null, capacity: null })}
+                    onClick={() => setFilters({ depth: null, width: null, height: null, length: null, capacity: null })}
                     style={{
                       background: 'transparent', border: 0, cursor: 'pointer',
                       fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700,
@@ -394,18 +397,18 @@ export default function ProductScreen({ productId }: { productId: string }) {
               <table style={{ width: '100%', borderCollapse: 'collapse', background: '#FFFFFF', minWidth: 560 }}>
                 <thead>
                   <tr>
-                    {['Part #', 'Depth', 'Width', 'Capacity (UDL)', 'Price'].map((h) => (
+                    {['Part #', ...activeDims.map((d) => d.head), 'Price'].map((h) => (
                       <th key={h} style={{ background: '#1A1A1A', color: '#F5C344', textAlign: 'left', padding: '12px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 14, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {filteredParts.map((part, i) => (
-                    <tr key={`${part.depth}x${part.width}`} style={{ background: i % 2 ? '#F3F3F3' : '#FFFFFF', borderTop: '1px solid #DDDDDD' }}>
+                    <tr key={activeDims.map((d) => part[d.key]).join('x') || i} style={{ background: i % 2 ? '#F3F3F3' : '#FFFFFF', borderTop: '1px solid #DDDDDD' }}>
                       <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 700, color: part.sku ? '#1A1A1A' : '#807662' }}>{part.sku ?? 'TODO'}</td>
-                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.depth}″</td>
-                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.width}″</td>
-                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{part.capacity ? `${part.capacity.toLocaleString()} lb` : '—'}</td>
+                      {activeDims.map((d) => (
+                        <td key={d.key} style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{typeof part[d.key] === 'number' ? d.cell(part[d.key] as number) : '—'}</td>
+                      ))}
                       <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: '#807662' }}>{part.price ? `$${part.price.toLocaleString()}` : 'Quote'}</td>
                     </tr>
                   ))}
