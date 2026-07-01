@@ -1022,11 +1022,11 @@ export const SITE: SiteConfig = {
   email: 'info@racksafetyproducts.com',
   hours: 'Mon–Fri 7am–7pm PT', // TODO-VERIFY: confirm business hours
   timezone: 'PT',
-  // Hero stat tiles. 'TODO' renders as a visible placeholder until verified.
+  // Hero stat tiles — claims drawn from racksafetyproducts.com; confirm/adjust as needed.
   stats: [
-    ['EST.', 'TODO'],        // TODO-VERIFY: year established
-    ['SKUs', 'TODO'],        // TODO-VERIFY: catalog size
-    ['DCs SERVED', 'TODO'],  // TODO-VERIFY: distribution centers served
-    ['LEAD TIME', 'TODO'],   // TODO-VERIFY: typical lead time
+    ['EXPERIENCE', '35+ YRS'],
+    ['INSTALLERS', '100+'],
+    ['COVERAGE', 'NATIONWIDE'],
+    ['ENGINEERING', 'IN-HOUSE'],
   ],
 };

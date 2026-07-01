@@ -220,7 +220,7 @@ const HeroCaution = ({ onNav }) => (
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#F5C344', border: '2px solid #F5C344' }}>
-          {SITE.stats.map(([k, v]) => (
+          {SITE.stats.filter(([, v]) => v && v !== 'TODO').map(([k, v]) => (
             <div key={k} style={{ background: '#1A1A1A', padding: '18px 20px' }}>
               <DataLabel color="rgba(245,195,68,0.6)" size={9}>{k}</DataLabel>
               <div style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 36, color: '#F5C344', lineHeight: 1, marginTop: 6 }}>{v}</div>

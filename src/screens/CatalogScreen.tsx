@@ -161,6 +161,8 @@ export default function CatalogScreen() {
               </div>
             )}
 
+            {/* Comparison Matrix hidden until real comparison data is entered (was all TODO). */}
+            {false && (
             <div style={{ marginBottom: 32 }}>
               <SectionHeader
                 title="Comparison Matrix"
@@ -196,6 +198,7 @@ export default function CatalogScreen() {
                 </table>
               </div>
             </div>
+            )}
           </div>
         </div>
       </section>
@@ -265,7 +268,7 @@ const ProductCard = ({ p, onNav }) => {
       </div>
       <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
         <div>
-          <DataLabel color={highlight ? '#FFDF9A' : '#807662'} size={10} style={{ display: 'block', marginBottom: 4 }}>{p.sku}</DataLabel>
+          {p.sku && p.sku !== 'TODO' && <DataLabel color={highlight ? '#FFDF9A' : '#807662'} size={10} style={{ display: 'block', marginBottom: 4 }}>{p.sku}</DataLabel>}
           <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 26, lineHeight: 0.95, textTransform: 'uppercase', margin: 0, color: highlight ? '#F5C344' : '#1A1A1A' }}>{p.name}</h3>
           {p.mfg && (
             <DataLabel color={highlight ? '#FFDF9A' : '#D9530F'} size={10} style={{ display: 'block', marginTop: 4 }}>MFG · {p.mfg}</DataLabel>

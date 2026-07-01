@@ -47,8 +47,6 @@ const DETAIL_DATA = {
       ['Installation', 'High-strength tek screws (included)'],
       ['Application', 'New or retrofitted pallet rack'],
       ['Product Contact', 'Pallet only — minimizes damage to stored goods'],
-      ['SKU', 'TODO'], // TODO-VERIFY: not listed on the live product page
-      ['Lead Time', 'TODO'], // TODO-VERIFY: not listed on the live product page
     ],
     certs: [], // TODO-VERIFY: live product page cites no specific NFPA/OSHA/ANSI standard
     includes: ['Flue Guard™ divider', 'High-strength tek screws (for install)'],
@@ -57,14 +55,8 @@ const DETAIL_DATA = {
       { label: 'Brochure', url: 'https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:b8fa4fa9-c332-42e8-9393-732951a06a78' },
       { label: 'Spec Sheet', url: 'https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:b2d81ee7-1871-4dec-b3fa-aa27fd3a3e65' },
     ],
-    // Flue Guard™ vs Competition — [criterion, Flue Guard™, Competition].
-    // TODO: fill in real comparison values once confirmed with the business.
-    comparison: [
-      ['TODO — criterion', 'TODO', 'TODO'],
-      ['TODO — criterion', 'TODO', 'TODO'],
-      ['TODO — criterion', 'TODO', 'TODO'],
-      ['TODO — criterion', 'TODO', 'TODO'],
-    ],
+    // Flue Guard™ vs Competition table hidden until real comparison values are confirmed.
+    comparison: null,
   },
 };
 
@@ -116,6 +108,12 @@ export default function ProductScreen({ productId }: { productId: string }) {
   );
   const hasActiveFilter = activeDims.some((d) => filters[d.key] != null);
 
+  // SKUs and lead times aren't entered yet ('TODO' in the catalog) — never show that
+  // literal to customers; hide the label or fall back to neutral copy instead.
+  const skuLabel = p.sku && p.sku !== 'TODO' ? p.sku : null;
+  const leadLabel = p.leadTime && p.leadTime !== 'TODO' ? p.leadTime : 'By quote';
+  const hasSku = parts.some((x) => x.sku && x.sku !== 'TODO');
+
   const totalEstimate = qty * PLACEHOLDER_UNIT_PRICE;
   const related = PRODUCT_CATALOG.filter((x) => x.id !== p.id).slice(0, 3);
 
@@ -129,8 +127,12 @@ export default function ProductScreen({ productId }: { productId: string }) {
             <a onClick={() => onNav('catalog')} style={{ cursor: 'pointer', color: '#807662', textDecoration: 'none' }}>CATALOG</a>
             <span>/</span>
             <span style={{ color: '#D9530F' }}>{p.catLabel.toUpperCase()}</span>
-            <span>/</span>
-            <span style={{ color: '#1A1A1A' }}>{p.sku}</span>
+            {skuLabel && (
+              <>
+                <span>/</span>
+                <span style={{ color: '#1A1A1A' }}>{skuLabel}</span>
+              </>
+            )}
           </div>
           <button onClick={() => onNav('catalog')} style={{ background: 'transparent', border: 0, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#1A1A1A', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
             ← Back to catalog
@@ -147,9 +149,11 @@ export default function ProductScreen({ productId }: { productId: string }) {
               <div style={{ position: 'absolute', top: 16, left: 16 }}>
                 <Pill kind="yellow">{p.tag ? p.tag[1] : 'STANDARD'}</Pill>
               </div>
-              <div style={{ position: 'absolute', bottom: 16, right: 16, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', color: '#807662' }}>
-                FIG. {p.sku}
-              </div>
+              {skuLabel && (
+                <div style={{ position: 'absolute', bottom: 16, right: 16, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', color: '#807662' }}>
+                  FIG. {skuLabel}
+                </div>
+              )}
               <CautionStripe height={6} period={28} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
             </div>
 
@@ -280,7 +284,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
                   </div>
                   <div style={{ padding: 12, background: '#F3F3F3' }}>
                     <DataLabel color="#807662" size={10}>LEAD TIME</DataLabel>
-                    <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 16, fontWeight: 700, color: p.leadTime === 'In Stock' ? '#2ECC71' : '#1A1A1A', marginTop: 4 }}>{p.leadTime}</div>
+                    <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 16, fontWeight: 700, color: p.leadTime === 'In Stock' ? '#2ECC71' : '#1A1A1A', marginTop: 4 }}>{leadLabel}</div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -353,7 +357,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
 
         {/* Spec Table */}
         <div style={{ maxWidth: 1280, margin: '96px auto 0' }}>
-          <SectionHeader title="Technical Specifications" eyebrow={`SKU ${p.sku}`} />
+          <SectionHeader title="Technical Specifications" eyebrow={skuLabel ? `SKU ${skuLabel}` : p.catLabel.toUpperCase()} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, border: '2px solid #1A1A1A', background: '#FFFFFF' }}>
             {detailData.specs.map(([k, v], i) => (
               <div key={k} style={{
@@ -397,7 +401,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
               <table style={{ width: '100%', borderCollapse: 'collapse', background: '#FFFFFF', minWidth: 560 }}>
                 <thead>
                   <tr>
-                    {['Part #', ...activeDims.map((d) => d.head), 'Price'].map((h) => (
+                    {[...(hasSku ? ['Part #'] : []), ...activeDims.map((d) => d.head), 'Price'].map((h) => (
                       <th key={h} style={{ background: '#1A1A1A', color: '#F5C344', textAlign: 'left', padding: '12px 16px', fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 14, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
@@ -405,7 +409,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
                 <tbody>
                   {filteredParts.map((part, i) => (
                     <tr key={activeDims.map((d) => part[d.key]).join('x') || i} style={{ background: i % 2 ? '#F3F3F3' : '#FFFFFF', borderTop: '1px solid #DDDDDD' }}>
-                      <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 700, color: part.sku ? '#1A1A1A' : '#807662' }}>{part.sku ?? 'TODO'}</td>
+                      {hasSku && <td style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 700, color: part.sku ? '#1A1A1A' : '#807662' }}>{part.sku ?? '—'}</td>}
                       {activeDims.map((d) => (
                         <td key={d.key} style={{ padding: '12px 16px', fontFamily: "'JetBrains Mono',monospace", fontSize: 13 }}>{typeof part[d.key] === 'number' ? d.cell(part[d.key] as number) : '—'}</td>
                       ))}
@@ -463,7 +467,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
                 <div style={{ padding: 18 }}>
                   <DataLabel color="#D9530F" size={10}>{r.catLabel.toUpperCase()}</DataLabel>
                   <h4 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 24, lineHeight: 1, textTransform: 'uppercase', margin: '6px 0 4px' }}>{r.name}</h4>
-                  <DataLabel color="#807662" size={10}>{r.sku}</DataLabel>
+                  {r.sku && r.sku !== 'TODO' && <DataLabel color="#807662" size={10}>{r.sku}</DataLabel>}
                 </div>
               </div>
             ))}
