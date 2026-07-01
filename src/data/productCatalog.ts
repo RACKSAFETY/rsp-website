@@ -7,26 +7,18 @@
 //   categories carries an optional `subGroup` field. Other categories are flat.
 //   `mfg` is an optional display-only manufacturer string (may be comma-separated).
 //
-// SCAFFOLD CONVENTION
-//   Product NAMES, categories, sub-groups, and manufacturers are real. Everything
-//   not yet confirmed is a visible, greppable placeholder:
-//     • Unknown data fields  → literal 'TODO'         (e.g. sku: 'TODO')
-//     • Descriptions         → 'TODO — ...'
-//     • Spec rows            → [['TODO','TODO']]      (keeps [label,val] shape)
-//     • Compliance           → []                     (user adds nfpa/osha/ansi)
-//     • Images               → '/assets/products/placeholder.svg' unless a real
-//                               SVG already exists for that product
-//   Retained-but-unverified claims are flagged inline with // TODO-VERIFY.
-//   Grep this project for `TODO` to get the full fill-in checklist.
+// STATUS (as of 2026-07-01)
+//   The catalog is fully populated — every product and service carries real,
+//   researched copy, technical specs, standard sizes, compliance tags, and a real
+//   product photo (partner imagery in /assets/products/photos). The only remaining
+//   placeholders are business data: `sku` and `leadTime` are still literal 'TODO'
+//   per product, and SITE.stats hero tiles / per-size prices are unset — grep `TODO`
+//   to find them. Flue Guard/Keeper are the flagship `flue` category (kept separate
+//   from `dividers`). Category landing pages are driven by CATEGORY_META (below).
 //
-//   Flue Guard™ content IS real — pulled from the live product page. Flue Guard™
-//   and Flue Keeper™ are the flagship products of the `flue` category, which is
-//   kept separate from the standard `dividers` category.
-//
-// CONTENT-REVIEW TODO (out of scope for the structure rebuild — copy pass needed):
-//   • Home "Editor's Picks" articles + FAQ answers are invented placeholder copy.
-//   • Resources articles, "Safety 101" links, and FAQ answers are invented.
-//   • Contact/Product claims ("respond within 24 hours", etc.) are unverified.
+//   Not in this file, still placeholder/unverified: Home "Editor's Picks", Resources
+//   articles, and FAQ answers are invented; trust claims ("24-hour response",
+//   "lifetime warranty") are unverified. See DOCS/PROJECT-TRACKER.md.
 //
 // OPEN QUESTION: the live site links product detail out to theonlinecatalog.com.
 //   This rebuild keeps the site self-contained (own Catalog + Product screens).

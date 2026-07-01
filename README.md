@@ -2,7 +2,8 @@
 
 Marketing + product-catalog website for Rack Safety Products, built with
 **Next.js (App Router)** and **TypeScript**, deployed on **Vercel**. SEO-first
-(real per-page URLs, sitemap, metadata) with a small quote-inquiry backend.
+(per-page metadata, canonical, sitemap, JSON-LD structured data, and category
+landing pages) and fully mobile-responsive, with a small quote-inquiry backend.
 
 ## Requirements
 
@@ -17,6 +18,7 @@ npm run dev      # dev server → http://localhost:3000
 npm run build    # production build (Next.js)
 npm run start    # serve the production build locally
 npm test         # run the NFPA flue-rules unit tests (Vitest)
+npm run mobile-check   # Playwright mobile QA — run `npm run build && npm run start` first
 ```
 
 ## Project structure
@@ -27,6 +29,7 @@ app/                     # Next.js App Router — one folder per route
   page.tsx               #   "/"  (home)
   catalog/ services/ …   #   static routes
   products/[id]/         #   dynamic product pages (pre-rendered via generateStaticParams)
+  catalog/[category]/    #   SEO category landing pages (pre-rendered; driven by CATEGORY_META)
   api/quote/route.ts     #   POST endpoint for the quote form
   admin/                 #   protected lead inbox (status pipeline, filters, delete)
   sitemap.ts robots.ts   #   generated SEO files
@@ -38,11 +41,13 @@ src/
   data/                  # productCatalog.ts (typed) + nfpa13FlueRules.js (engine + tests)
   hooks/useNav.ts        # navigation shim: onNav(target, payload) → next/navigation router
   lib/navMap.ts          # target → URL mapping (shared by useNav + nav links)
+  lib/seo.ts             # JSON-LD builders (Organization/WebSite/Product/Breadcrumb/CollectionPage)
   lib/quotes.ts          # saveQuote/listQuotes/updateQuoteStatus/deleteQuote — Neon persistence + email
   lib/quoteStatus.ts     # lead pipeline statuses + colors (shared client/server)
   types.ts               # shared types (Product, ProductPart, NavTarget, QuoteRequest, …)
   styles/rsp.css         # design tokens + base styles (imported in app/layout.tsx)
 public/assets/           # images, logos, product photos (served at /assets/...)
+scripts/mobile-check.cjs # Playwright mobile-responsive check (overflow + hamburger)
 ```
 
 ## Environment variables
@@ -78,3 +83,8 @@ and form don't change when you extend or swap the destination (e.g. add a CRM pu
   low-churn; tighten per-file over time. The well-tested NFPA engine
   (`src/data/nfpa13FlueRules.js`) is kept as JavaScript via `allowJs`.
 - Vitest runs via `vite.config.js`; it is independent of the Next.js build.
+- **Responsive:** desktop-first inline styles; the mobile layer lives in `src/styles/rsp.css`
+  as `!important` utility classes (`rsp-stack`, `rsp-px`, `rsp-col`, …) gated behind
+  `@media (max-width:768/820px)` and applied via `className`. Verify with `npm run mobile-check`.
+- **Gotcha:** this repo sits in a OneDrive-synced folder, which occasionally corrupts Next's
+  `.next` cache (`Cannot find module './NNN.js'` at runtime). `rm -rf .next` and rebuild if so.

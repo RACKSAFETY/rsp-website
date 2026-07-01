@@ -1,62 +1,70 @@
 # RSP Website — Project Tracker
 
-Loose ends and follow-ups. Updated 2026-06-30 (after the quote backend, /admin lead
-inbox, and the wire-deck size configurator).
+Loose ends and follow-ups. Updated **2026-07-01** (catalog enrichment + partner photos,
+mobile-responsive pass, SEO / structured-data pass, and category landing pages).
+
+## Done this session (2026-07-01) ✅
+- **Catalog fully enriched** — every remaining product + all 6 services got real,
+  researched copy, specs, standard sizes, and compliance tags; all 24 placeholder
+  products got real partner photos. Customer-facing "TODO" text scrubbed from every page.
+- **Fully mobile-responsive** — hamburger nav, single-column stacking, trimmed padding,
+  collapsible catalog filters. Verified with `npm run mobile-check` (Playwright).
+- **SEO / structured data** — JSON-LD (Organization + WebSite sitewide, Product +
+  BreadcrumbList per product, CollectionPage + ItemList per category); homepage SSR
+  restored (was client-rendered); keyword-rich titles; robots disallows `/admin` + `/api`.
+- **7 category landing pages** at `/catalog/<slug>` (`CATEGORY_META`) with internal
+  linking (nav, footer, "Shop by Category" band, product breadcrumbs) + sitemap entries.
+- Homepage Featured Solutions now uses the real Flue Guard photo (was a `.svg` placeholder).
+- Details: `DOCS/CATALOG-ENRICHMENT-2026-07-01.md`, `DOCS/SEO-2026-07-01.md`.
 
 ## Do Now (deploy correctness)
+- [ ] Set **`NEXT_PUBLIC_SITE_URL`** in Vercel to the real origin — canonical tags,
+      `sitemap.xml`, and all JSON-LD use it (defaults to `https://www.racksafetyproducts.com`).
+- [ ] Confirm Vercel **Framework Preset = Next.js** and the old `dist` Output Directory
+      override is cleared (`vercel.json` pins it; verify the dashboard doesn't override).
+- [ ] Decide the production-domain plan (stay on `*.vercel.app` vs. point the domain /
+      a staging subdomain at Vercel).
+- [ ] Delete the `ZZ-VERIFY-TEST` test lead from `quotes` if still present.
 
-- [ ] Set **`NEXT_PUBLIC_SITE_URL`** in Vercel env vars to the real domain so canonical
-      tags and `sitemap.xml` are correct (currently defaults to `racksafetyproducts.com`).
-- [ ] Confirm the Vercel project **Framework Preset = Next.js** and the old **Output
-      Directory = `dist`** override is cleared (`vercel.json` pins the framework; verify
-      the dashboard doesn't override it).
-- [ ] Decide the production domain plan: keep on `*.vercel.app` vs. point
-      `racksafetyproducts.com` (or a staging subdomain) at Vercel via DNS.
-- [ ] Delete the `ZZ-VERIFY-TEST` test lead from `quotes` if still present (Neon SQL:
-      `DELETE FROM quotes WHERE company='ZZ-VERIFY-TEST';` — or use Delete at `/admin`).
+## Before launch — site replacement / SEO migration
+*(This build is intended to REPLACE racksafetyproducts.com.)*
+- [ ] **301 redirects: old URLs → new** (`/products/<id>`, `/catalog/<slug>`, …). The old
+      site uses different paths; without redirects, existing rankings drop. Crawl the old
+      site to build the map (`next.config.mjs` `redirects()` or `vercel.json`).
+- [ ] Verify the production domain in **Google Search Console**, submit `/sitemap.xml`,
+      watch Coverage + Core Web Vitals after cutover, and validate schema in the Rich
+      Results Test.
+- [ ] **Core Web Vitals** — move Google Fonts from the CSS `@import` (render-blocking) to
+      `next/font`; adopt `next/image` (or lazy-load + compress) for the ~50 `<img>` tags.
+- [ ] **Privacy Policy + Terms pages** — footer links currently go nowhere.
+- [ ] Verify/remove unverified trust claims (24-hour response, lifetime warranty, business
+      hours, year established) before they're load-bearing.
 
-## Quote backend — DONE this session ✅
+## Content (business data to fill)
+- [ ] **Part numbers / prices / lead times** — `sku` + `leadTime` are `TODO` across the
+      catalog; per-size prices unset. (Blocks the admin line-item quoting phase.)
+- [ ] **Hero stats** — `SITE.stats` currently shows site-sourced claims (35+ yrs, 100+
+      installers, nationwide, in-house engineering); confirm or replace.
+- [ ] **About page** narrative (history, team, by-the-numbers) still `[PLACEHOLDER]`.
+- [ ] **Resources / blog + FAQ** are invented placeholder copy — replace with real content
+      (then add FAQPage schema; don't mark up invented answers).
+- [ ] **Upgrade 4 low-res photos** — wire-mesh-partitions (580×300), building-column-
+      protectors (235×300), forklift-wheel-stops (a Handle It shot, not A-SAFE), and
+      guide-rail / v-divider (distributor, not exact partner). See the SEO / enrichment docs.
+- [ ] Wire-deck per-size UDL capacities are *typical* — verify real ratings + add part #s
+      (`WIRE_DECK_PARTS` in `src/data/productCatalog.ts`).
 
-- [x] `saveQuote()` persists to **Neon Postgres** (`quotes` table, auto-created).
-      `DATABASE_URL` connected in Vercel; verified end-to-end in production.
-- [x] Lead inbox at **`/admin`** (Basic Auth via `middleware.ts`; `ADMIN_USER` /
-      `ADMIN_PASSWORD` set in Vercel): status pipeline (new → contacted → quoted →
-      won/lost), clickable status-count filters, per-row delete.
-- [ ] (Optional) turn on **email alerts**: set `RESEND_API_KEY`, `QUOTE_NOTIFY_EMAIL`,
-      `QUOTE_FROM_EMAIL` in Vercel (code is already wired, currently inert).
-- [ ] (Optional) CSV export / extra filters on `/admin`.
+## Admin quoting — next phase (content-first; no full DB migration)
+- [ ] Line-item quoting in `/admin`: a `parts` table (seeded from `ProductPart`) +
+      `quote_items` + a quote-builder UI. Catalog stays in code; only the transactional
+      layer goes in the DB. Prerequisite: real part numbers + prices (Content, above).
+- [ ] (Optional) email alerts: set `RESEND_API_KEY` / `QUOTE_NOTIFY_EMAIL` /
+      `QUOTE_FROM_EMAIL` in Vercel (wired, currently inert). CSV export on `/admin`.
 
-## Admin quoting — next phase (decided: content-first, no full DB migration)
-
-- [ ] Build line-item quoting in the admin: a `parts` table (seeded from the catalog's
-      `ProductPart` data) + a `quote_items` table + a quote-builder UI. Keep the product
-      catalog in code/static — only the transactional layer goes in the DB.
-- [ ] Prerequisite: real **part numbers + prices** per product/size (see Content).
-
-## Content (placeholders to replace before launch)
-
-- [ ] **~20 products still on placeholders** — DACS decking, Handle It protectors,
-      DAMOTECH repair kits, Save-ty / WireCrafters / A-SAFE rails/cages/fences: need
-      specs + photos from each manufacturer's site. (18 WWMH/RSP products were filled
-      this session with real specs; 25 got real photos.)
-- [ ] **Part numbers / pricing / lead times** are `TODO` across the catalog — business data.
-- [ ] **Wire-deck sizes**: 9 industry-standard sizes (depths 36/42/48 × widths 46/52/58)
-      are seeded with **typical** UDL capacities — verify real capacities and add per-size
-      part #s + prices (`WIRE_DECK_PARTS` in `src/data/productCatalog.ts`).
-- [ ] **Low-res product photos**: several WWMH shots are ~150–490px thumbnails — replace
-      with higher-res versions for the product detail pages.
-- [ ] Hero stats in `SITE.stats` (EST., SKUs, DCs SERVED, LEAD TIME) are `TODO`.
-- [ ] **About page** narrative blocks (company history, team, by-the-numbers) are flagged
-      `[PLACEHOLDER]` in `AboutScreen`.
-- [ ] Home "Editor's Picks", Resources articles, and FAQ answers are invented placeholder copy.
-- [ ] Verify business claims: 24-hour response, lifetime component warranty, business hours,
-      year established.
-
-## Lower Priority (tech debt / polish)
-
-- [ ] Apply the `ProductPart` size configurator to other products (solid steel decking,
-      pallet supports, etc.) once their sizes are known.
-- [ ] Add a real 1200×630 OpenGraph image (currently falls back to the logo).
-- [ ] Tighten TypeScript toward `strict` per-file over time.
-- [ ] (Optional) Migrate Google Fonts from the CSS `@import` to `next/font`.
-- [ ] (Optional) Convert `src/data/nfpa13FlueRules.js` to TypeScript.
+## Lower priority (polish / tech debt)
+- [ ] Category pages: only 2 (Flue, Protection) are in the top nav — consider a catalog
+      dropdown or more nav links; add per-category OpenGraph images.
+- [ ] Real 1200×630 OpenGraph image (currently falls back to the logo).
+- [ ] Apply the `ProductPart` size configurator to more products as sizes are confirmed.
+- [ ] Tighten TypeScript toward `strict` per file; (optional) convert
+      `src/data/nfpa13FlueRules.js` to TypeScript.
