@@ -21,7 +21,9 @@ export type NavTarget =
   | 'services'
   | 'resources'
   | 'contact'
-  | 'about';
+  | 'about'
+  | 'privacy'
+  | 'terms';
 
 // A specific orderable size/SKU of a product (e.g. a wire-deck size). This is
 // where per-size part numbers and pricing live — the foundation for quoting.

@@ -36,7 +36,17 @@ mobile-responsive pass, SEO / structured-data pass, and category landing pages).
       Results Test.
 - [ ] **Core Web Vitals** — move Google Fonts from the CSS `@import` (render-blocking) to
       `next/font`; adopt `next/image` (or lazy-load + compress) for the ~50 `<img>` tags.
-- [ ] **Privacy Policy + Terms pages** — footer links currently go nowhere.
+- [x] **Privacy Policy + Terms pages** — DONE (2026-07-01). Live at `/privacy` and `/terms`
+      (server-rendered static; `PrivacyScreen`/`TermsScreen` share a `LegalDoc` layout).
+      Footer "Privacy Policy" / "Terms of Service" links now resolve (were dead `<span>`s);
+      "Compliance Standards" now points to `/resources`. Added `privacy`/`terms` to `NavTarget`
+      + navMap, and both to the sitemap. Content is grounded in real site behavior (quote form
+      → Neon/Vercel, CCPA section since RSP is CA-based, and a Terms disclaimer that the flue
+      calculator / safety guides are informational, not certified engineering advice).
+      ⚠️ These are accurate starting drafts, NOT attorney-reviewed — have counsel review before
+      relying on them, and update the Privacy Policy if analytics/cookies/ad pixels or real
+      newsletter processing are ever added (the footer newsletter + search inputs are currently
+      inert, so the policy does not claim them).
 - [ ] Verify/remove unverified trust claims (24-hour response, lifetime warranty, business
       hours, year established) before they're load-bearing.
 
@@ -46,8 +56,18 @@ mobile-responsive pass, SEO / structured-data pass, and category landing pages).
 - [ ] **Hero stats** — `SITE.stats` currently shows site-sourced claims (35+ yrs, 100+
       installers, nationwide, in-house engineering); confirm or replace.
 - [ ] **About page** narrative (history, team, by-the-numbers) still `[PLACEHOLDER]`.
-- [ ] **Resources / blog + FAQ** are invented placeholder copy — replace with real content
-      (then add FAQPage schema; don't mark up invented answers).
+- [x] **Resources / blog + FAQ** — DONE (2026-07-01). Fake dated "articles" → an evergreen
+      **Guides & Standards** hub (NFPA 13 flue space, inspection cadence, repair-vs-replace,
+      OSHA/ANSI) linking to real pages (calculator, category pages, audit request). FAQ rewritten
+      to 6 factual Q&As (`src/data/faqs.ts`, shared source of truth) + **FAQPage JSON-LD**
+      (`faqJsonLd` in seo.ts, emitted in `app/resources/page.tsx`). Also cleaned up on that
+      screen: dead "download" links → "What an Audit Covers" list; deduped the two fire-marshal
+      referral blocks → one; fixed off-brand "industrial financial literacy / forum" copy.
+      **User decisions baked in — do NOT reintroduce:** no lifetime-warranty claim (dropped),
+      no response-time SLA (just "contact us"), shipping worded "nationwide, contiguous US;
+      contact us for AK/HI/intl." Verified in the prerendered HTML (schema present, 6 questions,
+      0 fabricated claims). If real warranty terms / an SLA are ever confirmed, add them back
+      to `faqs.ts` (visible copy + schema stay in sync automatically).
 - [ ] **Upgrade 4 low-res photos** — wire-mesh-partitions (580×300), building-column-
       protectors (235×300), forklift-wheel-stops (a Handle It shot, not A-SAFE), and
       guide-rail / v-divider (distributor, not exact partner). See the SEO / enrichment docs.

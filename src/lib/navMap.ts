@@ -30,6 +30,10 @@ export function targetToHref(target: NavTarget, payload?: string | null): string
       return '/resources';
     case 'about':
       return '/about';
+    case 'privacy':
+      return '/privacy';
+    case 'terms':
+      return '/terms';
     case 'contact':
       // The large 'flue-calc:' summary is handed off via sessionStorage by useNav,
       // so the URL stays clean. Short request tokens ride a shareable query param.

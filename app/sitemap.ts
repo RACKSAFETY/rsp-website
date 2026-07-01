@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.racksafetyprod
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ['', '/catalog', '/services', '/resources', '/about', '/contact'];
+  const staticRoutes = ['', '/catalog', '/services', '/resources', '/about', '/contact', '/privacy', '/terms'];
 
   const staticEntries = staticRoutes.map((path) => ({
     url: `${SITE_URL}${path}`,

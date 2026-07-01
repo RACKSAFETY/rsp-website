@@ -331,7 +331,7 @@ export const TopNav = () => {
 export const Footer = () => {
   const cols = [
     { h: 'Quick Links', items: [['Catalog', 'catalog'], ['Flue Products', 'category', 'flue-products'], ['Services', 'services'], ['Resources', 'resources'], ['About', 'about']] },
-    { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
+    { h: 'Support',     items: [['Privacy Policy', 'privacy'], ['Terms of Service', 'terms'], ['Compliance Standards', 'resources'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (
     <footer className="rsp-px" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '64px 32px 24px', borderTop: '4px solid #F5C344' }}>
