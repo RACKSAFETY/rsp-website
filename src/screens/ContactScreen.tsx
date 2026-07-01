@@ -121,15 +121,15 @@ export default function ContactScreen() {
 
   return (
     <div className="rsp-fade-up">
-      <section style={{ background: '#F9F9F9', color: '#1A1A1A', padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#F9F9F9', color: '#1A1A1A', padding: '72px 32px 96px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0,
           background: `repeating-linear-gradient(45deg, rgba(245,195,68,0.12) 0 ${CAUTION.period / 2}px, transparent ${CAUTION.period / 2}px ${CAUTION.period}px)`,
           opacity: CAUTION.opacity * 5,
         }}></div>
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '38%', background: '#1A1A1A', clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}></div>
+        <div className="rsp-hide-mobile" style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '38%', background: '#1A1A1A', clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}></div>
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
           <Pill kind="yellow" style={{ fontSize: 11, marginBottom: 24 }}>REQUEST SPECIFICATION</Pill>
-          <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(72px, 9vw, 140px)', lineHeight: 0.85, textTransform: 'uppercase', margin: 0, color: '#1A1A1A' }}>
+          <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(34px, 9vw, 140px)', lineHeight: 0.85, textTransform: 'uppercase', margin: 0, color: '#1A1A1A' }}>
             Get a<br/>
             <span style={{ color: '#D9530F' }}>Precision Quote</span>
           </h1>
@@ -144,8 +144,8 @@ export default function ContactScreen() {
         <CautionStripe height={6} period={60} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
       </section>
 
-      <section id="quote-form" style={{ padding: '64px 32px', background: '#F9F9F9' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '300px 1fr', gap: 32, alignItems: 'flex-start' }}>
+      <section id="quote-form" className="rsp-px rsp-py" style={{ padding: '64px 32px', background: '#F9F9F9' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '300px 1fr', gap: 32, alignItems: 'flex-start' }}>
           <aside style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div style={{ background: '#1A1A1A', color: '#FFFFFF', padding: 28, borderBottom: '4px solid #F5C344' }}>
               <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, color: '#F5C344', fontSize: 30, textTransform: 'uppercase', margin: '0 0 20px' }}>Safety Contact</h3>
@@ -219,7 +219,7 @@ export default function ContactScreen() {
               </div>
             </div>
           ) : (
-            <form onSubmit={submit} noValidate style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', padding: 40, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <form onSubmit={submit} noValidate className="rsp-stack" style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', padding: 40, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
               <FormField
                 label="Full Name" placeholder="John Doe" value={form.name}
                 onChange={(v) => set('name', v)} onBlur={() => blur('name')}
@@ -298,14 +298,14 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      <section style={{ background: '#2A2A2A', color: '#FFFFFF', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#2A2A2A', color: '#FFFFFF', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 20px, transparent 20px 40px)' }}></div>
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
           <div style={{ borderLeft: '4px solid #F5C344', paddingLeft: 20, marginBottom: 40 }}>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 48, textTransform: 'uppercase', margin: '0 0 6px', color: '#FFFFFF' }}>Specify Your Protection</h2>
             <DataLabel color="#F5C344">HIGH-IMPACT SAFETY COMPONENTS</DataLabel>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 24 }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 24 }}>
             <div onClick={() => onNav('product', 'flue-guard')} style={{ position: 'relative', border: '2px solid #1A1A1A', overflow: 'hidden', minHeight: 340, cursor: 'pointer' }}>
               <img src="/assets/products/flue-guard.svg" alt="Flue guard installation" style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', filter: 'grayscale(1) brightness(0.5)' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, background: 'linear-gradient(to top, rgba(0,0,0,0.92), transparent)' }}>
@@ -316,7 +316,7 @@ export default function ContactScreen() {
             </div>
             <SpecifyTile onClick={() => onNav('product', 'flared-channel-wire-decking')} bg="#E8E8E8" color="#1A1A1A" iconColor="#D9530F" titleColor="#D9530F" icon="layers" title="Wire Decking" desc="U-Channel structural support for maximum capacity." />
             <SpecifyTile onClick={() => onNav('product', 'column-guards')} bg="#F5C344" color="#1A1A1A" iconColor="#1A1A1A" titleColor="#1A1A1A" icon="warning" iconFill={1} title="Column Guards" desc="Prevent upright collapse from forklift impacts." />
-            <div onClick={() => onNav('contact', 'catalog-pdf')} style={{ gridColumn: '2/-1', background: '#1A1A1A', border: '2px solid #1A1A1A', padding: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'background 200ms' }}
+            <div onClick={() => onNav('contact', 'catalog-pdf')} className="rsp-fullspan" style={{ gridColumn: '2/-1', background: '#1A1A1A', border: '2px solid #1A1A1A', padding: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', transition: 'background 200ms' }}
               onMouseEnter={(e) => (e.currentTarget.style.background = '#BD480C')}
               onMouseLeave={(e) => (e.currentTarget.style.background = '#1A1A1A')}
             >
@@ -331,9 +331,9 @@ export default function ContactScreen() {
       </section>
 
       {/* Distributor / OEM band — hybrid positioning (positions doc §1) */}
-      <section id="wholesale" style={{ background: '#F5C344', padding: '88px 32px', position: 'relative', overflow: 'hidden', scrollMarginTop: 80 }}>
+      <section id="wholesale" className="rsp-px rsp-py" style={{ background: '#F5C344', padding: '88px 32px', position: 'relative', overflow: 'hidden', scrollMarginTop: 80 }}>
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.06) 0 2px, transparent 2px 18px)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 48, alignItems: 'center' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
             <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 14 }}>FOR DISTRIBUTORS &amp; OEM PARTNERS</DataLabel>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
@@ -342,7 +342,7 @@ export default function ContactScreen() {
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, lineHeight: 1.6, color: '#1A1A1A', margin: '0 0 18px', maxWidth: 580 }}>
               We partner with rack integrators, MHE distributors, and warehouse-systems OEMs who need a specialist source for flue keepers, structural protection, and NFPA-compliant accessories.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, maxWidth: 580 }}>
+            <ul className="rsp-stack-2" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, maxWidth: 580 }}>
               {[
                 'Partner pricing with volume tiers',
                 'Drop-ship and blind-ship programs',

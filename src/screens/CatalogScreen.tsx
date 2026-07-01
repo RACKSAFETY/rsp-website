@@ -15,6 +15,7 @@ export default function CatalogScreen() {
   const [cats, setCats] = useState(new Set(initialFilter ? [initialFilter] : []));
   const [comp, setComp] = useState(null);
   const [sort, setSort] = useState('relevance');
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggleCat = (id) => {
     const next = new Set(cats);
@@ -68,10 +69,19 @@ export default function CatalogScreen() {
         </div>
       </div>
 
-      <section style={{ padding: '32px 32px 96px', background: '#F9F9F9' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 40 }}>
+      <section className="rsp-px" style={{ padding: '32px 32px 96px', background: '#F9F9F9' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <button
+            className="rsp-only-mobile"
+            onClick={() => setShowFilters((s) => !s)}
+            style={{ width: '100%', marginBottom: 20, padding: '13px 16px', background: '#1A1A1A', color: '#F5C344', border: 0, cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' }}
+          >
+            {showFilters ? '✕ Hide Filters' : '☰ Filters'}
+          </button>
+        </div>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 40 }}>
           {/* Sidebar filters */}
-          <aside style={{ position: 'sticky', top: 92, alignSelf: 'flex-start' }}>
+          <aside className={showFilters ? 'rsp-static rsp-filters-open' : 'rsp-static rsp-filters'} style={{ position: 'sticky', top: 92, alignSelf: 'flex-start' }}>
             <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, color: '#D9530F', fontSize: 32, textTransform: 'uppercase', borderBottom: '2px solid #1A1A1A', paddingBottom: 12, margin: '0 0 22px' }}>Filters</h3>
 
             <DataLabel style={{ display: 'block', marginBottom: 12 }}>Product Category</DataLabel>
@@ -111,7 +121,7 @@ export default function CatalogScreen() {
           <div>
             <div style={{ marginBottom: 24 }}>
               <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 12 }}>{cats.size === 0 ? 'ALL CATEGORIES' : Array.from(cats).map((c) => CATEGORIES.find(([id]) => id === c)?.[1]).join(' · ')}</DataLabel>
-              <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(64px, 7.2vw, 96px)', lineHeight: 0.9, textTransform: 'uppercase', margin: 0 }}>
+              <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(34px, 7.2vw, 96px)', lineHeight: 0.9, textTransform: 'uppercase', margin: 0 }}>
                 <span style={{ display: 'inline-block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Industrial</span><br/>
                 <span style={{ display: 'inline-block', ...hwStyle({ fill: '#D9530F', shadow: '#F5C344' }) }}>Safety Solutions</span>
               </h1>

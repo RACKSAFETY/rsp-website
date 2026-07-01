@@ -111,9 +111,9 @@ export default function ComplianceCalculator() {
   };
 
   return (
-    <section style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
+    <section className="rsp-px rsp-py" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(245,195,68,0.05) 0 30px, transparent 30px 60px)' }}></div>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start', position: 'relative' }}>
+      <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start', position: 'relative' }}>
 
         {/* Calculator card */}
         <div style={{ background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(245,195,68,0.3)', padding: 28 }}>

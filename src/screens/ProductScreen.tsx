@@ -119,7 +119,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
 
   return (
     <div className="rsp-fade-up">
-      <div style={{ background: '#F9F9F9', padding: '24px 32px 16px' }}>
+      <div className="rsp-px" style={{ background: '#F9F9F9', padding: '24px 32px 16px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#807662' }}>
             <a onClick={() => onNav('home')} style={{ cursor: 'pointer', color: '#807662', textDecoration: 'none' }}>HOME</a>
@@ -140,8 +140,8 @@ export default function ProductScreen({ productId }: { productId: string }) {
         </div>
       </div>
 
-      <section style={{ padding: '24px 32px 96px', background: '#F9F9F9' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56 }}>
+      <section className="rsp-px" style={{ padding: '24px 32px 96px', background: '#F9F9F9' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56 }}>
           {/* LEFT — Image + thumbnails */}
           <div>
             <div style={{ position: 'relative', border: '2px solid #1A1A1A', background: '#FFFFFF', aspectRatio: '1', overflow: 'hidden' }}>
@@ -157,7 +157,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
               <CautionStripe height={6} period={28} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
+            <div className="rsp-stack-2" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
               {[p.img, '/assets/imagery/warehouse-hero.svg', '/assets/imagery/inspection-editorial.svg', p.img].map((src, i) => (
                 <div key={i} style={{ border: '2px solid #1A1A1A', aspectRatio: '1', overflow: 'hidden', background: '#FFFFFF', cursor: 'pointer', opacity: i === 0 ? 1 : 0.55, transition: 'opacity 200ms' }}
                   onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
@@ -189,7 +189,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
           {/* RIGHT — Details + quote builder */}
           <div>
             <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 12 }}>{p.catLabel.toUpperCase()}{p.mfg ? ` · MFG ${p.mfg.toUpperCase()}` : ' · SAFETY PICK'}</DataLabel>
-            <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(48px, 6vw, 80px)', lineHeight: 0.88, textTransform: 'uppercase', margin: '0 0 16px', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>
+            <h1 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(34px, 6vw, 80px)', lineHeight: 0.88, textTransform: 'uppercase', margin: '0 0 16px', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>
               {p.name}
             </h1>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.55, color: '#1A1A1A', margin: '0 0 24px', borderLeft: '3px solid #D9530F', paddingLeft: 14, maxWidth: 540 }}>
@@ -261,7 +261,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
             )}
 
             <div style={{ border: '2px solid #1A1A1A', background: '#FFFFFF', padding: 0 }}>
-              <div style={{ background: '#1A1A1A', color: '#F5C344', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="rsp-wrap" style={{ background: '#1A1A1A', color: '#F5C344', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
                 <DataLabel color="#F5C344">QUOTE BUILDER</DataLabel>
                 <DataLabel color="rgba(245,195,68,0.6)" size={10}>EST. $/UNIT — FINAL VIA SPEC</DataLabel>
               </div>
@@ -277,7 +277,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
                     <button onClick={() => setQty(Math.min(500, qty + 10))} style={qtyBtn}>+10</button>
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 18 }}>
+                <div className="rsp-stack-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 18 }}>
                   <div style={{ padding: 12, background: '#F3F3F3' }}>
                     <DataLabel color="#807662" size={10}>EST. SUBTOTAL</DataLabel>
                     <div style={{ fontFamily: "'Anton',sans-serif", fontSize: 28, lineHeight: 1, marginTop: 4 }}>${totalEstimate.toLocaleString()}</div>
@@ -358,7 +358,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
         {/* Spec Table */}
         <div style={{ maxWidth: 1280, margin: '96px auto 0' }}>
           <SectionHeader title="Technical Specifications" eyebrow={skuLabel ? `SKU ${skuLabel}` : p.catLabel.toUpperCase()} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, border: '2px solid #1A1A1A', background: '#FFFFFF' }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, border: '2px solid #1A1A1A', background: '#FFFFFF' }}>
             {detailData.specs.map(([k, v], i) => (
               <div key={k} style={{
                 display: 'grid', gridTemplateColumns: '1fr 1.4fr',
@@ -455,7 +455,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
         {/* Related */}
         <div style={{ maxWidth: 1280, margin: '96px auto 0' }}>
           <SectionHeader title="Pair It With" eyebrow="ENGINEER-RECOMMENDED" right={<a onClick={() => onNav('catalog')} style={{ cursor: 'pointer', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1A1A1A' }}>Full Catalog →</a>} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {related.map((r) => (
               <div key={r.id} onClick={() => { onNav('product', r.id); window.scrollTo(0, 0); }} style={{ cursor: 'pointer', border: '2px solid #1A1A1A', background: '#FFFFFF', transition: 'background 200ms' }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = '#F5C344')}
@@ -475,9 +475,9 @@ export default function ProductScreen({ productId }: { productId: string }) {
         </div>
       </section>
 
-      <section style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
         <CautionStripe height={6} period={28} opacity={0.6} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
-        <div style={{ maxWidth: 1080, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 48, alignItems: 'center' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1080, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
             <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 16 }}>NOT SURE WHAT FITS?</DataLabel>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>

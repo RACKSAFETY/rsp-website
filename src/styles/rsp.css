@@ -247,3 +247,53 @@ input[type=range] { accent-color: var(--rsp-yellow); }
 
 /* Disable text selection on hover-y interactive areas */
 .rsp-no-select { user-select: none; }
+
+/* =========================================================================
+   Responsive — mobile layout overrides.
+   Desktop layout lives in inline style objects; these classes are inert above
+   the breakpoint and only kick in on small screens, so desktop is unchanged.
+   The `!important` is required to win over inline styles at the breakpoint.
+   ========================================================================= */
+
+/* Mobile-nav elements are desktop-hidden by default; shown at the breakpoint */
+.rsp-nav-burger { display: none; }
+.rsp-nav-panel  { display: none; }
+.rsp-only-mobile { display: none; }
+
+@media (max-width: 820px) {
+  .rsp-nav-desktop { display: none !important; }
+  .rsp-nav-burger  { display: flex !important; }
+  .rsp-nav-panel   { display: block !important; }
+}
+
+@media (max-width: 768px) {
+  /* Collapse fixed multi-column grids */
+  .rsp-stack    { grid-template-columns: minmax(0, 1fr) !important; gap: 24px !important; }
+  .rsp-stack-2  { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 12px !important; }
+  /* Stack flex rows; give % / fixed-width children full width */
+  .rsp-col      { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+  .rsp-col > *  { width: 100% !important; }
+  /* Trim padding that wastes space on small screens */
+  .rsp-px       { padding-left: 20px !important; padding-right: 20px !important; }
+  .rsp-py       { padding-top: 64px !important; padding-bottom: 64px !important; }
+  /* Un-stick sidebars once they stack above the content */
+  .rsp-static   { position: static !important; top: auto !important; }
+  /* Services slider: reveal a peek of the next card */
+  .rsp-slide-card { flex-basis: 82vw !important; }
+  /* Cap section-header titles so they don't overflow */
+  .rsp-h2       { font-size: 34px !important; line-height: 1.02 !important; }
+  /* Featured "bento" card: stack its two halves, give the image a fixed height */
+  .rsp-bento      { flex-direction: column !important; }
+  .rsp-bento-half { width: 100% !important; }
+  .rsp-bento-img  { height: 220px !important; }
+  /* Mobile-only utilities: filter toggle + collapsible catalog sidebar */
+  .rsp-only-mobile  { display: block !important; }
+  .rsp-filters      { display: none !important; }
+  .rsp-filters-open { display: block !important; }
+  /* Force a grid child that normally spans specific columns to span the single column */
+  .rsp-fullspan     { grid-column: 1 / -1 !important; }
+  /* Hide desktop-only decorative elements that overlap content on small screens */
+  .rsp-hide-mobile  { display: none !important; }
+  /* Let a flex row wrap instead of forcing its parent wider than the viewport */
+  .rsp-wrap         { flex-wrap: wrap !important; }
+}

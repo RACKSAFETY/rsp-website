@@ -22,11 +22,11 @@ export default function ServicesScreen() {
         }} />
         <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
-        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '96px 32px 88px' }}>
+        <div className="rsp-px rsp-py" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '96px 32px 88px' }}>
           <Pill kind="yellow" style={{ fontSize: 11, marginBottom: 24 }}>PRODUCT-FIRST, ENGINEERING-LED</Pill>
           <h1 style={{
             fontFamily: "'Anton',sans-serif", fontWeight: 400,
-            fontSize: 'clamp(64px, 9vw, 140px)', lineHeight: 0.86,
+            fontSize: 'clamp(34px, 9vw, 140px)', lineHeight: 0.86,
             textTransform: 'uppercase', margin: 0,
           }}>
             <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Warehouse</span>
@@ -48,7 +48,7 @@ export default function ServicesScreen() {
       </section>
 
       {/* SERVICE GRID */}
-      <section style={{ padding: '120px 32px', background: '#F3F3F3' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '120px 32px', background: '#F3F3F3' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <SectionHeader
             eyebrow="SERVICES"
@@ -62,7 +62,7 @@ export default function ServicesScreen() {
       </section>
 
       {/* CTA CLOSER */}
-      <section style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', position: 'relative' }}>

@@ -27,13 +27,13 @@ export default function HomeScreen() {
       <HeroCaution onNav={onNav} />
 
       {/* FEATURED SOLUTIONS — Bento */}
-      <section style={{ padding: '120px 32px', background: '#F9F9F9' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '120px 32px', background: '#F9F9F9' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <SectionHeader
             title="Featured Solutions"
             right={<a onClick={() => onNav('catalog')} style={{ cursor: 'pointer', fontFamily: "'Inter',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#1A1A1A', textDecorationThickness: 2 }}>See All Solutions →</a>}
           />
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
             <BigBentoCard onNav={onNav} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <SmallBentoCard
@@ -67,14 +67,14 @@ export default function HomeScreen() {
       <WhyRSPPillars />
 
       {/* EDITOR'S PICKS */}
-      <section style={{ padding: '120px 32px', background: '#FFFFFF' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '120px 32px', background: '#FFFFFF' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 56 }}>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 56, lineHeight: 1, textTransform: 'uppercase', margin: 0 }}>From the Field</h2>
             <div style={{ flex: 1, height: 4, background: '#1A1A1A' }}></div>
             <DataLabel color="#D9530F">UPDATED OCT 2026</DataLabel>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 48 }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 48 }}>
             <article
               onClick={() => onNav('resources')}
               style={{ borderRight: '2px solid #E2E2E2', paddingRight: 32, cursor: 'pointer' }}
@@ -103,6 +103,7 @@ export default function HomeScreen() {
               ].map(([h, cat, dt, d, img], i) => (
                 <article
                   key={i}
+                  className="rsp-stack"
                   onClick={() => onNav('resources')}
                   style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 24, paddingBottom: 28, borderBottom: i < 2 ? '1px solid #E2E2E2' : 0, cursor: 'pointer' }}
                 >
@@ -128,13 +129,13 @@ export default function HomeScreen() {
       </section>
 
       {/* FAQ — Yellow flood */}
-      <section style={{ background: '#F5C344', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#F5C344', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.05) 0 2px, transparent 2px 16px)', pointerEvents: 'none' }}></div>
         <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative' }}>
           <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 64, lineHeight: 1, textTransform: 'uppercase', textAlign: 'center', margin: '0 0 56px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
             Frequently Asked Questions
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 56px' }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 56px' }}>
             <FAQItem
               q="What safety standards do you follow?"
               a="All products are engineered to meet or exceed NFPA 13 fire safety clearance, OSHA 1910.176 storage requirements, and ANSI MH16.1 structural standards. Compliance certificates ship with every order."
@@ -160,7 +161,7 @@ export default function HomeScreen() {
       </section>
 
       {/* CTA — Charcoal closer */}
-      <section style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '120px 32px', position: 'relative', overflow: 'hidden' }}>
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
         <CautionStripe height={6} opacity={0.5} period={32} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
@@ -191,21 +192,21 @@ const HeroCaution = ({ onNav }) => (
     }} />
     <CautionStripe height={CAUTION.bandH} period={CAUTION.period} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
-    <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '120px 32px 96px' }}>
+    <div className="rsp-px rsp-py" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '120px 32px 96px' }}>
       <div style={{ display: 'flex', gap: 32, alignItems: 'center', flexWrap: 'wrap' }}>
         <Pill kind="yellow" style={{ fontSize: 11 }}>RACK &amp; FIRE PROTECTION SPECIALISTS</Pill>
         <DataLabel color="#1A1A1A" size={10}>OSHA · NFPA 13 · ANSI MH16.1</DataLabel>
       </div>
       <h1 style={{
         fontFamily: "'Anton',sans-serif", fontWeight: 400,
-        fontSize: 'clamp(72px, 11vw, 168px)', lineHeight: 0.86, letterSpacing: '0.005em',
+        fontSize: 'clamp(40px, 11vw, 168px)', lineHeight: 0.86, letterSpacing: '0.005em',
         textTransform: 'uppercase', margin: '32px 0 32px',
       }}>
         <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>Rack &amp; Fire</span>
         <span style={{ display: 'block', ...hwStyle({ fill: '#D9530F', shadow: '#1A1A1A' }) }}>Protection</span>
         <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>Specialists</span>
       </h1>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, alignItems: 'flex-end' }}>
+      <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 64, alignItems: 'flex-end' }}>
         <div>
           <p style={{
             fontFamily: "'Inter',sans-serif", fontSize: 18, lineHeight: 1.6,
@@ -219,7 +220,7 @@ const HeroCaution = ({ onNav }) => (
             <Mega variant="outline-dark" onClick={() => onNav('resources')} style={{ borderColor: '#1A1A1A', color: '#1A1A1A' }}>Safety Guides</Mega>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#F5C344', border: '2px solid #F5C344' }}>
+        <div className="rsp-stack-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#F5C344', border: '2px solid #F5C344' }}>
           {SITE.stats.filter(([, v]) => v && v !== 'TODO').map(([k, v]) => (
             <div key={k} style={{ background: '#1A1A1A', padding: '18px 20px' }}>
               <DataLabel color="rgba(245,195,68,0.6)" size={9}>{k}</DataLabel>
@@ -239,26 +240,27 @@ const BigBentoCard = ({ onNav }) => {
       onClick={() => onNav('product', 'flue-guard')}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="rsp-bento"
       style={{
         background: '#1A1A1A', color: '#FFFFFF', position: 'relative', border: '2px solid #1A1A1A',
         display: 'flex', cursor: 'pointer', overflow: 'hidden',
       }}
     >
       <div style={{ position: 'absolute', top: 16, right: 16, background: '#F5C344', color: '#1A1A1A', padding: '4px 12px', fontFamily: "'JetBrains Mono',monospace", fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', zIndex: 2 }}>SAFETY PICK</div>
-      <div style={{ width: '52%', padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div className="rsp-bento-half" style={{ width: '52%', padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 44, lineHeight: 0.95, textTransform: 'uppercase', color: '#FFFFFF', textShadow: '4px 4px 0 #D9530F', margin: '0 0 16px' }}>Flue Guard™ Systems</h3>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.55, color: '#C8C6C5', margin: 0, maxWidth: 360 }}>
             Maintain critical fire safety spacing in your rack systems. Prevents pallets from encroaching on essential flue space.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 28, paddingTop: 18, borderTop: '1px solid rgba(245,195,68,0.3)' }}>
+          <div className="rsp-stack-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 28, paddingTop: 18, borderTop: '1px solid rgba(245,195,68,0.3)' }}>
             <div><DataLabel color="rgba(245,195,68,0.6)" size={9}>STANDARD</DataLabel><div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, fontWeight: 700, color: '#F5C344', marginTop: 4 }}>NFPA 13</div></div>
             <div><DataLabel color="rgba(245,195,68,0.6)" size={9}>OFFSETS</DataLabel><div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, fontWeight: 700, color: '#F5C344', marginTop: 4 }}>3″ – 12″</div></div>
           </div>
         </div>
         <Btn variant="orange" style={{ alignSelf: 'flex-start', marginTop: 24 }}>Request a Quote →</Btn>
       </div>
-      <div style={{ width: '48%', overflow: 'hidden', background: '#2A2A2A', position: 'relative' }}>
+      <div className="rsp-bento-half rsp-bento-img" style={{ width: '48%', overflow: 'hidden', background: '#2A2A2A', position: 'relative' }}>
         <img src="/assets/products/flue-guard.svg" alt="Flue guard component" style={{
           width: '100%', height: '100%', objectFit: 'cover',
           transition: 'transform 500ms cubic-bezier(.4,0,.2,1), filter 500ms',
@@ -320,7 +322,7 @@ const ServicesSection = ({ onNav }) => {
   };
   const hov = (e, on) => { e.currentTarget.style.background = on ? '#1A1A1A' : '#FFFFFF'; e.currentTarget.style.color = on ? '#F5C344' : '#1A1A1A'; };
   return (
-    <section style={{ padding: '120px 32px', background: '#F3F3F3', borderTop: '2px solid #1A1A1A', borderBottom: '2px solid #1A1A1A' }}>
+    <section className="rsp-px rsp-py" style={{ padding: '120px 32px', background: '#F3F3F3', borderTop: '2px solid #1A1A1A', borderBottom: '2px solid #1A1A1A' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <SectionHeader
           eyebrow="SERVICES · PRODUCT-FIRST, ENGINEERING-LED"
@@ -349,7 +351,7 @@ const ServiceTile = ({ slug, icon, title, desc, cta, onNav }) => {
       onClick={() => onNav('contact', slug)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="rsp-card-hover"
+      className="rsp-card-hover rsp-slide-card"
       style={{
         background: hover ? '#1A1A1A' : '#FFFFFF',
         color: hover ? '#FFFFFF' : '#1A1A1A',
@@ -404,7 +406,7 @@ const PILLARS = [
 ];
 
 const WhyRSPPillars = () => (
-  <section style={{ padding: '120px 32px', background: '#FFFFFF' }}>
+  <section className="rsp-px rsp-py" style={{ padding: '120px 32px', background: '#FFFFFF' }}>
     <div style={{ maxWidth: 1280, margin: '0 auto' }}>
       <SectionHeader
         eyebrow="WHY RACK SAFETY PRODUCTS"

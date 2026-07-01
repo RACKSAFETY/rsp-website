@@ -234,19 +234,21 @@ export const TopNav = () => {
   // Caution stripe under the nav only appears once scrolled — at the top it would
   // collide with the hero's own hazard band.
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
   return (
     <nav style={{
       position: 'sticky', top: 0, zIndex: 100,
       background: '#1A1A1A',
       borderBottom: '2px solid #F5C344',
     }}>
-      <div style={{
+      <div className="rsp-px" style={{
         maxWidth: 1280, margin: '0 auto',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         height: 72, padding: '0 32px',
@@ -261,7 +263,7 @@ export const TopNav = () => {
             style={{ height: 40, display: 'block' }}
           />
         </Link>
-        <div style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
+        <div className="rsp-nav-desktop" style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
           {items.map(([target, l, payload], i) => {
             const href = targetToHref(target as NavTarget, payload);
             const base = href.split('?')[0];
@@ -290,7 +292,32 @@ export const TopNav = () => {
           })}
           <Btn variant="yellow" size="sm" onClick={() => nav('contact')}>Get Quote</Btn>
         </div>
+        <button
+          className="rsp-nav-burger"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((o) => !o)}
+          style={{ background: 'transparent', border: 0, cursor: 'pointer', color: '#F5C344', fontSize: 26, lineHeight: 1, padding: 4, alignItems: 'center', justifyContent: 'center' }}
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
       </div>
+      {menuOpen && (
+        <div className="rsp-nav-panel" style={{ background: '#1A1A1A', borderTop: '1px solid rgba(245,195,68,0.3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', padding: '8px 20px 20px' }}>
+            {items.map(([target, l, payload], i) => (
+              <Link
+                key={i}
+                href={targetToHref(target as NavTarget, payload)}
+                onClick={() => setMenuOpen(false)}
+                style={{ color: '#FFFFFF', textDecoration: 'none', fontFamily: "'Inter',sans-serif", fontWeight: 600, fontSize: 14, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '14px 2px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                {l}
+              </Link>
+            ))}
+            <Btn variant="yellow" size="sm" onClick={() => { setMenuOpen(false); nav('contact'); }} style={{ marginTop: 16, justifyContent: 'center' }}>Get Quote</Btn>
+          </div>
+        </div>
+      )}
       <div style={{ height: scrolled ? 4 : 0, overflow: 'hidden', transition: 'height 200ms cubic-bezier(.4,0,.2,1)' }}>
         <CautionStripe height={4} opacity={0.9} period={24} />
       </div>
@@ -307,8 +334,8 @@ export const Footer = () => {
     { h: 'Support',     items: [['Privacy Policy'], ['Terms of Service'], ['Compliance Standards'], ['Wholesale Inquiries', 'contact', 'wholesale']] },
   ];
   return (
-    <footer style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '64px 32px 24px', borderTop: '4px solid #F5C344' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1.2fr', gap: 40 }}>
+    <footer className="rsp-px" style={{ background: '#1A1A1A', color: '#FFFFFF', padding: '64px 32px 24px', borderTop: '4px solid #F5C344' }}>
+      <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1.2fr', gap: 40 }}>
         <div>
           <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, color: '#F5C344', fontSize: 36, lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 14px' }}>
             Rack Safety<br/>Products
@@ -467,14 +494,14 @@ type SectionHeaderProps = {
   fontSize?: number;
 };
 export const SectionHeader = ({ title, eyebrow, right, rule = 'heavy', color = '#1A1A1A', fontSize = 56 }: SectionHeaderProps) => (
-  <div style={{
+  <div className="rsp-col" style={{
     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 32,
     paddingBottom: 16, marginBottom: 40,
     borderBottom: rule === 'heavy' ? '4px solid #1A1A1A' : rule === 'yellow' ? '2px solid #F5C344' : '2px solid #1A1A1A',
   }}>
     <div>
       {eyebrow && <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 8 }}>{eyebrow}</DataLabel>}
-      <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize, lineHeight: 1, textTransform: 'uppercase', margin: 0, color }}>{title}</h2>
+      <h2 className="rsp-h2" style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize, lineHeight: 1, textTransform: 'uppercase', margin: 0, color }}>{title}</h2>
     </div>
     {right}
   </div>

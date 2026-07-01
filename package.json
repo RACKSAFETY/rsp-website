@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "mobile-check": "node scripts/mobile-check.cjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -22,6 +23,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.61.1",
     "typescript": "^5.7.3",
     "vite": "^5.4.11",
     "vitest": "^2.1.8"

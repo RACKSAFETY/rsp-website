@@ -27,11 +27,11 @@ export default function AboutScreen() {
           background: `repeating-linear-gradient(45deg, #F1C041 0 ${CAUTION.period / 2}px, #F9F9F9 ${CAUTION.period / 2}px ${CAUTION.period}px)`,
           opacity: 0.20,
         }} />
-        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '96px 32px 88px' }}>
+        <div className="rsp-px rsp-py" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '96px 32px 88px' }}>
           <Pill kind="yellow" style={{ fontSize: 11, marginBottom: 24 }}>RACK &amp; FIRE PROTECTION SPECIALISTS</Pill>
           <h1 style={{
             fontFamily: "'Anton',sans-serif", fontWeight: 400,
-            fontSize: 'clamp(64px, 9vw, 140px)', lineHeight: 0.86,
+            fontSize: 'clamp(34px, 9vw, 140px)', lineHeight: 0.86,
             textTransform: 'uppercase', margin: 0,
           }}>
             <span style={{ display: 'block', ...hwStyle({ fill: '#1A1A1A', shadow: '#F5C344' }) }}>About</span>
@@ -51,10 +51,10 @@ export default function AboutScreen() {
       </section>
 
       {/* WHAT WE DO — verified positioning */}
-      <section style={{ padding: '96px 32px', background: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '96px 32px', background: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <SectionHeader title="What We Do" right={<DataLabel color="#D9530F">PRODUCT-FIRST · ENGINEERING-LED</DataLabel>} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
               ['shield', 'Flue Protection', "Engineered flue keepers and guards that maintain NFPA 13 transverse and longitudinal flue space, so sprinklers activate and perform as designed."],
               ['verified_user', 'Structural Rack Protection', 'Column guards, post protectors, and rack decking that keep uprights and inventory safe from forklift impact and overload.'],
@@ -72,8 +72,8 @@ export default function AboutScreen() {
       </section>
 
       {/* OUR STORY — scaffolded; placeholders for unverified narrative */}
-      <section style={{ padding: '96px 32px', background: '#F9F9F9' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'start' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '96px 32px', background: '#F9F9F9' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'start' }}>
           <div>
             <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 14 }}>OUR STORY</DataLabel>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(40px, 4.4vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 18px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
@@ -103,14 +103,14 @@ export default function AboutScreen() {
       </section>
 
       {/* STANDARDS — yellow hazard band */}
-      <section style={{ background: '#F5C344', color: '#1A1A1A', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
+      <section className="rsp-px rsp-py" style={{ background: '#F5C344', color: '#1A1A1A', padding: '96px 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, rgba(26,26,26,0.05) 0 2px, transparent 2px 16px)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
           <DataLabel color="#1A1A1A" style={{ display: 'block', marginBottom: 16 }}>STANDARDS WE BUILD TO</DataLabel>
           <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(40px, 4.4vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 36px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
             Compliance Is The Product
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: '#F5C344', border: '2px solid #1A1A1A' }}>
+          <div className="rsp-stack" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: '#F5C344', border: '2px solid #1A1A1A' }}>
             {[
               ['NFPA 13', 'Fire sprinkler clearance', 'Transverse & longitudinal flue space for high-pile storage.'],
               ['OSHA 1910.176', 'Materials handling & storage', 'Safe stacking, clearance, and housekeeping requirements.'],
@@ -128,8 +128,8 @@ export default function AboutScreen() {
       </section>
 
       {/* CONTACT + CTA */}
-      <section style={{ padding: '96px 32px', background: '#F9F9F9' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+      <section className="rsp-px rsp-py" style={{ padding: '96px 32px', background: '#F9F9F9' }}>
+        <div className="rsp-stack" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
           <div>
             <DataLabel color="#D9530F" style={{ display: 'block', marginBottom: 14 }}>GET IN TOUCH</DataLabel>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(40px, 4.4vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 28px', ...hwStyle({ fill: '#1A1A1A', shadow: '#D9530F' }) }}>
