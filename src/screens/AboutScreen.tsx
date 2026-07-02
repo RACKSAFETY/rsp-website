@@ -159,8 +159,8 @@ export default function AboutScreen() {
               Need a Quote?
             </h3>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 15, lineHeight: 1.6, color: '#C8C6C5', margin: '0 0 28px' }}>
-              Send us your warehouse layout and rack configuration. Our engineering team returns exact
-              specifications within 24 hours, Monday through Friday.
+              Send us your warehouse layout and rack configuration. Our engineering team will review it
+              and follow up with exact specifications and a quote.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <Mega variant="yellow" onClick={() => onNav('contact')}>Request a Quote →</Mega>

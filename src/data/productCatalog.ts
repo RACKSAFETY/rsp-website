@@ -16,9 +16,10 @@
 //   to find them. Flue Guard/Keeper are the flagship `flue` category (kept separate
 //   from `dividers`). Category landing pages are driven by CATEGORY_META (below).
 //
-//   Not in this file, still placeholder/unverified: Home "Editor's Picks", Resources
-//   articles, and FAQ answers are invented; trust claims ("24-hour response",
-//   "lifetime warranty") are unverified. See DOCS/PROJECT-TRACKER.md.
+//   Not in this file, still placeholder/unverified: Home "Editor's Picks" copy.
+//   (Resources articles + FAQ were rebuilt with real content; unverified trust
+//   claims — 24-hour response, lifetime warranty — have been softened/removed.)
+//   See DOCS/PROJECT-TRACKER.md.
 //
 // OPEN QUESTION: the live site links product detail out to theonlinecatalog.com.
 //   This rebuild keeps the site self-contained (own Catalog + Product screens).

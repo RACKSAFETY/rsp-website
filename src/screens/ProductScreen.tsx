@@ -5,6 +5,7 @@ import {
 } from '../components';
 import { PRODUCT_CATALOG, CATEGORY_META } from '../data/productCatalog';
 import { useNav } from '../hooks/useNav';
+import type { Product, NavTarget } from '../types';
 
 // Rich per-product detail. Only products with a key here get a hand-built detail
 // page; every other product in PRODUCT_CATALOG falls back to a default built from
@@ -60,15 +61,6 @@ const DETAIL_DATA = {
   },
 };
 
-// TODO-VERIFY: placeholder per-unit price used only for the quote-builder estimate.
-const PLACEHOLDER_UNIT_PRICE = 47;
-
-const qtyBtn = {
-  background: '#1A1A1A', color: '#F5C344', border: 0, padding: '8px 12px',
-  fontFamily: "'JetBrains Mono',monospace", fontSize: 12, fontWeight: 700, letterSpacing: '0.14em',
-  cursor: 'pointer', borderRadius: 0,
-};
-
 // Every size dimension a ProductPart can carry. The "Available Sizes" table + filter
 // buttons render only the dimensions a given product's parts actually use — so height-
 // based products (column guards, repair kits) and length-based ones (rails, end-of-aisle,
@@ -85,7 +77,6 @@ const DIMENSIONS: { key: DimKey; label: string; head: string; btn: (v: number) =
 export default function ProductScreen({ productId }: { productId: string }) {
   const onNav = useNav();
   const p = PRODUCT_CATALOG.find((x) => x.id === productId) || PRODUCT_CATALOG[0];
-  const [qty, setQty] = useState(50);
   const [variant, setVariant] = useState(0);
   const [filters, setFilters] = useState<Record<DimKey, number | null>>({
     depth: null, width: null, height: null, length: null, capacity: null,
@@ -114,7 +105,6 @@ export default function ProductScreen({ productId }: { productId: string }) {
   const leadLabel = p.leadTime && p.leadTime !== 'TODO' ? p.leadTime : 'By quote';
   const hasSku = parts.some((x) => x.sku && x.sku !== 'TODO');
 
-  const totalEstimate = qty * PLACEHOLDER_UNIT_PRICE;
   const related = PRODUCT_CATALOG.filter((x) => x.id !== p.id).slice(0, 3);
 
   return (
@@ -260,40 +250,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
               </div>
             )}
 
-            <div style={{ border: '2px solid #1A1A1A', background: '#FFFFFF', padding: 0 }}>
-              <div className="rsp-wrap" style={{ background: '#1A1A1A', color: '#F5C344', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                <DataLabel color="#F5C344">QUOTE BUILDER</DataLabel>
-                <DataLabel color="rgba(245,195,68,0.6)" size={10}>EST. $/UNIT — FINAL VIA SPEC</DataLabel>
-              </div>
-              <div style={{ padding: 20 }}>
-                <div style={{ marginBottom: 18 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-                    <DataLabel color="#807662">QUANTITY</DataLabel>
-                    <DataLabel color="#1A1A1A" size={14} style={{ fontWeight: 700 }}>{qty.toLocaleString()} {p.pricePer}{qty !== 1 ? 's' : ''}</DataLabel>
-                  </div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <button onClick={() => setQty(Math.max(1, qty - 10))} style={qtyBtn}>−10</button>
-                    <input type="range" min="1" max="500" value={qty} onChange={(e) => setQty(parseInt(e.target.value))} style={{ flex: 1 }} />
-                    <button onClick={() => setQty(Math.min(500, qty + 10))} style={qtyBtn}>+10</button>
-                  </div>
-                </div>
-                <div className="rsp-stack-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 18 }}>
-                  <div style={{ padding: 12, background: '#F3F3F3' }}>
-                    <DataLabel color="#807662" size={10}>EST. SUBTOTAL</DataLabel>
-                    <div style={{ fontFamily: "'Anton',sans-serif", fontSize: 28, lineHeight: 1, marginTop: 4 }}>${totalEstimate.toLocaleString()}</div>
-                  </div>
-                  <div style={{ padding: 12, background: '#F3F3F3' }}>
-                    <DataLabel color="#807662" size={10}>LEAD TIME</DataLabel>
-                    <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 16, fontWeight: 700, color: p.leadTime === 'In Stock' ? '#2ECC71' : '#1A1A1A', marginTop: 4 }}>{leadLabel}</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <Btn variant="primary" size="lg" onClick={() => onNav('contact')} style={{ flex: 1, justifyContent: 'center' }}>
-                    Request Engineered Quote →
-                  </Btn>
-                </div>
-              </div>
-            </div>
+            <CustomSpecBuilder p={p} activeDims={activeDims} leadLabel={leadLabel} onNav={onNav} />
 
             {detailData.docs && detailData.docs.length > 0 && (
               <div style={{ marginTop: 32, border: '2px solid #1A1A1A', padding: 24, background: '#FFFFFF' }}>
@@ -484,7 +441,7 @@ export default function ProductScreen({ productId }: { productId: string }) {
               Let our engineers spec it.
             </h2>
             <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#C8C6C5', margin: 0, maxWidth: 540 }}>
-              Send a rack drawing or a photo. We'll return a per-bay layout with quantities, install notes, and a fixed-price quote within 24 hours.
+              Send a rack drawing or a photo. We'll return a per-bay layout with quantities, install notes, and a detailed quote.
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -496,3 +453,148 @@ export default function ProductScreen({ productId }: { productId: string }) {
     </div>
   );
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Custom Spec Builder — replaces the old quantity-slider "quote builder" (which
+// showed a fabricated per-unit price). RSP makes many made-to-order parts, so
+// this captures the custom spec instead: dimensions, quantity, material/finish,
+// load rating, and mounting/compatibility. On submit it assembles a summary and
+// hands off to the contact form via the sessionStorage handoff (same mechanism
+// as the flue calculator), which prefills the notes and flows into /api/quote.
+// ─────────────────────────────────────────────────────────────────────────────
+const specInputStyle: React.CSSProperties = {
+  width: '100%', padding: '10px 12px', border: '2px solid #1A1A1A', borderRadius: 0,
+  fontFamily: "'Inter',sans-serif", fontSize: 14, outline: 'none', background: '#FFFFFF',
+  boxSizing: 'border-box',
+};
+
+const specLabelStyle: React.CSSProperties = {
+  fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: '0.1em',
+  textTransform: 'uppercase', color: '#807662',
+};
+
+type CustomSpecBuilderProps = {
+  p: Product;
+  activeDims: typeof DIMENSIONS;
+  leadLabel: string;
+  onNav: (target: NavTarget, payload?: string | null) => void;
+};
+
+function CustomSpecBuilder({ p, activeDims, leadLabel, onNav }: CustomSpecBuilderProps) {
+  const [dims, setDims] = useState<Record<string, string>>({});
+  const [dimsFreeform, setDimsFreeform] = useState('');
+  const [qty, setQty] = useState('');
+  const [material, setMaterial] = useState('');
+  const [loadRating, setLoadRating] = useState('');
+  const [mounting, setMounting] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const hasDimInputs = activeDims.length > 0;
+  // If capacity is already a dimension axis, it covers the load requirement —
+  // don't also show a separate "target load rating" field.
+  const hasCapacityDim = activeDims.some((d) => d.key === 'capacity');
+
+  const buildAndGo = () => {
+    const dimSummary = hasDimInputs
+      ? activeDims
+          .map((d) => {
+            const v = dims[d.key]?.trim();
+            return v ? `${d.label} ${v}${d.key === 'capacity' ? ' lb' : ' in'}` : null;
+          })
+          .filter(Boolean)
+          .join(', ')
+      : dimsFreeform.trim();
+
+    const payload = {
+      product: p.name,
+      productId: p.id,
+      dims: dimSummary,
+      qty: qty.trim(),
+      material: material.trim(),
+      loadRating: loadRating.trim(),
+      mounting: mounting.trim(),
+      notes: notes.trim(),
+    };
+    onNav('contact', 'custom-req:' + encodeURIComponent(JSON.stringify(payload)));
+  };
+
+  return (
+    <div style={{ border: '2px solid #1A1A1A', background: '#FFFFFF', padding: 0 }}>
+      <div className="rsp-wrap" style={{ background: '#1A1A1A', color: '#F5C344', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+        <DataLabel color="#F5C344">CUSTOM SPEC BUILDER</DataLabel>
+        <DataLabel color="rgba(245,195,68,0.6)" size={10}>MADE-TO-ORDER · FREE QUOTE</DataLabel>
+      </div>
+      <div style={{ padding: 20 }}>
+        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 14, lineHeight: 1.55, color: '#4E4635', margin: '0 0 18px' }}>
+          Need a custom version of the {p.name}? Tell us the specs and we&apos;ll quote a made-to-order run. Every field is optional — send what you know and our engineers fill the gaps.
+        </p>
+
+        <DataLabel color="#807662" size={10} style={{ display: 'block', marginBottom: 8 }}>CUSTOM DIMENSIONS</DataLabel>
+        {hasDimInputs ? (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+            {activeDims.map((d) => (
+              <label key={d.key} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={specLabelStyle}>{d.label}{d.key === 'capacity' ? ' (lb)' : ' (in)'}</span>
+                <input
+                  inputMode="decimal"
+                  value={dims[d.key] ?? ''}
+                  onChange={(e) => setDims((s) => ({ ...s, [d.key]: e.target.value }))}
+                  placeholder="—"
+                  style={specInputStyle}
+                />
+              </label>
+            ))}
+          </div>
+        ) : (
+          <input
+            value={dimsFreeform}
+            onChange={(e) => setDimsFreeform(e.target.value)}
+            placeholder="e.g. 52 in L × 46 in W × 4 in H"
+            style={{ ...specInputStyle, marginBottom: 16 }}
+          />
+        )}
+
+        <div style={{ display: 'grid', gridTemplateColumns: hasCapacityDim ? '1fr' : '1fr 1fr', gap: 10, marginBottom: 12 }}>
+          <SpecField label="Est. quantity" value={qty} onChange={setQty} placeholder="e.g. 200" />
+          {!hasCapacityDim && (
+            <SpecField label="Target load rating" value={loadRating} onChange={setLoadRating} placeholder="e.g. 2,500 lb UDL" />
+          )}
+        </div>
+
+        <SpecField label="Material · gauge · finish" value={material} onChange={setMaterial} placeholder="e.g. 12-ga steel, hot-dip galvanized" style={{ marginBottom: 12 }} />
+        <SpecField label="Mounting · compatibility" value={mounting} onChange={setMounting} placeholder="e.g. Teardrop rack, 3&quot; beam, bolt-on" style={{ marginBottom: 12 }} />
+
+        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 16 }}>
+          <span style={specLabelStyle}>Application / notes</span>
+          <textarea
+            rows={3}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="What does this custom version need to do?"
+            style={{ ...specInputStyle, resize: 'vertical', minHeight: 72 }}
+          />
+        </label>
+
+        <Btn variant="primary" size="lg" onClick={buildAndGo} style={{ width: '100%', justifyContent: 'center' }}>
+          Build Custom Request →
+        </Btn>
+        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <button
+            onClick={() => onNav('contact', 'spec-' + p.name)}
+            style={{ background: 'transparent', border: 0, cursor: 'pointer', fontFamily: "'Inter',sans-serif", fontSize: 12, fontWeight: 600, color: '#807662', textDecoration: 'underline', padding: 0 }}
+          >
+            Just need it as-is? Request a standard quote →
+          </button>
+          <DataLabel color="#807662" size={10}>LEAD TIME · {leadLabel}</DataLabel>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const SpecField = ({ label, value, onChange, placeholder, style = {} }) => (
+  <label style={{ display: 'flex', flexDirection: 'column', gap: 4, ...style }}>
+    <span style={specLabelStyle}>{label}</span>
+    <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} style={specInputStyle} />
+  </label>
+);

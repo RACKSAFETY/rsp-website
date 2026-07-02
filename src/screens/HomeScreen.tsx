@@ -146,7 +146,7 @@ export default function HomeScreen() {
             />
             <FAQItem
               q="When will I get my quote?"
-              a="Quotes are returned within 24 hours of submission, Monday through Friday. Rush requests for active safety violations are turned around in 4 hours."
+              a="We review every request quickly and follow up with a detailed quote. Flag an active safety violation in your notes and we'll prioritize it."
               theme="yellow" separator="heavy"
             />
             <FAQItem

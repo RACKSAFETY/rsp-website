@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Btn, DataLabel, Pill, Icon, hwStyle, CautionStripe } from '../components';
 import { SITE } from '../data/productCatalog';
-import { useNav, FLUE_CALC_KEY } from '../hooks/useNav';
+import { useNav, HANDOFF_KEY } from '../hooks/useNav';
 
 // Caution intensity locked to "low": opacity 0.10, period 60.
 const CAUTION = { opacity: 0.10, period: 60 };
@@ -14,6 +14,23 @@ function requestLabelFor(requestType) {
   if (!requestType) return null;
   if (requestType.startsWith('spec-')) {
     return `Request: Quote for ${requestType.replace('spec-', '')}`;
+  }
+  // Custom spec builder (product pages) — payload is 'custom-req:' + encoded JSON.
+  if (requestType.startsWith('custom-req:')) {
+    try {
+      const s = JSON.parse(decodeURIComponent(requestType.slice('custom-req:'.length)));
+      return [
+        `Custom part request: ${s.product}${s.productId ? ` (${s.productId})` : ''}`,
+        s.dims ? `Dimensions: ${s.dims}` : null,
+        s.qty ? `Estimated quantity: ${s.qty}` : null,
+        s.material ? `Material / gauge / finish: ${s.material}` : null,
+        s.loadRating ? `Target load rating: ${s.loadRating}` : null,
+        s.mounting ? `Mounting / compatibility: ${s.mounting}` : null,
+        s.notes ? `Notes: ${s.notes}` : null,
+      ].filter(Boolean).join('\n');
+    } catch {
+      return 'Custom part request';
+    }
   }
   // Flue calculator result — payload is 'flue-calc:' + encoded JSON summary.
   if (requestType.startsWith('flue-calc:')) {
@@ -56,9 +73,9 @@ export default function ContactScreen() {
     const fromQuery = searchParams.get('request');
     if (fromQuery) return fromQuery;
     if (typeof window !== 'undefined') {
-      const stashed = sessionStorage.getItem(FLUE_CALC_KEY);
+      const stashed = sessionStorage.getItem(HANDOFF_KEY);
       if (stashed) {
-        sessionStorage.removeItem(FLUE_CALC_KEY);
+        sessionStorage.removeItem(HANDOFF_KEY);
         return stashed;
       }
     }
@@ -134,7 +151,7 @@ export default function ContactScreen() {
             <span style={{ color: '#D9530F' }}>Precision Quote</span>
           </h1>
           <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#1A1A1A', maxWidth: 480, marginTop: 32, borderLeft: '3px solid #F5C344', paddingLeft: 16 }}>
-            Industrial-grade protection shouldn't be a guessing game. Our engineering team provides exact specifications for your warehouse layout within 24 hours.
+            Industrial-grade protection shouldn't be a guessing game. Our engineering team provides exact specifications for your warehouse layout — no guesswork, no runaround.
           </p>
           <div style={{ display: 'flex', gap: 14, marginTop: 32 }}>
             <Btn variant="yellow" size="lg" onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Start My Quote</Btn>
@@ -171,8 +188,8 @@ export default function ContactScreen() {
                 <DataLabel color="#D9530F">STANDARD COMPLIANCE</DataLabel>
                 <span style={{ background: '#1A1A1A', color: '#F5C344', padding: '4px 10px', fontFamily: "'JetBrains Mono',monospace", fontSize: 10, fontWeight: 700, letterSpacing: '0.14em' }}>ANSI MH16.1</span>
               </div>
-              {/* TODO-VERIFY: confirm these trust claims (response time, warranty terms) with the business. */}
-              {[['verified', 'Structural Integrity First'], ['warning', '24-Hour Engineering Response'], ['shield', 'Lifetime Component Warranty']].map(([ic, t]) => (
+              {/* Defensible capability claims only — no unverified response-time SLA or warranty. */}
+              {[['verified', 'Structural Integrity First'], ['engineering', 'In-House Structural Engineering'], ['fact_check', 'NFPA 13 & ANSI MH16.1 Spec Support']].map(([ic, t]) => (
                 <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0' }}>
                   <Icon name={ic} size={18} style={{ color: '#D9530F' }} />
                   <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 13 }}>{t}</span>
@@ -211,7 +228,7 @@ export default function ContactScreen() {
               <DataLabel color="#2ECC71" style={{ marginBottom: 12, display: 'block' }}>QUOTE REQUEST LOGGED · #{quoteId}</DataLabel>
               <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 48, textTransform: 'uppercase', margin: '0 0 12px', ...hwStyle({ fill: '#1A1A1A', shadow: '#2ECC71' }) }}>Quote request received</h2>
               <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, color: '#4E4635', maxWidth: 480, lineHeight: 1.6 }}>
-                Our engineering team will review your request and respond within <strong>24 hours</strong>. A confirmation has been sent to <strong style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14 }}>{form.email}</strong>.
+                Our engineering team will review your request and follow up with your quote by email at <strong style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14 }}>{form.email}</strong>. Keep your reference number handy in case you need to reach out.
               </p>
               <div style={{ marginTop: 32, display: 'flex', gap: 12 }}>
                 <Btn variant="primary" onClick={() => { setSubmitted(false); setQuoteId(''); setSubmitError(''); setForm({ name: '', company: '', email: '', rackConfig: 'Teardrop Pallet Rack', notes: '' }); setTouched({}); }}>Submit another</Btn>

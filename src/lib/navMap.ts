@@ -7,6 +7,14 @@ import type { NavTarget } from '@/src/types';
 
 const DEFAULT_PRODUCT = 'flue-guard';
 
+// Contact-form payloads that carry a large structured summary. These ride through
+// a sessionStorage handoff (see useNav) instead of the URL, so targetToHref keeps
+// the URL clean ('/contact') for them. Currently: the flue calculator result and
+// the product-page custom spec builder.
+export const HANDOFF_PREFIXES = ['flue-calc:', 'custom-req:'];
+export const isHandoffPayload = (payload?: string | null): boolean =>
+  !!payload && HANDOFF_PREFIXES.some((prefix) => payload.startsWith(prefix));
+
 export function productPath(id: string): string {
   return `/products/${id}`;
 }
@@ -35,9 +43,9 @@ export function targetToHref(target: NavTarget, payload?: string | null): string
     case 'terms':
       return '/terms';
     case 'contact':
-      // The large 'flue-calc:' summary is handed off via sessionStorage by useNav,
-      // so the URL stays clean. Short request tokens ride a shareable query param.
-      if (!payload || payload.startsWith('flue-calc:')) return '/contact';
+      // Large structured summaries are handed off via sessionStorage by useNav, so
+      // the URL stays clean. Short request tokens ride a shareable query param.
+      if (!payload || isHandoffPayload(payload)) return '/contact';
       return `/contact?request=${encodeURIComponent(payload)}`;
     default:
       return '/';

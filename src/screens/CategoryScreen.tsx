@@ -97,7 +97,7 @@ export default function CategoryScreen({ category }: { category: CategoryId }) {
           <div>
             <DataLabel color="#F5C344" style={{ display: 'block', marginBottom: 16 }}>NOT SURE WHAT FITS?</DataLabel>
             <h2 style={{ fontFamily: "'Anton',sans-serif", fontWeight: 400, fontSize: 'clamp(34px, 5vw, 56px)', lineHeight: 0.95, textTransform: 'uppercase', margin: '0 0 12px', ...hwStyle({ fill: '#FFFFFF', shadow: '#D9530F' }) }}>Let our engineers spec it.</h2>
-            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#C8C6C5', margin: 0, maxWidth: 540 }}>Send a rack drawing or a photo and we&apos;ll return a per-bay layout with quantities, install notes, and a fixed-price quote.</p>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 16, lineHeight: 1.6, color: '#C8C6C5', margin: 0, maxWidth: 540 }}>Send a rack drawing or a photo and we&apos;ll return a per-bay layout with quantities, install notes, and a detailed quote.</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <Mega variant="orange" onClick={() => onNav('contact')}>Request a Quote →</Mega>

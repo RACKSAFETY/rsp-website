@@ -75,6 +75,18 @@ mobile-responsive pass, SEO / structured-data pass, and category landing pages).
       (`WIRE_DECK_PARTS` in `src/data/productCatalog.ts`).
 
 ## Admin quoting — next phase (content-first; no full DB migration)
+- [x] **Custom Spec Builder on product pages** — DONE (2026-07-01). Replaced the product-page
+      "quote builder" (a quantity slider that showed a **fabricated $47/unit** subtotal) with a
+      `CustomSpecBuilder` in `src/screens/ProductScreen.tsx` that captures made-to-order specs:
+      custom dimensions (auto-detected from the product's own `activeDims`; freeform for
+      products without parts), quantity, material/gauge/finish, target load rating (hidden when
+      capacity is already a dimension axis), and mounting/compatibility. On submit it assembles
+      a summary and hands off to the contact form via the sessionStorage handoff (same mechanism
+      as the flue calculator) → prefills the notes → `/api/quote` → Neon → `/admin`. Tagged
+      `requestType = custom-req:<json>`. A secondary "request a standard quote" link (`spec-<name>`)
+      still serves as-is buyers. Handoff plumbing generalized: `FLUE_CALC_KEY` → `HANDOFF_KEY`,
+      shared `HANDOFF_PREFIXES`/`isHandoffPayload` in navMap. (This removes the last fabricated
+      price from the site.)
 - [ ] Line-item quoting in `/admin`: a `parts` table (seeded from `ProductPart`) +
       `quote_items` + a quote-builder UI. Catalog stays in code; only the transactional
       layer goes in the DB. Prerequisite: real part numbers + prices (Content, above).
